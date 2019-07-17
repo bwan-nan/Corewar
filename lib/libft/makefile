@@ -6,7 +6,7 @@
 #    By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 17:34:44 by fdagbert          #+#    #+#              #
-#    Updated: 2019/07/03 01:21:58 by fdagbert         ###   ########.fr        #
+#    Updated: 2019/07/17 12:16:15 by fdagbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,8 @@ FUNCTIONS = ft_bzero.c			\
 			ft_isdigit.c		\
 			ft_toupper.c		\
 			ft_atoi.c			\
+			ft_atoi_base.c		\
+			ft_itoa_base.c		\
 			ft_atoim.c			\
 			ft_strupcase.c		\
 			ft_strcat.c			\

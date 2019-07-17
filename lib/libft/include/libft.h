@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/13 19:12:03 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/03 01:21:21 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/17 12:16:02 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int						ft_islower(int c);
 int						ft_isdigit(int c);
 int						ft_toupper(int c);
 int						ft_atoi(const char *str);
+int						ft_atoi_base(const char *str, int base);
+char					*ft_itoa_base(int n, int base);
 char					*ft_strupcase(char *str);
 char					*ft_strcat(char *dest, const char *src);
 char					*ft_strncat(char *dest, const char *src, size_t n);

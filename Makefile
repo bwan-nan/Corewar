@@ -6,12 +6,11 @@
 #    By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 17:34:44 by fdagbert          #+#    #+#              #
-#    Updated: 2019/07/16 17:47:43 by fdagbert         ###   ########.fr        #
+#    Updated: 2019/07/17 17:27:46 by fdagbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME_COR = corewar
-NAME_ASM = asm
 
 SRC_PATH = src
 LIB_PATH = lib
@@ -21,14 +20,17 @@ INC_PATH = include
 LIB_NAME = libftprintf.a
 LIBFT_NAME = libft.a
 
-CHROME = /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
-CHROMIUM = /usr/bin/chromium-browser
+# CHROME = /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
+# CHROMIUM = /usr/bin/chromium-browser
 
 LIBFT_PATH = $(LIB_PATH)/libft
 FTPRINTF_PATH = $(LIB_PATH)/ft_printf
 
 SRC_COR_PATH = $(SRC_PATH)/$(NAME_COR)
-COR_FCT = op.c		\
+COR_FCT = op.c						\
+		  ft_test_atoi_base.c		\
+		  ft_end.c					\
+		  ft_clean.c				\
 		  main.c
 COR_SRC = $(addprefix $(SRC_COR_PATH)/,$(COR_FCT))
 
