@@ -28,9 +28,13 @@ int		main(int ac, char **av)
 {
 	t_asm	glob;
 
+	glob.input = NULL;
+	glob.labels = NULL;
 	if (ac != 2 || !file_exists(av[1]))
 		return (print_usage());
 	if (!get_input(glob, &glob.input, av[1]))
 		return (free_input(&glob.input)); // free input, si ret == 0, print "ERROR", si =-1 print "lexical_error"
+	if (!lexer(glob, &glob.input))
+		return (free_input(&glob.input));
 	return (0);
 }

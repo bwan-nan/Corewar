@@ -22,6 +22,7 @@
 # define FILE_EMPTY				"Empty file."
 # define LEXICAL_ERROR			"Lexical error"
 # define INVALID_INSTRUCTION	"Invalid instruction"
+# define INVALID_LABEL			"Invalid label definition"
 
 typedef struct		s_op
 {
@@ -38,6 +39,7 @@ typedef struct		s_op
 typedef struct		s_asm
 {
 	t_list			*input;
+	t_list			*labels;
 }					t_asm;
 
 typedef struct		s_input
@@ -46,6 +48,32 @@ typedef struct		s_input
 	char			*bin;
 	int				line_number;
 	char			type;
+	t_list			*previous;
 }					t_input;
+
+typedef struct		s_tocomplete
+{
+	t_input			*node;
+	t_label			*parent;
+}					t_tocomplete;
+
+typedef struct		s_label
+{
+	char			*name;
+	int				byte_nbr; //le numero de byte de l'instruction suivante
+}					t_label;
+/*
+typedef struct		s_inst
+{
+	char			*name;
+	char			binary;
+	char			**parameters;
+	t_label			*parent;
+}					t_inst;
+*/
+int			get_input(t_asm *glob, t_list **input, char *file);
+int			lexer(t_asm *glob, t_list **input);
+int			update_labels(char *line, t_list **labels);
+int			print_error(char *msg, int line_number);
 
 #endif

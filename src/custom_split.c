@@ -15,7 +15,7 @@ static int  count_params(char **tab)
 		j = 0;
 		while (tab[i][j])
 		{
-			if (tab[i][j] == ',')
+			if (tab[i][j] == ',' || (tab[i][j] == '%' && len))
 			{
 				len = 0;
 				num_params++;
@@ -26,7 +26,8 @@ static int  count_params(char **tab)
 				num_params++;
 			j++;
 		}
-       	 i++;
+		i++;
+		len = 0;
     }
     return (num_params);
 }
@@ -42,7 +43,8 @@ static int	add_word(char **tab, char **param_tab, int *word_index, int params_co
     while (str[i])
     {
         len = 0;
-        while (str[i + len] && !ft_strchr(",;#", str[i + len]))
+        while (str[i + len] && ((!ft_strchr(",;#%", str[i + len]) && len != 0)
+		|| (!ft_strchr(",;#", str[i + len]) && len == 0)))
             len++;
         if (len == 0 && str[i] == ',')
 		{

@@ -23,5 +23,5 @@ int		ft_strchr_index(const char *str, char c)
 			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }

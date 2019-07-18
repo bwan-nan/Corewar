@@ -28,22 +28,6 @@ int		ret_freetab(int ret, char **tab)
 	return (ret);
 }
 
-static int		lexical_error(t_list **input, char *line)
-{
-	static int	status = 0;
-	// status == 0 ? on accepte les .name et .comment
-	// status == 1 ? on accepte .name et pas .comment
-	// status == 2 ? on accepte .comment et pas .name
-	// status == 3 ? on accepte les instructions
-	if (status <= 2)
-		if (!check_header((*input)->content, line, &status))
-			return (1);
-	else
-		if (!check_label((*input)->content, line))
-			return (1);
-	return (0);
-}
-
 int		print_error(char *msg, int line_number)
 {
 	if (!line_number && !col)
@@ -89,8 +73,8 @@ int				get_input(t_asm *glob, t_list **input, char *file)
 		}
 		if (!add_line(glob, input, line, line_number))
 			return (print_error(MALLOC_ERROR, 0));
-		if (lexical_error(input, line))
-			return (0);
+		if (!update_labels(line, &glob->labels))
+			return (print_error(MALLOC_ERROR, 0));
 	}
 	close(fd);
 	ft_lstrev(input);
