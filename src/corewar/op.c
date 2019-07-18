@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:43:01 by zaz               #+#    #+#             */
-/*   Updated: 2019/07/17 17:39:16 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/17 21:05:57 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void			ft_init_op(t_conf *conf)
 {
-	static const t_op		op_tab[D_OP_MAX] =
+	static const t_op		op_tab[D_OP_MAX + 1] =
 	{
 		{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0},
 		{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 1},

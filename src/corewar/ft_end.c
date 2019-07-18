@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 20:04:18 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/17 17:42:50 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/18 14:15:31 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,24 @@ static void		ft_print_error(char *error, t_conf *conf)
 
 static void		ft_init_error_cor(int error, t_conf *conf)
 {
-	char		error_tab[20][35];
+	char		error_tab[20][45];
 
 	ft_bzero(error_tab[0], 35);
 	ft_strcpy(error_tab[1], "Memory limit (malloc)");
-	ft_strcpy(error_tab[2], "Can not read map file (GNL)");
-	ft_strcpy(error_tab[3], "#Memory limit (malloc)");
-	ft_strcpy(error_tab[4], "#Missing map data");
-	ft_strcpy(error_tab[5], "#Missing start/end");
-	ft_strcpy(error_tab[6], "#Wrong ants format");
-	ft_strcpy(error_tab[7], "#Wrong comment format");
-	ft_strcpy(error_tab[8], "#Wrong command format");
-	ft_strcpy(error_tab[9], "#Wrong room name");
-	ft_strcpy(error_tab[10], "#Wrong edge name");
-	ft_strcpy(error_tab[11], "#Wrong room format");
-	ft_strcpy(error_tab[12], "#Wrong coord format");
-	ft_strcpy(error_tab[13], "#Room already exist");
-	ft_strcpy(error_tab[14], "#Room connected to itself");
-	ft_strcpy(error_tab[15], "#Room already connected");
+	ft_strcpy(error_tab[2], "Can not open champion file (wrong path)");
+	ft_strcpy(error_tab[3], "Can not read champion file (GNL)");
+	ft_strcpy(error_tab[4], "Wrong binary file format (.cor)");
+	ft_strcpy(error_tab[5], "No one champion to fight");
+	ft_strcpy(error_tab[6], "Too much champions to fight");
+	ft_strcpy(error_tab[7], "32 bits system detected. Set REG_SIZE to 4");
+	ft_strcpy(error_tab[8], "64 bits system detected. Set REG_SIZE to 8");
+	ft_strcpy(error_tab[9], "Architecture system unknow. Check sizeof(int)");
+	ft_strcpy(error_tab[10], "Champion binary file corrupted");
+	ft_strcpy(error_tab[11], "Champion binary file too big");
+	ft_strcpy(error_tab[12], "Champion size too big (instructions)");
+	ft_strcpy(error_tab[13], "Champion without instruction");
+	ft_strcpy(error_tab[14], "Wrong magic number");
+	ft_strcpy(error_tab[15], "Wrong padding");
 	ft_strcpy(error_tab[16], "#Room name out of range [30]");
 	ft_strcpy(error_tab[17], "#Room coord out of range (int)");
 	ft_strcpy(error_tab[18], "#No one ant in the hex !");
@@ -49,7 +49,7 @@ static void		ft_init_error_cor(int error, t_conf *conf)
 
 static void		ft_init_error_opt(int error, t_conf *conf)
 {
-	char		error_opt[5][35];
+	char		error_opt[5][45];
 
 	ft_strcpy(error_opt[0], "Invalid option: see help (-h)");
 	ft_strcpy(error_opt[1], "Option already enabled");

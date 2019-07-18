@@ -6,7 +6,7 @@
 #    By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 17:34:44 by fdagbert          #+#    #+#              #
-#    Updated: 2019/07/17 12:16:15 by fdagbert         ###   ########.fr        #
+#    Updated: 2019/07/18 11:27:43 by fdagbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRC_PATH = src
 FUNCTIONS = ft_bzero.c			\
 			ft_memset.c			\
 			ft_memmove.c		\
+			ft_memcpy.c			\
 			ft_strlen.c			\
 			ft_wcslen.c			\
 			ft_islower.c		\

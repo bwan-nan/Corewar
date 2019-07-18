@@ -6,7 +6,7 @@
 #    By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 17:34:44 by fdagbert          #+#    #+#              #
-#    Updated: 2019/07/17 17:27:46 by fdagbert         ###   ########.fr        #
+#    Updated: 2019/07/18 01:13:37 by fdagbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ FTPRINTF_PATH = $(LIB_PATH)/ft_printf
 SRC_COR_PATH = $(SRC_PATH)/$(NAME_COR)
 COR_FCT = op.c						\
 		  ft_test_atoi_base.c		\
+		  ft_champion_parser.c		\
 		  ft_end.c					\
 		  ft_clean.c				\
 		  main.c

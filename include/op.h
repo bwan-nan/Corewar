@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2019/07/17 16:58:21 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/18 14:14:23 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # define PROG_NAME_LENGTH		128
 # define COMMENT_LENGTH			2048
 # define COREWAR_EXEC_MAGIC		0xea83f3
+# define COREWAR_EXEC_PADDING	0x0
 
 # define CYCLE_TO_DIE			1536
 # define CYCLE_DELTA			50
@@ -54,16 +55,8 @@
 # define MAX_CHECKS				10
 
 typedef char					t_arg_type;
-/*
-typedef struct		s_header
-{
-  unsigned int		magic;
-  char				prog_name[PROG_NAME_LENGTH + 1];
-  unsigned int		prog_size;
-  char				comment[COMMENT_LENGTH + 1];
-}					t_header;
-*/
-typedef char					t_bool;
+
+typedef unsigned char			t_bool;
 
 typedef struct					s_op
 {
@@ -76,4 +69,14 @@ typedef struct					s_op
 	t_bool						ocp;
 	t_bool						carry;
 }								t_op;
+
+/*
+typedef struct		s_header
+{
+  unsigned int		magic;
+  char				prog_name[PROG_NAME_LENGTH + 1];
+  unsigned int		prog_size;
+  char				comment[COMMENT_LENGTH + 1];
+}					t_header;
+*/
 #endif
