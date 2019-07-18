@@ -30,6 +30,8 @@ int		main(int ac, char **av)
 
 	glob.input = NULL;
 	glob.labels = NULL;
+	glob.ocp = false;
+	glob.param = 1;
 	if (ac != 2 || !file_exists(av[1]))
 		return (print_usage());
 	if (!get_input(glob, &glob.input, av[1]))

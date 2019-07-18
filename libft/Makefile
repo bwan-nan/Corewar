@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 17:52:27 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/07/03 14:25:42 by pimichau         ###   ########.fr        #
+#    Updated: 2019/07/18 14:42:45 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRCM = main.c
 
 # ---------------------------------- ft_printf -----------------------------------#
 SRC += ft_printf.c
+SRC += print_bits.c
 SRC += init_struct.c
 SRC += parsing.c
 SRC += output_handler.c
@@ -178,6 +179,11 @@ SRC += ft_lstrev.c
 SRC += ft_power.c
 SRC += ft_recursive_power.c
 SRC += ft_max.c
+
+# ----------------------------------------- Other -----------------------------------------#
+
+SRC += get_tab_len.c
+SRC += print_bits.c
 
 INC = libft.h
 IPATH = inc/

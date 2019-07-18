@@ -15,6 +15,7 @@
 
 # include "op.h"
 # include "libft.h"
+# include <stdbool.h>
 
 # define MALLOC_ERROR			"Memory allocation failed."
 # define NAME_ERROR				"Champion name too long (Max length 128)."
@@ -23,6 +24,7 @@
 # define LEXICAL_ERROR			"Lexical error"
 # define INVALID_INSTRUCTION	"Invalid instruction"
 # define INVALID_LABEL			"Invalid label definition"
+
 
 typedef struct		s_op
 {
@@ -40,12 +42,15 @@ typedef struct		s_asm
 {
 	t_list			*input;
 	t_list			*labels;
+	bool				ocp;
+	char				param;
 }					t_asm;
 
 typedef struct		s_input
 {
 	char			*line;
 	char			*bin;
+	char			ocp;
 	int				line_number;
 	char			type;
 	t_list			*previous;
