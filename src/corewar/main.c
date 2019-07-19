@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/19 12:01:11 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/19 20:46:46 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void		ft_init_conf(int i, t_conf *conf)
 	conf->nb_check = 0;
 	conf->cycle = 0;
 	conf->cycle_to_die = CYCLE_TO_DIE;
+	conf->period = 0;
 	conf->first_player = NULL;
 	while (i < MAX_PLAYERS)
 		conf->players[i++] = NULL;
@@ -198,9 +199,9 @@ static int		ft_check_define(void)
 static void		ft_print_winner(t_conf *conf)
 {
 	if (!(conf->last_live))
-		ft_printf("There is no one survivor...\n");
+		ft_printf("Il n'y a pas de survivant...\n");
 	else
-		ft_printf("Player %d won the fight ! Congrats to %s !\n", conf->last_live, conf->players[conf->last_live]->name);
+		ft_printf("Le joueur %d(%s) a gagné !\n", conf->last_live, conf->players[conf->last_live]->name);
 }
 
 int				main(int argc, char **argv)

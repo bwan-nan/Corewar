@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/19 12:07:52 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/19 20:56:44 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,12 @@ static void		ft_purge_process(t_process *process, t_conf *conf)
 				last->next = next;
 			conf->players[process->id_champ]->nb_process--;
 			conf->nb_process--;
+			ft_printf("Process %u from player %u has been killed !\n", process->id_proc, process->id_champ);
 			free(process);
 			process = next;
 		}
+		else
+			process->nb_live = 0;
 		last = process;
 		process = next;
 		if (process)
@@ -157,20 +160,16 @@ static void		ft_purge_process(t_process *process, t_conf *conf)
 
 static void		ft_check_cycle_to_die(t_conf *conf)
 {
-	int		down;
-
-	down = 0;
-	if (conf->nb_live >= NBR_LIVE)
-		down++;
-	else if (conf->nb_check >= MAX_CHECKS)
-		down++;
+	conf->period = 0;
+	ft_purge_process(conf->first_process, conf);
+	if (conf->nb_live >= NBR_LIVE || conf->nb_check == MAX_CHECKS)
+	{
+		conf->cycle_to_die -= CYCLE_DELTA;
+		conf->nb_live = 0;
+		conf->nb_check = 0;
+	}
 	else
 		conf->nb_check++;
-	if (down)
-	{
-		ft_purge_process(conf->first_process, conf);
-		conf->cycle_to_die -= CYCLE_DELTA;
-	}
 }
 
 int				ft_launch_arena(t_process *process, t_conf *conf)
@@ -187,8 +186,12 @@ int				ft_launch_arena(t_process *process, t_conf *conf)
 	args[2] = 0;
 	args[3] = 0;
 	args_size = 0;
+	if (conf->opt[8])
+		ft_print_arena(conf);
 	while (conf->nb_process)
 	{
+		conf->cycle++;
+		conf->period++;
 		process = conf->first_process;
 		while (process)
 		{
@@ -205,10 +208,10 @@ int				ft_launch_arena(t_process *process, t_conf *conf)
 			}
 			process = process->next;
 		}
-		ft_check_cycle_to_die(conf);
+		if (conf->period == conf->cycle_to_die)
+			ft_check_cycle_to_die(conf);
 		if (conf->opt[8])
 			ft_print_arena(conf);
-		conf->cycle++;
 	}
 	return (0);
 }
