@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 20:04:18 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/18 14:15:31 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/18 19:23:11 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void		ft_init_error_cor(int error, t_conf *conf)
 {
 	char		error_tab[20][45];
 
-	ft_bzero(error_tab[0], 35);
+	ft_bzero(error_tab[0], 45);
 	ft_strcpy(error_tab[1], "Memory limit (malloc)");
 	ft_strcpy(error_tab[2], "Can not open champion file (wrong path)");
 	ft_strcpy(error_tab[3], "Can not read champion file (GNL)");
@@ -55,7 +55,7 @@ static void		ft_init_error_opt(int error, t_conf *conf)
 	ft_strcpy(error_opt[1], "Option already enabled");
 	ft_strcpy(error_opt[2], "Can not open/close file man_lem");
 	ft_strcpy(error_opt[3], "#Can not open/close file lem.dot");
-	ft_bzero(error_opt[4], 35);
+	ft_bzero(error_opt[4], 45);
 	ft_print_error(error_opt[error], conf);
 }
 

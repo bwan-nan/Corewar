@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/18 14:46:32 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/19 12:01:11 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,13 @@ static int		ft_print_man(t_conf *conf)
 static void		ft_init_conf(int i, t_conf *conf)
 {
 	conf->nb_player = 0;
+	conf->nb_process = 0;
+	conf->total_process = 0;
+	conf->nb_live = 0;
 	conf->last_live = 0;
+	conf->nb_check = 0;
 	conf->cycle = 0;
 	conf->cycle_to_die = CYCLE_TO_DIE;
-	conf->nb_live = 0;
-	conf->nb_check = 0;
 	conf->first_player = NULL;
 	while (i < MAX_PLAYERS)
 		conf->players[i++] = NULL;
@@ -79,6 +81,7 @@ static void		ft_init_player(char *argv, t_champ *champ)
 	champ->path = argv;
 	champ->fd = 0;
 	champ->nb_live = 0;
+	champ->nb_process = 0;
 	champ->init_pc = 0;
 	champ->inst_size = 0;
 	champ->magic = 0;
@@ -91,20 +94,12 @@ static void		ft_init_player(char *argv, t_champ *champ)
 
 static int		ft_create_player(char *argv, t_champ *champ, t_conf *conf)
 {
-	int		id;
-
-	id = 1;
 	if (!(champ = (t_champ *)malloc(sizeof(*champ))))
 		return (-1);
 	champ->next = conf->first_player;
-	champ->id = id;
+	champ->id = conf->nb_player++;
 	conf->first_player = champ;
 	ft_init_player(argv, champ);
-	while (champ->next)
-	{
-		champ->id = ++id;
-		champ = champ->next;
-	}
 	return (0);
 }
 
@@ -173,7 +168,7 @@ static int		ft_init_fd(t_champ *champ, t_conf *conf)
 	{
 		if ((champ->fd = open(champ->path, O_RDONLY)) < 0)
 			return (-2);
-		conf->nb_player++;
+		conf->players[champ->id] = champ;
 		champ = champ->next;
 	}
 	if (!conf->nb_player)
@@ -200,12 +195,20 @@ static int		ft_check_define(void)
 	return (0);
 }
 
+static void		ft_print_winner(t_conf *conf)
+{
+	if (!(conf->last_live))
+		ft_printf("There is no one survivor...\n");
+	else
+		ft_printf("Player %d won the fight ! Congrats to %s !\n", conf->last_live, conf->players[conf->last_live]->name);
+}
+
 int				main(int argc, char **argv)
 {
 	int					err;
 	t_conf				conf;
 	static const char	keys[D_OPT_MAX + 1] = {'d', 'v', 'a', 'x', 's', 'c',
-		'n', 'h', 0};
+		'n', 'h', 'b', 0};
 
 	err = 0;
 	ft_init_conf(0, &conf);
@@ -220,6 +223,10 @@ int				main(int argc, char **argv)
 	ft_init_op(&conf);
 	if ((err = ft_champion_parser(conf.first_player, &conf)) < 0)
 		return (ft_end(err, &conf));
-	//ft_test_atoi_base();
+	if ((err = ft_init_arena(conf.first_player, &conf)) < 0)
+		return (ft_end(err, &conf));
+	if ((err = ft_launch_arena(conf.first_process, &conf)) < 0)
+		return (ft_end(err, &conf));
+	ft_print_winner(&conf);
 	return (ft_end(err, &conf));
 }
