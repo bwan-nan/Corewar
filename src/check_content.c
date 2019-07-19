@@ -70,13 +70,14 @@ int				check_content(t_asm *glob, t_list **labels
 		if (first_word[len + 1]
 		&& !(tab = ft_split_whitespaces(&first_word[len + 1])))
 			return (print_error(MALLOC_ERROR, 0));
+		input->label = (*labels);
 		(*labels) = (*labels)->next;
 	}
 	else
 		if (!(tab = ft_split_whitespaces(line)))
 			return (print_error(MALLOC_ERROR, 0));
 	if (tab && tab[0])
-		if (!check_instruction(glob, tab, input, label->previous))
+		if (!check_instruction(glob, tab, input))
 			return (print_error(INVALID_INSTRUCTION, input->line_number));
 	//freetab...
 	return (1);

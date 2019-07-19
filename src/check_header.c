@@ -14,6 +14,7 @@ static int		check_length(char *bin, char type)
 int		       check_header(t_input *input, char *line, int *status)
 {
 	char		**tab;
+	char		*ptr;
 
 	if (!(tab = ft_split_whitespaces(line)))
 		return (print_error(MALLOC_ERROR, 0, 0));
@@ -26,7 +27,7 @@ int		       check_header(t_input *input, char *line, int *status)
 	else
 		return (print_error(LEXICAL_ERROR, input->line_number, 1));
 	if (tab[1] && tab[1][0] == '"'
-	&& ((ptr = ft_strchr(&tab[1][1], '"')
+	&& (ptr = ft_strchr(&tab[1][1], '"')
     && (!ptr[1] || ptr[1] == '#' || ptr[1] == ';')))
 	{
 		if (tab[2] && tab[2][0] != ';' && tab[2][0] != '#')
@@ -37,6 +38,6 @@ int		       check_header(t_input *input, char *line, int *status)
 	}
 	else
 		print_error(LEXICAL_ERROR, input->line_number);
-	ft_freetab(tab);
+//	ft_freetab(tab);
 	return (check_length(input->bin, input->type));
 }

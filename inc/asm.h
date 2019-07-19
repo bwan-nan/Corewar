@@ -20,11 +20,11 @@
 # define MALLOC_ERROR			"Memory allocation failed."
 # define NAME_ERROR				"Champion name too long (Max length 128)."
 # define COMMENT_ERROR			"Champion comment too long (Max length 2048)."
-# define FILE_EMPTY				"Empty file."
+# define EMPTY_FILE				"Empty file."
+# define SYNTAX_ERROR			"Syntax error"
 # define LEXICAL_ERROR			"Lexical error"
 # define INVALID_INSTRUCTION	"Invalid instruction"
 # define INVALID_LABEL			"Invalid label definition"
-
 
 typedef struct		s_op
 {
@@ -34,39 +34,49 @@ typedef struct		s_op
 	int		id;
 	int		cycles;
 	char	description[50];
-	int		octal;
-	int		label_size;
+	int		ocp;
+	int		carry;
 }					t_op;
+
+extern t_op 	op_tab[17];
 
 typedef struct		s_asm
 {
 	t_list			*input;
 	t_list			*labels;
-	bool				ocp;
-	char				param;
+	t_list			*queue;
+	char			param;
+	char			*ptr;
+	int				byte_nbr;
 }					t_asm;
-
-typedef struct		s_input
-{
-	char			*line;
-	char			*bin;
-	char			ocp;
-	int				line_number;
-	char			type;
-	t_list			*previous;
-}					t_input;
-
-typedef struct		s_tocomplete
-{
-	t_input			*node;
-	t_label			*parent;
-}					t_tocomplete;
 
 typedef struct		s_label
 {
 	char			*name;
 	int				byte_nbr; //le numero de byte de l'instruction suivante
 }					t_label;
+
+typedef struct		s_input
+{
+	char			*line;
+	char			*bin;
+	int				bin_size;
+	int				op_index;
+	int				byte_nbr;
+	int				line_number;
+	char			type;
+	t_label			*label;
+	t_list			*previous;
+}					t_input;
+
+typedef struct		s_queue
+{
+	t_input			*node;
+	t_label			*parent;
+	char			*to_complete;
+	int				size;
+}					t_queue;
+
 /*
 typedef struct		s_inst
 {
@@ -78,7 +88,18 @@ typedef struct		s_inst
 */
 int			get_input(t_asm *glob, t_list **input, char *file);
 int			lexer(t_asm *glob, t_list **input);
-int			update_labels(char *line, t_list **labels);
 int			print_error(char *msg, int line_number);
 
+int			update_labels(char *line, t_list **labels);
+
+
+int			check_content(t_asm *glob, t_list **labels
+			, t_input *input, char *line);
+int			check_instruction(t_asm *glob, char **tab, t_input *input);
+int			check_header(t_input *input, char *line, int *status);
+char        **custom_split(char **tab);
+int			add_to_queue(t_asm *glob, t_input *input
+			, t_label *label, int type);
+
+int		ret_freetab(int ret, char **tab);
 #endif

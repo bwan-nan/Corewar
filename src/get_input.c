@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "asm.h"
+#include <fcntl.h>
 
-static void		ft_free_tab(char **tab)
+static void		free_tab(char **tab)
 {
 	int i;
 
@@ -30,7 +31,7 @@ int		ret_freetab(int ret, char **tab)
 
 int		print_error(char *msg, int line_number)
 {
-	if (!line_number && !col)
+	if (!line_number)
 		ft_putendl(msg);
 	else
 		ft_printf("%s at line %d.\n", msg, line_number);
@@ -46,7 +47,9 @@ static int		add_line(t_asm *glob, t_list **input,
 	new.line = NULL;
 	new.line_number = ++line_number;
 	new.bin = NULL;
+	new.bin_size = 0;
 	new.type = 0;
+	new.op_index = -1;
 	if (!(node = ft_lstnew(&new, sizeof(t_input))))
 	{
 		ft_strdel(&line);

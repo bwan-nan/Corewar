@@ -6,7 +6,7 @@ static int	add_label(t_list **labels, char *line, int start, int len)
 	t_list		*node;
 
 	new.name = NULL;
-	new.byt_nbr = 0;
+	new.byte_nbr = -1;
 	if (!(node = ft_lstnew(&new, sizeof(t_label))))
 		return (0);
 	((t_label *)node->content)->name = ft_strsub(line, start, len);
