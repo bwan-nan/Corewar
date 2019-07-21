@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/19 20:46:24 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/22 01:27:18 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ typedef struct			s_conf
 	unsigned int		cycle;
 	unsigned int		cycle_to_die;
 	unsigned int		period;
+	unsigned int		args_size;
+	unsigned char		op_code;
+	unsigned char		ocp;
+	unsigned char		fct_args[4];
 	t_champ				*first_player;
 	t_champ				*players[MAX_PLAYERS];
 	t_cell				*grid[MEM_SIZE];

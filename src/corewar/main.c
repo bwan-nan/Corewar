@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/19 20:46:46 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/22 01:38:29 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,13 @@ static void		ft_init_conf(int i, t_conf *conf)
 	conf->cycle = 0;
 	conf->cycle_to_die = CYCLE_TO_DIE;
 	conf->period = 0;
+	conf->args_size = 0;
+	conf->op_code = 0;
+	conf->ocp = 0;
+	while (i < 4)
+		conf->fct_args[i++] = 0;
 	conf->first_player = NULL;
+	i = 0;
 	while (i < MAX_PLAYERS)
 		conf->players[i++] = NULL;
 	i = 0;

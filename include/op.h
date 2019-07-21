@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2019/07/18 14:14:23 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/21 22:48:39 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct					s_op
 	char						desc[50 + 1];
 	t_bool						ocp;
 	t_bool						carry;
+	int							dir_size;
 }								t_op;
 
 /*

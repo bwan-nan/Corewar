@@ -6,35 +6,11 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/19 12:08:53 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/21 22:42:39 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-/*static void		ft_print_grid(t_conf *conf)
-{
-	int		i;
-
-	i = 0;
-	while (i < MEM_SIZE)
-	{
-		if (conf->grid[i]->pid == 0)
-			ft_printf("| {GRE}%.2X{OFF} ", conf->grid[i]->val);
-		else if (conf->grid[i]->pid == 1)
-			ft_printf("| {CYA}%.2X{OFF} ", conf->grid[i]->val);
-		else if (conf->grid[i]->pid == 2)
-			ft_printf("| {MAG}%.2X{OFF} ", conf->grid[i]->val);
-		else if (conf->grid[i]->pid == 3)
-			ft_printf("| {RED}%.2X{OFF} ", conf->grid[i]->val);
-		else
-			ft_printf("| %.2X ", conf->grid[i]->val);
-		i++;
-		if (!(i % D_DEBUG_SIZE))
-			ft_printf("|\n");
-	}
-	ft_printf("\n");
-}*/
 
 static void		ft_print_process(t_process *process, t_champ *champ, t_conf *conf)
 {
@@ -128,7 +104,5 @@ int				ft_init_arena(t_champ *champ, t_conf *conf)
 	}
 	if (ft_create_process(conf->first_process, conf->first_player, conf) < 0)
 		return (-1);
-	//if (conf->opt[8])
-	//	ft_print_grid(conf);
 	return (0);
 }

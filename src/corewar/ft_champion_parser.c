@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:08:47 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/19 12:11:56 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/21 22:41:14 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,6 @@ int			ft_check_inst(t_champ *champ, char *line)
 
 	i = 0;
 	j = D_HEAD_SIZE;
-	/*unsigned char	ocp;
-	t_ocp			ocp_split;
-	ocp = line[j];
-	ft_printf("OCP :%b\n", ocp);
-	ocp = ocp & 0xFF;
-	ocp_split.arg1 = ocp >> 6;
-	ocp = ocp & 0x3F;
-	ocp_split.arg2 = ocp >> 4;
-	ocp = ocp & 0x0F;
-	ocp_split.arg3 = ocp >> 2;
-	ocp = ocp & 0x03;
-	ocp_split.arg4 = ocp;
-	ft_printf("OCP SPLIT:%x %x %x %x\n", ocp_split.arg1, ocp_split.arg2, ocp_split.arg3, ocp_split.arg4);*/
 	while (i < champ->inst_size)
 		champ->inst[i++] = line[j++];
 	return (0);
@@ -115,12 +102,6 @@ static void		ft_print_champ(t_champ *champ)
 	}
 	ft_printf("\n\n");
 }
-
-/*static int		ft_check_base(unsigned char *line)
-  {
-  ft_printf("len:%d, line:%s\n", ft_strlen((char *)line), line);
-  return (0);
-  }*/
 
 int				ft_champion_parser(t_champ *champ, t_conf *conf)
 {

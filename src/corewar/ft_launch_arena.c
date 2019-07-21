@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/19 20:56:44 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/22 01:32:23 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,80 +53,120 @@ static void		ft_print_process(t_process *process, t_champ *champ, t_conf *conf)
 	}
 }
 
-static void		ft_print_arena(t_conf *conf)
+static void			ft_print_arena(t_conf *conf)
 {
 	ft_printf("{YEL}Cycle:%u nb_process:%u, cycle_to_die:%u nb_live:%u nb_check:%u last_live:%d{OFF}\n\n", conf->cycle, conf->nb_process, conf->cycle_to_die, conf->nb_live, conf->nb_check, conf->last_live);
 	ft_print_process(conf->first_process, conf->first_player, conf);
 	ft_print_grid(conf);
 }
 
-static int		ft_check_args_size(unsigned int pc, unsigned char *ocp, unsigned char *args, t_conf *conf)
+static int			ft_check_op_code(unsigned int pc, t_conf *conf)
 {
-	int		i;
-	int		args_size;
-	t_ocp	ocp_split;
-
-	i = 0;
-	args_size = 1;
-	if (pc < D_OP_MAX && conf->op_tab[pc].ocp)
-	{
-		args_size++;
-		pc++;
-		*ocp = conf->grid[pc]->val;
-		ft_printf("OCP :%b\n", *ocp);
-		*ocp = *ocp & 0xFF;
-		ocp_split.arg1 = *ocp >> 6;
-		*ocp = *ocp & 0x3F;
-		ocp_split.arg2 = *ocp >> 4;
-		*ocp = *ocp & 0x0F;
-		ocp_split.arg3 = *ocp >> 2;
-		*ocp = *ocp & 0x03;
-		ocp_split.arg4 = *ocp;
-		ft_printf("OCP SPLIT:%x %x %x %x\n", ocp_split.arg1, ocp_split.arg2, ocp_split.arg3, ocp_split.arg4);
-		pc++;
-		while (i < 4)
-		{
-			if (ocp_split.arg1 == 1)
-			{
-				args_size++;
-				ft_memcpy(&args[i], &conf->grid[pc]->val, 1);
-			}
-			else if (ocp_split.arg1 == 2)
-			{
-				args_size += 2;
-				ft_memcpy(&args[i], &conf->grid[pc]->val, 1);
-				args[i] = args[i] << 8;
-				pc++;
-				ft_memcpy(&args[i], &conf->grid[pc]->val, 1);
-			}
-			else if (ocp_split.arg1 == 3)
-			{
-				args_size += 4;
-				//T_IND == 2 || T_IND == 4
-				ft_memcpy(&args[i], &conf->grid[pc]->val, 1);
-				args[i] = args[i] << 8;
-				pc++;
-				ft_memcpy(&args[i], &conf->grid[pc]->val, 1);
-				args[i] = args[i] << 8;
-				pc++;
-				ft_memcpy(&args[i], &conf->grid[pc]->val, 1);
-				args[i] = args[i] << 8;
-				pc++;
-				ft_memcpy(&args[i], &conf->grid[pc]->val, 1);
-				args[i] = args[i] << 8;
-				pc++;
-			}
-			i++;
-		}
+	if (conf->op_code < D_OP_MAX)
+	{	
+		if (conf->op_tab[conf->op_code].ocp)
+			conf->ocp = conf->grid[pc + 1]->val;
+		return (0);
 	}
-	else if (pc < D_OP_MAX)
-		return (T_DIR + 1);
 	else
-		return (1);
-	return (args_size);
+		return (-16);
 }
 
-static void		ft_purge_process(t_process *process, t_conf *conf)
+static int				ft_check_ocp_split(int i, int pc, char ocp_split_arg, t_conf *conf)
+{
+	if (ocp_split_arg == 0)
+		return (pc);
+	else if (ocp_split_arg == 1)
+	{
+		conf->args_size++;
+		ft_memcpy(&conf->fct_args[i], &conf->grid[pc]->val, 1);
+		pc++;
+	}
+	else if (ocp_split_arg == 2)
+	{
+		//T_DIR == 2 || T_DIR == 4
+		conf->args_size += conf->op_tab[conf->op_code].dir_size;
+		ft_memcpy(&conf->fct_args[i], &conf->grid[pc]->val, 1);
+		conf->fct_args[i] = conf->fct_args[i] << 8;
+		pc++;
+		ft_memcpy(&conf->fct_args[i], &conf->grid[pc]->val, 1);
+		pc++;
+		if (conf->op_tab[conf->op_code].dir_size == 4)
+		{
+			conf->fct_args[i] = conf->fct_args[i] << 8;
+			ft_memcpy(&conf->fct_args[i], &conf->grid[pc]->val, 1);
+			conf->fct_args[i] = conf->fct_args[i] << 8;
+			pc++;
+			ft_memcpy(&conf->fct_args[i], &conf->grid[pc]->val, 1);
+			pc++;
+		}
+	}
+	else if (ocp_split_arg == 3)
+	{
+		conf->args_size += 2;
+		ft_memcpy(&conf->fct_args[i], &conf->grid[pc]->val, 1);
+		conf->fct_args[i] = conf->fct_args[i] << 8;
+		pc++;
+		ft_memcpy(&conf->fct_args[i], &conf->grid[pc]->val, 1);
+		pc++;
+	}
+	else
+		return (-17);
+	return (pc);
+}
+
+static int				ft_check_args_size(int pc, t_conf *conf)
+{
+	t_ocp			ocp_split;
+
+	conf->args_size = 1;
+	ocp_split.arg1 = 0;
+	ocp_split.arg2 = 0;
+	ocp_split.arg3 = 0;
+	ocp_split.arg4 = 0;
+	if (conf->op_tab[conf->op_code].ocp)
+	{
+		conf->args_size++;
+		pc++;
+		conf->ocp = conf->grid[pc]->val;
+		ft_printf("OCP :%b\n", conf->ocp);
+		conf->ocp = conf->ocp & 0xFF;
+		ocp_split.arg1 = conf->ocp >> 6;
+		conf->ocp = conf->ocp & 0x3F;
+		ocp_split.arg2 = conf->ocp >> 4;
+		conf->ocp = conf->ocp & 0x0F;
+		ocp_split.arg3 = conf->ocp >> 2;
+		conf->ocp = conf->ocp & 0x03;
+		ocp_split.arg4 = conf->ocp;
+		ft_printf("OCP SPLIT:%x %x %x %x\n", ocp_split.arg1, ocp_split.arg2, ocp_split.arg3, ocp_split.arg4);
+		pc++;
+		if ((pc = ft_check_ocp_split(0, pc, ocp_split.arg1, conf)) < 0)
+			return (-17);
+		if ((pc = ft_check_ocp_split(1, pc, ocp_split.arg2, conf)) < 0)
+			return (-17);
+		if ((pc = ft_check_ocp_split(2, pc, ocp_split.arg3, conf)) < 0)
+			return (-17);
+		if ((pc = ft_check_ocp_split(3, pc, ocp_split.arg4, conf)) < 0)
+			return (-17);
+		ft_printf("PC:%u\n", pc);
+	}
+	else
+		conf->args_size = conf->op_tab[conf->op_code].dir_size + 1;
+	return (0);
+}
+
+static void			ft_init_fct_args(t_conf *conf)
+{
+	conf->args_size = 0;
+	conf->op_code = 0;
+	conf->ocp = 0;
+	conf->fct_args[0] = 0;
+	conf->fct_args[1] = 0;
+	conf->fct_args[2] = 0;
+	conf->fct_args[3] = 0;
+}
+
+static void			ft_purge_process(t_process *process, t_conf *conf)
 {
 	t_process		*last;
 	t_process		*next;
@@ -143,7 +183,7 @@ static void		ft_purge_process(t_process *process, t_conf *conf)
 				last->next = next;
 			conf->players[process->id_champ]->nb_process--;
 			conf->nb_process--;
-			ft_printf("Process %u from player %u has been killed !\n", process->id_proc, process->id_champ);
+			ft_printf("Le processus %u créé par %u a été mis à mort !\n", process->id_proc, process->id_champ);
 			free(process);
 			process = next;
 		}
@@ -160,6 +200,7 @@ static void		ft_purge_process(t_process *process, t_conf *conf)
 
 static void		ft_check_cycle_to_die(t_conf *conf)
 {
+
 	conf->period = 0;
 	ft_purge_process(conf->first_process, conf);
 	if (conf->nb_live >= NBR_LIVE || conf->nb_check == MAX_CHECKS)
@@ -174,18 +215,6 @@ static void		ft_check_cycle_to_die(t_conf *conf)
 
 int				ft_launch_arena(t_process *process, t_conf *conf)
 {
-	unsigned char	op_code;
-	unsigned char	ocp;
-	unsigned char	args_size;
-	unsigned char	args[4];
-
-	op_code = 0;
-	ocp = 0;
-	args[0] = 0;
-	args[1] = 0;
-	args[2] = 0;
-	args[3] = 0;
-	args_size = 0;
 	if (conf->opt[8])
 		ft_print_arena(conf);
 	while (conf->nb_process)
@@ -195,16 +224,26 @@ int				ft_launch_arena(t_process *process, t_conf *conf)
 		process = conf->first_process;
 		while (process)
 		{
+			ft_init_fct_args(conf);
 			process->cycle_to_wait--;
 			if (!process->cycle_to_wait)
 			{
-				op_code = conf->grid[process->pc]->val;
-				args_size = ft_check_args_size(process->pc, &ocp, &args[0], conf);
-				process->pc = (process->pc + args_size) % MEM_SIZE;
-				ft_printf("process %u new pc:%u\n", process->id_proc, process->pc);
-				//op_funcs[op_code](conf->grid[process->pc]->pid, ocp, args, conf);
-				op_code = conf->grid[process->pc]->val;
-				process->cycle_to_wait = conf->op_tab[op_code].cycles;
+				ft_printf("cycle:%u process:%u player:%u pc:%u ", conf->cycle, process->id_proc, process->id_champ, process->pc);
+				conf->op_code = conf->grid[process->pc]->val - 1;
+				ft_printf("op_code:%u ", conf->op_code + 1);
+				if (ft_check_op_code(process->pc, conf) < 0)
+					return (-16);
+				ft_printf("ocp:%x\n", conf->ocp);
+				if (ft_check_args_size(process->pc, conf) < 0)
+					return (-17);
+				ft_printf("args_size:%u fct_args[0]:%x fct_args[1]:%x fct_args[2]:%x fct_args[3]:%x\n", conf->args_size, conf->fct_args[0], conf->fct_args[1], conf->fct_args[2], conf->fct_args[3]);
+				//op_funcs[op_code](conf->grid[process->pc]->pid, conf->ocp, conf->fct_args, conf);
+				process->pc = process->pc + conf->args_size % (MEM_SIZE - 1);
+				conf->op_code = conf->grid[process->pc]->val - 1;
+				if (ft_check_op_code(process->pc, conf) < 0)
+					return (-16);
+				process->cycle_to_wait = conf->op_tab[conf->op_code].cycles;
+				ft_printf("process:%u player:%u new pc:%u new op_code:%u, new cycle_wait:%u\n\n", process->id_proc, process->id_champ, process->pc, conf->op_code + 1, process->cycle_to_wait);
 			}
 			process = process->next;
 		}
