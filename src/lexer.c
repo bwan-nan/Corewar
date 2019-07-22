@@ -51,7 +51,7 @@ int			lexer(t_asm *glob, t_list **input)
 	while (line)
 	{
 	//	ft_putendl(new while iteration in lexer:");
-		ft_putendl(((t_input *)line->content)->line);
+		//ft_putendl(((t_input *)line->content)->line);
 		if (!is_comment(((t_input *)line->content)->line))
 		{
 			if (status <= 2)
@@ -64,17 +64,12 @@ int			lexer(t_asm *glob, t_list **input)
 			}
 			else
 			{
-				ft_putendl("lexer else");
 				//ft_putendl(((t_input *)line->content)->line);
 				if (!check_content(glob, &label, line->content
 	            , ((t_input *)line->content)->line))
-				{
-					ft_putendl("check_content went wrong");
 					return (0);
-				}
-				ft_putendl("check_content went right");
 			}
-			ft_putendl(((t_input *)line->content)->bin);
+			//ft_putendl(((t_input *)line->content)->bin);
 		}
 		line = line->next;
 	}

@@ -29,7 +29,6 @@ int				check_content(t_asm *glob, t_list **labels
 
 	//ft_putendl("line:");
 	//ft_putendl(line);
-	ft_putendl("check content starts");
 	len = 0;
 	tab = NULL;
 	label = NULL;
@@ -62,6 +61,5 @@ int				check_content(t_asm *glob, t_list **labels
 		}
 	}
 	//freetab...
-	ft_putendl("check content ended");
 	return (1);
 }

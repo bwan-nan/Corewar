@@ -30,8 +30,10 @@ static void		init_asm(t_asm *glob)
 	glob->labels = NULL;
 	glob->param = 0;
 	glob->ptr = NULL;
+	glob->ocp_ptr = NULL;
 	glob->queue = NULL;
 	glob->byte_nbr = 0;
+	glob->inst_count = 0;
 }
 /*
 static			void debug(t_asm *glob)
@@ -64,27 +66,64 @@ static			void debug(t_asm *glob)
 }
 */
 
+static void 	add_magic_nbr(int fd)
+{
+	ft_putchar_fd(0, fd);
+	ft_putchar_fd(-22, fd);
+	ft_putchar_fd(-125, fd);
+	ft_putchar_fd(-13, fd);
+}
+
+static void		add_instructions_count(t_asm *glob, int fd)
+{
+	char	*byte;
+
+	byte = (char *)&glob->inst_count;
+	ft_putchar_fd(*(byte + 3), fd);
+	ft_putchar_fd(*(byte + 2), fd);
+	ft_putchar_fd(*(byte + 1), fd);
+	ft_putchar_fd(*byte, fd);
+}
+
+static void 	add_zeros(t_asm *glob, char type, int len, int fd)
+{
+	int		expected_len;
+	int		i;
+
+	expected_len = type == 'n' ? 132 : 2052;
+	i = 0;
+	while (i < expected_len - len)
+	{
+		ft_putchar_fd(0, fd);
+		i++;
+	}
+	if (type == 'n')
+		add_instructions_count(glob, fd);
+}
+
 static void		create_cor_file(t_asm *glob)
 {
 	int		fd;
 	int		i;
 	t_list	*input;
 	char	*str;
+	char	type;
 
 	fd = open("test", O_CREAT | O_WRONLY, 0777);
 	input = glob->input;
+	add_magic_nbr(fd);
 	while (input)
 	{
 		i = 0;
 		str = ((t_input *)input->content)->bin;
 		if (str)
 		{
-			//ft_putendl(str);
 			while (i < ((t_input *)input->content)->bin_size)
-			{
-				ft_putchar_fd(str[i], fd);
-				i++;
-			}
+				ft_putchar_fd(str[i++], fd);
+			type = ((t_input *)input->content)->type;
+			if (type == 'c' || type == 'n')
+				add_zeros(glob, type, i, fd);
+			//	add_instr_nb();
 		}
 		input = input->next;
 	}

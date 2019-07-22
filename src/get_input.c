@@ -39,6 +39,7 @@ static int		add_line(t_list **input, char *line, int *line_number)
 	new.bin_size = 0;
 	new.type = 0;
 	new.op_index = -1;
+	new.label = NULL;
 	if (!(node = ft_lstnew(&new, sizeof(t_input))))
 	{
 		ft_strdel(&line);

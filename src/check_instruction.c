@@ -74,11 +74,11 @@ static				void update_ocp(t_asm *glob, t_input *input, char type)
 	if (op_tab[input->op_index].ocp)
 	{
 		if (type & T_REG)
-			*(glob->ptr++) |= REG_CODE << (8 - 2 * glob->param);
+			*(glob->ocp_ptr) |= REG_CODE << (8 - 2 * glob->param);
 		else if (type & T_DIR)
-	 		*(glob->ptr++) |= DIR_CODE << (8 - 2 * glob->param);
+	 		*(glob->ocp_ptr) |= DIR_CODE << (8 - 2 * glob->param);
 		else if (type & T_IND)
-			*(glob->ptr++) |= IND_CODE << (8 - 2 * glob->param);
+			*(glob->ocp_ptr) |= IND_CODE << (8 - 2 * glob->param);
 	}
 }
 
@@ -108,20 +108,6 @@ static void			write_binary(t_asm *glob, int op_index
 	*(glob->ptr++) = *byte;
 }
 
-static void			update_label_binary(t_asm *glob, t_input *input
-					, int address, int type)
-{
-	int			relative_address;
-	char		*byte;
-
-	if (input->label)
-	{
-		relative_address = address - input->label->byte_nbr;
-		byte = (char *)(&relative_address);
-		write_binary(glob, input->op_index, byte, type);
-	}
-}
-
 static int			check_direct(t_asm *glob, t_input *input, char *str)
 {
 	t_label		*label;
@@ -134,10 +120,7 @@ static int			check_direct(t_asm *glob, t_input *input, char *str)
 			//ft_putendl("check direct -> label");
 			return (print_error(SYNTAX_ERROR, input->line_number));
 		}
-		if (label->byte_nbr != -1)
-			update_label_binary(glob, input, label->byte_nbr, T_DIR);
-		else
-			add_to_queue(glob, input, label, T_DIR);
+		add_to_queue(glob, input, label, T_DIR);
 	}
 	else if (str[1] && ft_isnumber(&str[1]))
 	{
@@ -167,10 +150,7 @@ static int			check_indirect(t_asm *glob, t_input *input, char *str)
 			//ft_putendl("check indirect -> label");
 			return (print_error(SYNTAX_ERROR, input->line_number));
 		}
-		if (label->byte_nbr != -1)
-			update_label_binary(glob, input, label->byte_nbr, T_IND);
-		else
-			add_to_queue(glob, input, label, T_IND);
+		add_to_queue(glob, input, label, T_IND);
 	}
 	else if (str[0] && (ret = ft_isnumber(str)))
 	{
@@ -236,7 +216,6 @@ int			check_instruction(t_asm *glob, char **tab, t_input *input)
 {
 	char			**param_tab;
 
-	ft_putendl("check_instruction begins");
 	if (input && input->label)
 		input->label->byte_nbr = glob->byte_nbr;
 	input->byte_nbr = glob->byte_nbr;
@@ -257,10 +236,13 @@ int			check_instruction(t_asm *glob, char **tab, t_input *input)
 		return (0);
 	glob->ptr = input->bin;
 	*(glob->ptr++) = (op_tab[input->op_index].id);
+	glob->ocp_ptr = glob->ptr;
+	if (op_tab[input->op_index].ocp)
+		glob->ptr++;
 	if (!param_tab[1]
 	|| !check_params(glob, param_tab + 1, op_tab[input->op_index], input))
 		return (0);
 	input->bin_size = glob->byte_nbr - input->byte_nbr;
-	ft_putendl("check_instruction ends");
+	glob->inst_count += input->bin_size;
 	return (1);
 }

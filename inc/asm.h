@@ -45,9 +45,11 @@ typedef struct		s_asm
 	t_list			*input;
 	t_list			*labels;
 	t_list			*queue;
-	int				param;
 	char			*ptr;
+	char			*ocp_ptr;
 	int				byte_nbr;
+	int				inst_count;
+	int				param;
 }					t_asm;
 
 typedef struct		s_label
@@ -77,15 +79,6 @@ typedef struct		s_queue
 	int				size;
 }					t_queue;
 
-/*
-typedef struct		s_inst
-{
-	char			*name;
-	char			binary;
-	char			**parameters;
-	t_label			*parent;
-}					t_inst;
-*/
 int			get_input(t_asm *glob, t_list **input, char *file);
 int			lexer(t_asm *glob, t_list **input);
 int			print_error(char *msg, int line_number);
