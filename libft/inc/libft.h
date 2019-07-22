@@ -29,5 +29,6 @@ int					ft_max(int a, int b);
 int					ft_sqrt(int nb);
 int					get_tab_len(char **tab);
 long long			ft_recursive_power(long long nb, int power);
+void				ft_freetab(char **tab);
 
 #endif

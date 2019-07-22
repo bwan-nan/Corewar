@@ -26,6 +26,16 @@ static void fill_queue(t_asm *glob)
 	}
 }
 
+static int	is_comment(char *line)
+{
+	int		i;
+
+	i = 0;
+	while (line[i] && ft_iswhitespace(line[i]))
+		i++;
+	return (line[i] == '#' || line[i] == ';');
+}
+
 int			lexer(t_asm *glob, t_list **input)
 {
 	t_list	*line;
@@ -40,20 +50,36 @@ int			lexer(t_asm *glob, t_list **input)
 	label = glob->labels;
 	while (line)
 	{
-		if (status <= 2)
+	//	ft_putendl(new while iteration in lexer:");
+		ft_putendl(((t_input *)line->content)->line);
+		if (!is_comment(((t_input *)line->content)->line))
 		{
-			if (!check_header(line->content
-            , ((t_input *)line->content)->line, &status))
-				return (0);
-		}
-		else
-		{
-			if (!check_content(glob, &label, line->content
-            , ((t_input *)line->content)->line))
-				return (0);
+			if (status <= 2)
+			{
+				//ft_putendl(((t_input *)line->content)->line);
+				if (!check_header(line->content
+            	, ((t_input *)line->content)->line, &status))
+					return (0);
+				//ft_putendl(((t_input *)line->content)->bin);
+			}
+			else
+			{
+				ft_putendl("lexer else");
+				//ft_putendl(((t_input *)line->content)->line);
+				if (!check_content(glob, &label, line->content
+	            , ((t_input *)line->content)->line))
+				{
+					ft_putendl("check_content went wrong");
+					return (0);
+				}
+				ft_putendl("check_content went right");
+			}
+			ft_putendl(((t_input *)line->content)->bin);
 		}
 		line = line->next;
 	}
+	//ft_putendl("lexer done");
 	fill_queue(glob);
+	//ft_putendl("fill queue done");
 	return (1);
 }

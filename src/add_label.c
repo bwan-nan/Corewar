@@ -18,7 +18,6 @@ int			update_labels(char *line, t_list **labels)
 {
     int     i;
     int     j;
-	int		label_char_index;
 
     i = 0;
 	while (ft_iswhitespace(line[i]))

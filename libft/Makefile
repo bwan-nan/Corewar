@@ -47,7 +47,6 @@ SRCM = main.c
 
 # ---------------------------------- ft_printf -----------------------------------#
 SRC += ft_printf.c
-SRC += print_bits.c
 SRC += init_struct.c
 SRC += parsing.c
 SRC += output_handler.c
@@ -119,12 +118,14 @@ SRC += ft_strtoupper.c
 SRC += ft_strtolower.c
 SRC += ft_str_notchr.c
 SRC += ft_strchr_index.c
+SRC += ft_strnchr_index.c
 SRC += ft_str_notchr_index.c
 SRC += ft_strr_notchr_index.c
 SRC += count_occurence.c
 SRC += variadic_strjoin.c
 SRC += ft_strstr_delim.c
 SRC += str_isascii.c
+SRC += ft_trim.c
 
 # ------------------------------------- Conversions -----------------------------------#
 SRC += ft_atoi.c
@@ -184,6 +185,7 @@ SRC += ft_max.c
 
 SRC += get_tab_len.c
 SRC += print_bits.c
+SRC += ft_freetab.c
 
 INC = libft.h
 IPATH = inc/

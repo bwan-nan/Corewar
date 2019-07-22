@@ -40,7 +40,7 @@ static int	add_word(char **tab, char **param_tab, int *word_index, int params_co
 
     str = *tab;
     i = 0;
-    while (str[i])
+    while (str && str[i])
     {
         len = 0;
         while (str[i + len] && ((!ft_strchr(",;#%", str[i + len]) && len != 0)
@@ -79,7 +79,10 @@ char        **custom_split(char **tab)
         return (NULL);
     param_tab[len] = 0;
     if (!add_word(tab, param_tab, &word_index, len))
+	{
+		ft_freetab(param_tab);
         return (NULL);
+	}
     return (param_tab);
 }
 //KO

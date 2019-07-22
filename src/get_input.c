@@ -13,19 +13,9 @@
 #include "asm.h"
 #include <fcntl.h>
 
-static void		free_tab(char **tab)
-{
-	int i;
-
-	i = -1;
-	while (tab[++i])
-		free(tab[i]);
-	free(tab);
-}
-
 int		ret_freetab(int ret, char **tab)
 {
-	free_tab(tab);
+	ft_freetab(tab);
 	return (ret);
 }
 
@@ -38,14 +28,13 @@ int		print_error(char *msg, int line_number)
 	return (0);
 }
 
-static int		add_line(t_asm *glob, t_list **input,
-				char *line, int line_number)
+static int		add_line(t_list **input, char *line, int *line_number)
 {
 	t_input		new;
 	t_list		*node;
 
 	new.line = NULL;
-	new.line_number = ++line_number;
+	new.line_number = ++(*line_number);
 	new.bin = NULL;
 	new.bin_size = 0;
 	new.type = 0;
@@ -69,12 +58,12 @@ int				get_input(t_asm *glob, t_list **input, char *file)
 	fd = open(file, O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (++line_number && ft_strlen(line) == 0)
+		if (ft_strlen(line) == 0 && ++line_number)
 		{
 			ft_strdel(&line);
 			continue ;
 		}
-		if (!add_line(glob, input, line, line_number))
+		if (!add_line(input, line, &line_number))
 			return (print_error(MALLOC_ERROR, 0));
 		if (!update_labels(line, &glob->labels))
 			return (print_error(MALLOC_ERROR, 0));

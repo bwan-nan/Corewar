@@ -45,7 +45,7 @@ typedef struct		s_asm
 	t_list			*input;
 	t_list			*labels;
 	t_list			*queue;
-	char			param;
+	int				param;
 	char			*ptr;
 	int				byte_nbr;
 }					t_asm;

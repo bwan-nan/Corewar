@@ -32,6 +32,7 @@ size_t				ft_strlcat(char *s1, const char *s2, size_t size);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 int					ft_strchr_index(const char *str, char c);
+int					ft_strnchr_index(const char *str, int n, char c);
 int					ft_str_notchr_index(char *str, char a, char b);
 int					ft_strr_notchr_index(char *str, char a, char b);
 char				*ft_str_notchr(char *str, char c);
@@ -64,5 +65,6 @@ int					variadic_strjoin(char **ret, const char *format, ...);
 char				*ft_strstr_delim(const char *haystack, const char *needle
 					, char delim);
 int					str_isascii(char **line, int len);
+char				*ft_trim(char *str);
 
 #endif
