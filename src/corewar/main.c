@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/22 01:38:29 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/23 02:20:16 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int		ft_print_man(t_conf *conf)
 
 static void		ft_init_conf(int i, t_conf *conf)
 {
+	conf->dump = 0;
 	conf->nb_player = 0;
 	conf->nb_process = 0;
 	conf->total_process = 0;
@@ -41,21 +42,15 @@ static void		ft_init_conf(int i, t_conf *conf)
 	conf->cycle = 0;
 	conf->cycle_to_die = CYCLE_TO_DIE;
 	conf->period = 0;
-	conf->args_size = 0;
-	conf->op_code = 0;
-	conf->ocp = 0;
-	while (i < 4)
-		conf->fct_args[i++] = 0;
 	conf->first_player = NULL;
 	i = 0;
-	while (i < MAX_PLAYERS)
+	while (i <= MAX_PLAYERS)
 		conf->players[i++] = NULL;
 	i = 0;
 	while (i < MEM_SIZE)
 		conf->grid[i++] = NULL;
 	conf->op_tab = NULL;
 	conf->first_process = NULL;
-	conf->last_process = NULL;
 }
 
 static int		ft_check_options(char *argv, const char *keys, t_conf *conf)
@@ -83,6 +78,19 @@ static int		ft_check_options(char *argv, const char *keys, t_conf *conf)
 	return (-20);
 }
 
+static int		ft_check_next_arg(char *argv, int opt, t_conf *conf)
+{
+	if (opt == 0)
+	{
+		if (!argv)
+			return (-23);
+		if (!ft_str_is_numeric(argv))
+			return (-23);
+		conf->dump = (unsigned int)ft_atoi(argv);
+	}
+	return (0);
+}
+
 static void		ft_init_player(char *argv, t_champ *champ)
 {
 	champ->path = argv;
@@ -97,15 +105,26 @@ static void		ft_init_player(char *argv, t_champ *champ)
 	ft_bzero(champ->name, PROG_NAME_LENGTH + 1);
 	ft_bzero(champ->comment, COMMENT_LENGTH + 1);
 	ft_bzero(champ->inst, CHAMP_MAX_SIZE + 1);
+	champ->next = NULL;
 }
 
 static int		ft_create_player(char *argv, t_champ *champ, t_conf *conf)
 {
-	if (!(champ = (t_champ *)malloc(sizeof(*champ))))
-		return (-1);
-	champ->next = conf->first_player;
-	champ->id = conf->nb_player++;
-	conf->first_player = champ;
+	if (!champ)
+	{
+		if (!(champ = (t_champ *)malloc(sizeof(*champ))))
+			return (-1);
+		conf->first_player = champ;
+	}
+	else
+	{
+		while (champ->next)
+			champ = champ->next;
+		if (!(champ->next = (t_champ *)malloc(sizeof(*champ))))
+			return (-1);
+		champ = champ->next;
+	}
+	champ->id = ++conf->nb_player;
 	ft_init_player(argv, champ);
 	return (0);
 }
@@ -155,6 +174,12 @@ static int		ft_check_args(int argc, char **argv, const char *keys,
 			{
 				if ((err = ft_check_options(argv[i], keys, conf)) < 0)
 					return (err);
+				if (conf->opt[0])
+				{
+					i++;
+					if ((err = ft_check_next_arg(argv[i], 0, conf)) < 0)
+						return (err);
+				}
 			}
 			else if (argv[i][0])
 			{
@@ -204,10 +229,13 @@ static int		ft_check_define(void)
 
 static void		ft_print_winner(t_conf *conf)
 {
-	if (!(conf->last_live))
-		ft_printf("Il n'y a pas de survivant...\n");
-	else
-		ft_printf("Le joueur %d(%s) a gagné !\n", conf->last_live, conf->players[conf->last_live]->name);
+	if (!conf->opt[0])
+	{
+		if (!(conf->last_live))
+			ft_printf("Il n'y a pas de survivant...\n");
+		else
+			ft_printf("Le joueur %d(%s) a gagné !\n", conf->last_live, conf->players[conf->last_live]->name);
+	}
 }
 
 int				main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:08:47 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/21 22:41:14 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/23 02:24:00 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int			ft_check_header(t_champ *champ, char *line, t_conf *conf)
 		return (-15);
 	//init_pc
 	champ->init_pc = (MEM_SIZE / conf->nb_player);
-	champ->init_pc = champ->init_pc * (conf->nb_player - champ->id - 1);
+	champ->init_pc = champ->init_pc * (champ->id - 1);
 	return (0);
 }
 
@@ -86,21 +86,25 @@ int			ft_check_inst(t_champ *champ, char *line)
 	return (0);
 }
 
-static void		ft_print_champ(t_champ *champ)
+static void		ft_print_champ(t_champ *champ, t_conf *conf)
 {
 	int		i;
 
 	i = 0;
-	ft_printf("champ path:%s, fd:%d, id:%u, nb_live:%u, init_pc:%u, inst_size:%u, magic:%x, pad1:%x, pad2:%x, name:%s, comment:%s\n", champ->path, champ->fd, champ->id, champ->nb_live, champ->init_pc, champ->inst_size, champ->magic, champ->padding1, champ->padding2, champ->name, champ->comment);
-	ft_printf("champ inst:\n| ");
-	while (i < CHAMP_MAX_SIZE)
+	ft_printf("* Joueur %u, avec un poids de %u octets, %s (\"%s\") !\n", champ->id, champ->inst_size, champ->name, champ->comment);
+	if (conf->opt[8])
 	{
-		ft_printf("%.2X | ", champ->inst[i]);
-		i++;
-		if (!(i % D_DEBUG_SIZE))
-			ft_printf("\n| ");
+		ft_printf("champ path:%s, fd:%d, id:%u, nb_live:%u, init_pc:%u, magic:%x, pad1:%x, pad2:%x\n", champ->path, champ->fd, champ->id, champ->nb_live, champ->init_pc, champ->magic, champ->padding1, champ->padding2);
+	ft_printf("champ inst:\n| ");
+		while (i < CHAMP_MAX_SIZE)
+		{
+			ft_printf("%.2X | ", champ->inst[i]);
+			i++;
+			if (!(i % D_DEBUG_SIZE))
+				ft_printf("\n| ");
+		}
+		ft_printf("\n\n");
 	}
-	ft_printf("\n\n");
 }
 
 int				ft_champion_parser(t_champ *champ, t_conf *conf)
@@ -109,6 +113,7 @@ int				ft_champion_parser(t_champ *champ, t_conf *conf)
 	char			line[D_BIN_MAX_SIZE + 1];
 
 	ret = 0;
+	ft_printf("Acclamés par les spectateurs en furie, les champions font leur entrée dans l'arène...\n");
 	while (champ)
 	{
 		ft_bzero(line, D_BIN_MAX_SIZE + 1);
@@ -121,8 +126,7 @@ int				ft_champion_parser(t_champ *champ, t_conf *conf)
 			return (ret);
 		if ((ret = ft_check_inst(champ, line)) < 0)
 			return (ret);
-		if (conf->opt[8])
-			ft_print_champ(champ);
+		ft_print_champ(champ, conf);
 		champ = champ->next;
 	}
 	return (0);

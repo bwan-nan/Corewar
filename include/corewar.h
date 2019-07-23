@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/22 01:27:18 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/23 02:09:15 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ typedef struct			s_champ
 
 typedef struct			s_cell
 {
-	unsigned char		val;
-	unsigned char		pid;
+	int					val;
+	int					pid;
+	int					pc;
 }						t_cell;
 
 typedef struct			s_process
@@ -55,6 +56,10 @@ typedef struct			s_process
 	unsigned int		pc;
 	unsigned int		cycle_to_wait;
 	t_bool				carry;
+	unsigned char		op_code;
+	unsigned char		ocp;
+	unsigned char		fct_args[4];
+	unsigned int		args_size;
 	struct s_process	*next;
 }						t_process;
 
@@ -68,7 +73,8 @@ typedef struct			s_ocp
 
 typedef struct			s_conf
 {
-	int					opt[D_OPT_MAX];
+	int					opt[D_OPT_MAX + 1];
+	unsigned int		dump;
 	unsigned int		nb_player;
 	unsigned int		nb_process;
 	unsigned int		total_process;
@@ -78,15 +84,10 @@ typedef struct			s_conf
 	unsigned int		cycle;
 	unsigned int		cycle_to_die;
 	unsigned int		period;
-	unsigned int		args_size;
-	unsigned char		op_code;
-	unsigned char		ocp;
-	unsigned char		fct_args[4];
 	t_champ				*first_player;
-	t_champ				*players[MAX_PLAYERS];
+	t_champ				*players[MAX_PLAYERS + 1];
 	t_cell				*grid[MEM_SIZE];
 	t_process			*first_process;
-	t_process			*last_process;
 	const t_op			*op_tab;
 }						t_conf;
 

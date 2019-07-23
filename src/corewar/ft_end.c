@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 20:04:18 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/21 23:55:26 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/23 01:15:30 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void		ft_init_error_opt(int error, t_conf *conf)
 	ft_strcpy(error_opt[0], "Invalid option: see help (-h)");
 	ft_strcpy(error_opt[1], "Option already enabled");
 	ft_strcpy(error_opt[2], "Can not open/close file man_lem");
-	ft_strcpy(error_opt[3], "#Can not open/close file lem.dot");
+	ft_strcpy(error_opt[3], "Dump option must be a positive number");
 	ft_bzero(error_opt[4], 45);
 	ft_print_error(error_opt[error], conf);
 }
