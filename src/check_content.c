@@ -1,21 +1,21 @@
 #include "asm.h"
 
-static char		*get_first_word(char *line, int *len)
+static char		*get_first_word(char *str, int *len)
 {
 	char	*start;
 	int		i;
 
 	//ft_putendl("in get_first_word");
 	i = 0;
-	while (ft_iswhitespace(line[i]))
+	while (ft_iswhitespace(str[i]))
 		i++;
-	start = &line[i];
+	start = &str[i];
 	//ft_putendl("start:");
 	//ft_putendl(start);
-	while (line[i] && line[i] != ':' && line[i] != '#' && line[i] != ';'
-	&& !ft_iswhitespace(line[i++]))
+	while (str[i] && ft_strchr(LABEL_CHARS, str[i++]))
 		(*len)++;
 	//ft_putendl("out of get_first_word");
+	//ft_putnbrendl(*len);
 	return (start);
 }
 
@@ -38,9 +38,9 @@ int				check_content(t_asm *glob, t_input *input, char *line)
 	{
 		if (label && !ft_strnequ(first_word, label->name, len))
 		{
-			ft_putendl(line);
+		/*	ft_putendl(line);
 			ft_putendl(first_word);
-			ft_putendl(label->name);
+			ft_putendl(label->name);*/
 			return (print_error(INVALID_LABEL, input->line_number));
 		}
 		if (first_word[len + 1]

@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 17:52:27 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/07/18 14:42:45 by bwan-nan         ###   ########.fr        #
+#    Updated: 2019/07/23 15:57:13 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -118,6 +118,7 @@ SRC += ft_strtoupper.c
 SRC += ft_strtolower.c
 SRC += ft_str_notchr.c
 SRC += ft_strchr_index.c
+SRC += ft_strrchr_index.c
 SRC += ft_strnchr_index.c
 SRC += ft_str_notchr_index.c
 SRC += ft_strr_notchr_index.c

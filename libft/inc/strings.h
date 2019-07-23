@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 22:11:22 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/03 14:25:23 by pimichau         ###   ########.fr       */
+/*   Updated: 2019/07/23 15:57:02 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ size_t				ft_strlcat(char *s1, const char *s2, size_t size);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 int					ft_strchr_index(const char *str, char c);
+int					ft_strrchr_index(const char *str, char c);
 int					ft_strnchr_index(const char *str, int n, char c);
 int					ft_str_notchr_index(char *str, char a, char b);
 int					ft_strr_notchr_index(char *str, char a, char b);

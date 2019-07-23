@@ -15,10 +15,10 @@ static int  count_params(char **tab)
 		j = 0;
 		while (tab[i][j])
 		{
-			if (tab[i][j] == ',' || (tab[i][j] == '%' && len))
+			if (tab[i][j] == ',' || tab[i][j] == '%')
 			{
 				len = 0;
-				num_params++;
+				num_params += (tab[i][j] == '%' && len) || tab[i][j] == ',' ? 1 : 0;
 			}
 			else if (tab[i][j] == '#' || tab[i][j] == ';')
 				return (num_params);

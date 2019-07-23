@@ -35,6 +35,8 @@ static void		init_asm(t_asm *glob)
 	glob->queue = NULL;
 	glob->byte_nbr = 0;
 	glob->inst_count = 0;
+	glob->name_length = 0;
+	glob->comment_length = 0;
 }
 
 static void 	add_magic_nbr(int fd)
@@ -56,31 +58,51 @@ static void		add_instructions_count(t_asm *glob, int fd)
 	ft_putchar_fd(*byte, fd);
 }
 
-static void 	add_zeros(t_asm *glob, char type, int len, int fd)
+static void 	add_zeros(t_asm *glob, char type, int fd)
 {
 	int		expected_len;
 	int		i;
+	int		len;
 
-	expected_len = type == 'n' ? 132 : 2052;
+	len = type == 'N' ? glob->name_length : glob->comment_length;
+	expected_len = type == 'N' ? 132 : 2052;
 	i = 0;
 	while (i < expected_len - len)
 	{
 		ft_putchar_fd(0, fd);
 		i++;
 	}
-	if (type == 'n')
+	if (type == 'N')
 		add_instructions_count(glob, fd);
 }
 
-static void		create_cor_file(t_asm *glob)
+static char		*get_file_name(char *str)
+{
+	int		len;
+	char	*name;
+
+	len = ft_strlen(str);
+	if (!(name= ft_strnew(len + 2)))
+		return (NULL);
+	ft_strcpy(name, str);
+	name[len - 1] = 'c';
+	name[len] = 'o';
+	name[len + 1] = 'r';
+	return (name);
+}
+
+static int		create_cor_file(t_asm *glob, char *file)
 {
 	int		fd;
 	int		i;
 	t_list	*input;
 	char	*str;
+	char	*name;
 	char	type;
 
-	fd = open("test", O_CREAT | O_TRUNC | O_RDWR, 0777);
+	if (!(name = get_file_name(file)))
+		return (0);
+	fd = open(name, O_CREAT | O_TRUNC | O_RDWR, 0600);
 	input = glob->input;
 	add_magic_nbr(fd);
 	while (input)
@@ -92,12 +114,14 @@ static void		create_cor_file(t_asm *glob)
 			while (i < ((t_input *)input->content)->bin_size)
 				ft_putchar_fd(str[i++], fd);
 			type = ((t_input *)input->content)->type;
-			if (type == 'c' || type == 'n')
-				add_zeros(glob, type, i, fd);
+			if (type == 'C' || type == 'N')
+				add_zeros(glob, type, fd);
 		}
 		input = input->next;
 	}
+	ft_strdel(&name);
 	close(fd);
+	return (1);
 }
 
 int				main(int ac, char **av)
@@ -109,10 +133,15 @@ int				main(int ac, char **av)
 		return (print_usage());
 	if (!get_input(&glob, &glob.input, av[1]))
 		return (-1); // free input, si ret == 0, print "ERROR", si =-1 print "lexical_error" Free_input(&glob.input)
+	//ft_putendl("------------lexer---------------");
 	if (!lexer(&glob))
 		return (-1); // free input
+	//ft_putendl("-----------reordering-----------");
 		//magic number, padding, bon nombre de zeros etc...
-	create_cor_file(&glob);
+	reorder_list(&glob.input);
+	//ft_putendl("-----------create file----------");
+	if (!create_cor_file(&glob, av[1]))
+		return(-1);
 	//debug(&glob);
 	//ft_putnbrendl(glob.byte_nbr);
 	return (0);

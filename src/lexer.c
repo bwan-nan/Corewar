@@ -35,44 +35,43 @@ static int	is_comment(char *line)
 	i = 0;
 	while (line[i] && ft_iswhitespace(line[i]))
 		i++;
-	return (line[i] == '#' || line[i] == ';');
+	return (line[i] && (line[i] == '#' || line[i] == ';'));
 }
 
 int			lexer(t_asm *glob)
 {
-	t_list	*line;
+	t_list	*input;
+	char	*line;
 //	t_list	*label;
-	static int	status = 0;
-	// status == 0 ? on accepte les .name et .comment
-	// status == 1 ? on accepte .name et pas .comment
-	// status == 2 ? on accepte .comment et pas .name
-	// status == 3 ? on accepte les instructions et les labels
+	int		valid_header;
 
-	line = glob->input;
-	while (line)
+
+	valid_header = 0;
+	input = glob->input;
+	while (input)
 	{
 	//	ft_putendl(new while iteration in lexer:");
 		//ft_putendl(((t_input *)line->content)->line);
-		if (!is_comment(((t_input *)line->content)->line))
+		line = ((t_input *)input->content)->line;
+		if (!is_comment(line))
 		{
-			if (status <= 2)
+			line = ((t_input *)input->content)->line;
+			if (!valid_header)
 			{
 				//ft_putendl(((t_input *)line->content)->line);
-				if (!check_header(line->content
-            	, ((t_input *)line->content)->line, &status))
+				if (!(valid_header = check_header(glob, &input)))
 					return (0);
 				//ft_putendl(((t_input *)line->content)->bin);
 			}
 			else
 			{
 				//ft_putendl(((t_input *)line->content)->line);
-				if (!check_content(glob, line->content
-				, ((t_input *)line->content)->line))
+				if (!check_content(glob, input->content, line))
 					return (0);
 			}
 			//ft_putendl(((t_input *)line->content)->bin);
 		}
-		line = line->next;
+		input = input->next;
 	}
 	//ft_putendl("lexer done");
 	fill_queue(glob);

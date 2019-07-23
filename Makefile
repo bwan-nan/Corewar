@@ -59,6 +59,7 @@ SRC += get_input.c
 SRC += lexer.c
 SRC += op.c
 SRC += queue.c
+SRC += reorder_list.c
 
 
 DSYM = $(NAME).dSYM

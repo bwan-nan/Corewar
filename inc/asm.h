@@ -51,6 +51,8 @@ typedef struct		s_asm
 	int				byte_nbr;
 	int				inst_count;
 	int				param;
+	int				name_length;
+	int				comment_length;
 }					t_asm;
 
 typedef struct		s_label
@@ -88,10 +90,11 @@ int			update_labels(char *line, t_list **labels);
 
 int			check_content(t_asm *glob, t_input *input, char *line);
 int			check_instruction(t_asm *glob, char **tab, t_input *input);
-int			check_header(t_input *input, char *line, int *status);
+int			check_header(t_asm *glob, t_list **input);
 char        **custom_split(char **tab);
 int			add_to_queue(t_asm *glob, t_input *input
 			, t_label *label, int type);
+void		reorder_list(t_list **list);
 
 int		ret_freetab(int ret, char **tab);
 #endif

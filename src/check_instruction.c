@@ -193,20 +193,31 @@ static int      check_params(t_asm *glob, char **tab, t_op op, t_input *input)
 	int			j;
 
  	if (get_tab_len(tab) != op.nb_params * 2 - 1)
+	{
+		ft_show_tab(tab);
+		ft_putendl("hello");
     	return (0);
+	}
  	glob->param = 0;
 	glob->byte_nbr += op_tab[input->op_index].ocp;
 	j = 0;
 	//ft_show_tab(tab);
 	while (j <  op.nb_params * 2 - 1)
 	{
+		//ft_putendl("here");
 		if (j % 2)
 		{
 			if (!ft_strequ(tab[j], ","))
+			{
+			//	ft_putendl("ici");
 				return (0);
+			}
 		}
 		else if (!check_param(glob, tab[j], op.params_type[(glob->param)++], input))
+		{
+		//	ft_putendl("error");
 			return (0);
+		}
 		j++;
 	}
 	return (1);
@@ -227,6 +238,8 @@ int			check_instruction(t_asm *glob, char **tab, t_input *input)
 		return (1);
 	if (!(param_tab = custom_split(tab)))
 		return (0);
+	//ft_show_tab(param_tab);
+	//ft_putendl("\n");
 	if ((input->op_index = is_instruction(param_tab[0])) == -1)
 		return (0);
 	glob->byte_nbr++;
@@ -239,7 +252,10 @@ int			check_instruction(t_asm *glob, char **tab, t_input *input)
 		glob->ptr++;
 	if (!param_tab[1]
 	|| !check_params(glob, param_tab + 1, op_tab[input->op_index], input))
+	{
+		ft_putendl("final");
 		return (0);
+	}
 	input->bin_size = glob->byte_nbr - input->byte_nbr;
 	glob->inst_count += input->bin_size;
 	return (1);
