@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/23 02:24:31 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:47:08 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,15 @@ static void		ft_init_process(t_process *process, t_champ *champ, t_conf *conf)
 	while (i < 4)
 		process->fct_args[i++] = 0;
 	process->args_size = 0;
+	process->ocp_split.arg1 = 0;
+	process->ocp_split.arg2 = 0;
+	process->ocp_split.arg3 = 0;
+	process->ocp_split.arg4 = 0;
 	conf->grid[process->pc]->pc = process->id_champ;
 }
 
 
-static int		ft_create_process(t_process *process, t_champ *champ, t_conf *conf)
+static int			ft_create_process(t_process *process, t_champ *champ, t_conf *conf)
 {
 	while (champ)
 	{
@@ -65,8 +69,8 @@ int				ft_init_arena(t_champ *champ, t_conf *conf)
 		if (!(conf->grid[i] = (t_cell *)malloc(sizeof(*conf->grid[i]))))
 			return (-1);
 		conf->grid[i]->val = 0;
-		conf->grid[i]->pid = -1;
-		conf->grid[i]->pc = -1;
+		conf->grid[i]->pid = 0;
+		conf->grid[i]->pc = 0;
 		i++;
 	}
 	while (champ)

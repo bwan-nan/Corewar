@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/23 02:20:16 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:15:26 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,26 @@ static int		ft_print_man(t_conf *conf)
 	return (0);
 }
 
+static void			op_funcs_init(t_conf *conf) //added
+{
+	conf->op_funcs[0] = c_live;  //added
+	conf->op_funcs[1] = c_ld;  //added
+	conf->op_funcs[2] = c_st;  //added
+	conf->op_funcs[3] = c_add;  //added
+	conf->op_funcs[4] = c_sub;  //added
+	conf->op_funcs[5] = c_and;  //added
+	conf->op_funcs[6] = c_or;  //added
+	conf->op_funcs[7] = c_xor;  //added
+	conf->op_funcs[8] = c_zjump;  //added
+	conf->op_funcs[9] = c_ldi;  //added
+	conf->op_funcs[10] = c_sti;  //added
+	conf->op_funcs[11] = c_fork;  //added
+	conf->op_funcs[12] = c_lld;  //added
+	conf->op_funcs[13] = c_lldi;  //added
+	conf->op_funcs[14] = c_lfork;  //added
+	conf->op_funcs[15] = c_aff;  //added
+}
+
 static void		ft_init_conf(int i, t_conf *conf)
 {
 	conf->dump = 0;
@@ -51,6 +71,7 @@ static void		ft_init_conf(int i, t_conf *conf)
 		conf->grid[i++] = NULL;
 	conf->op_tab = NULL;
 	conf->first_process = NULL;
+	op_funcs_init(conf);
 }
 
 static int		ft_check_options(char *argv, const char *keys, t_conf *conf)
@@ -243,7 +264,7 @@ int				main(int argc, char **argv)
 	int					err;
 	t_conf				conf;
 	static const char	keys[D_OPT_MAX + 1] = {'d', 'v', 'a', 'x', 's', 'c',
-		'n', 'h', 'b', 0};
+		'n', 'h', 'b', 'e', 0};
 
 	err = 0;
 	ft_init_conf(0, &conf);

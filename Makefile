@@ -6,7 +6,7 @@
 #    By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 17:34:44 by fdagbert          #+#    #+#              #
-#    Updated: 2019/07/19 16:16:54 by fdagbert         ###   ########.fr        #
+#    Updated: 2019/07/23 17:13:26 by fdagbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,8 @@ COR_FCT = op.c						\
 		  ft_launch_arena.c			\
 		  ft_end.c					\
 		  ft_clean.c				\
+		  op_func.c					\
 		  main.c
-		  #op_func.c				
 COR_SRC = $(addprefix $(SRC_COR_PATH)/,$(COR_FCT))
 
 OBJ_COR_PATH = $(OBJ_PATH)/$(NAME_COR)
@@ -47,7 +47,6 @@ HEAD_SRC = $(LIBFT_PATH)/$(INC_PATH)/libft.h				\
 		   $(LIBFT_PATH)/$(INC_PATH)/ft_get_next_line.h		\
 		   $(FTPRINTF_PATH)/$(INC_PATH)/ft_printf.h			\
 		   $(INC_PATH)/op.h									\
-		   $(INC_PATH)/op_func.h							\
 		   $(INC_PATH)/corewar.h
 
 CC = gcc

@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/23 02:26:23 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:55:37 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void		ft_print_grid(t_conf *conf)
 	i = 0;
 	while (i < MEM_SIZE)
 	{
-		if (conf->grid[i]->pc == -1)
+		if (conf->grid[i]->pc == 0)
 		{
 			if (conf->grid[i]->pid == 1)
 				ft_printf("| {GRE}%.2X{OFF} ", conf->grid[i]->val);
@@ -51,6 +51,48 @@ static void		ft_print_grid(t_conf *conf)
 	}
 	ft_printf("\n");
 }
+static void		ft_print_xml(t_conf *conf)
+{
+	unsigned int	i;
+	t_process		*process;
+
+	process = conf->first_process;
+	ft_printf("<corewar><players>");
+	i = 1;
+	while (i <= conf->nb_player)
+	{
+		ft_printf("<player id=\"%u\" name=\"%s\" />", i, conf->players[i]->name);
+		i++;
+	}
+	ft_printf("</players><arena><memory mem_size=\"%u\">", MEM_SIZE);
+	i = 0;
+	while (i < MEM_SIZE)
+	{
+		ft_printf("%.2x,%d,", conf->grid[i]->val, conf->grid[i]->pid);
+		i++;
+	}
+	ft_printf("</memory></arena><processes>");
+	while (process)
+	{
+		ft_printf("<process player_id=\"%u\"><current_action pos=\"%u\">", process->id_champ, process->pc);
+
+		ft_printf("<byte size=\"%d\" type=\"op\"/>", 1);
+		ft_printf("<byte size=\"%d\" type=\"ocp\"/>", conf->op_tab[process->op_code].ocp);
+		ft_printf("<byte size=\"%d\" type=\"direct\"/>", conf->op_tab[process->op_code].dir_size);
+		ft_printf("<byte size=\"%d\" type=\"indirect\"/>", T_IND);
+		ft_printf("<byte size=\"%d\" type=\"register\"/>", T_REG);
+		ft_printf("</current_action><registers ");
+		i = 0;
+		while (i < REG_NUMBER)
+		{
+			ft_printf("r%u=\"%d\",", i + 1, process->reg[i]);
+			i++;
+		}
+		ft_printf("</process>");
+		process = process->next;
+	}
+	ft_printf("</processes>\n</corewar>\n");
+}
 
 static void		ft_print_process(t_process *process, t_conf *conf)
 {
@@ -76,7 +118,7 @@ static void		ft_print_process(t_process *process, t_conf *conf)
 
 static void		ft_print_all_process(t_process *process, t_conf *conf)
 {
-	int					i;
+	unsigned int		i;
 
 	while (process)
 	{
@@ -89,7 +131,7 @@ static void		ft_print_all_process(t_process *process, t_conf *conf)
 	}
 	ft_printf("\n");
 	i = 1;
-	while (i <= (int)conf->nb_player)
+	while (i <= conf->nb_player)
 	{
 		if (conf->players[i])
 			ft_printf("Player %u, nb_process:%u\n", i,
@@ -100,6 +142,8 @@ static void		ft_print_all_process(t_process *process, t_conf *conf)
 
 static void			ft_print_arena(t_conf *conf)
 {
+	if (conf->opt[3] && !conf->opt[9])
+		ft_print_xml(conf);
 	if ((conf->opt[0] && conf->cycle == conf->dump) || conf->opt[1])
 	{
 		ft_print_all_process(conf->first_process, conf);
@@ -178,14 +222,13 @@ static int				ft_check_ocp_split(int i, char ocp_split_arg, t_process *process, 
 static int				ft_check_args_size(t_process *process, t_conf *conf)
 {
 	int			pc;
-	t_ocp		ocp_split;
 
 	pc = (int)process->pc;
 	process->args_size = 1;
-	ocp_split.arg1 = 0;
-	ocp_split.arg2 = 0;
-	ocp_split.arg3 = 0;
-	ocp_split.arg4 = 0;
+	process->ocp_split.arg1 = 0;
+	process->ocp_split.arg2 = 0;
+	process->ocp_split.arg3 = 0;
+	process->ocp_split.arg4 = 0;
 	if (conf->op_tab[process->op_code].ocp)
 	{
 		process->args_size++;
@@ -193,22 +236,22 @@ static int				ft_check_args_size(t_process *process, t_conf *conf)
 		process->ocp = conf->grid[pc]->val;
 		//ft_printf("OCP :%b\n", process->ocp);
 		process->ocp = process->ocp & 0xFF;
-		ocp_split.arg1 = process->ocp >> 6;
+		process->ocp_split.arg1 = process->ocp >> 6;
 		process->ocp = process->ocp & 0x3F;
-		ocp_split.arg2 = process->ocp >> 4;
+		process->ocp_split.arg2 = process->ocp >> 4;
 		process->ocp = process->ocp & 0x0F;
-		ocp_split.arg3 = process->ocp >> 2;
+		process->ocp_split.arg3 = process->ocp >> 2;
 		process->ocp = process->ocp & 0x03;
-		ocp_split.arg4 = process->ocp;
+		process->ocp_split.arg4 = process->ocp;
 		//ft_printf("OCP SPLIT:%x %x %x %x\n", ocp_split.arg1, ocp_split.arg2, ocp_split.arg3, ocp_split.arg4);
 		pc++;
-		if ((pc = ft_check_ocp_split(0, ocp_split.arg1, process, conf)) < 0)
+		if ((pc = ft_check_ocp_split(0, process->ocp_split.arg1, process, conf)) < 0)
 			return (-17);
-		if ((pc = ft_check_ocp_split(1, ocp_split.arg2, process, conf)) < 0)
+		if ((pc = ft_check_ocp_split(1, process->ocp_split.arg2, process, conf)) < 0)
 			return (-17);
-		if ((pc = ft_check_ocp_split(2, ocp_split.arg3, process, conf)) < 0)
+		if ((pc = ft_check_ocp_split(2, process->ocp_split.arg3, process, conf)) < 0)
 			return (-17);
-		if ((pc = ft_check_ocp_split(3, ocp_split.arg4, process, conf)) < 0)
+		if ((pc = ft_check_ocp_split(3, process->ocp_split.arg4, process, conf)) < 0)
 			return (-17);
 	}
 	else
@@ -225,6 +268,10 @@ static void			ft_reinit_process(t_process *process, t_conf *conf)
 	process->fct_args[2] = 0;
 	process->fct_args[3] = 0;
 	process->args_size = 0;
+	process->ocp_split.arg1 = 0;
+	process->ocp_split.arg2 = 0;
+	process->ocp_split.arg3 = 0;
+	process->ocp_split.arg4 = 0;
 }
 
 static void			ft_purge_process(t_process *process, t_conf *conf)

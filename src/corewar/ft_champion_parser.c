@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:08:47 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/23 02:24:00 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:57:56 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void		ft_print_champ(t_champ *champ, t_conf *conf)
 	int		i;
 
 	i = 0;
-	ft_printf("* Joueur %u, avec un poids de %u octets, %s (\"%s\") !\n", champ->id, champ->inst_size, champ->name, champ->comment);
+	ft_printf("* Joueur %u, avec un poids de %u octets, %s ! (\"%s\")\n", champ->id, champ->inst_size, champ->name, champ->comment);
 	if (conf->opt[8])
 	{
 		ft_printf("champ path:%s, fd:%d, id:%u, nb_live:%u, init_pc:%u, magic:%x, pad1:%x, pad2:%x\n", champ->path, champ->fd, champ->id, champ->nb_live, champ->init_pc, champ->magic, champ->padding1, champ->padding2);

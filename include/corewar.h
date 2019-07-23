@@ -6,15 +6,15 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/23 02:09:15 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:47:57 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COREWAR_H
 # define COREWAR_H
-# define D_OPT_MAX			9
+# define D_OPT_MAX			10
 # define D_OP_MAX			16
-# define D_DEBUG_SIZE		32
+# define D_DEBUG_SIZE		64
 # define D_MAN_PATH			"./src/man/man_cor"
 # define D_HEAD_SIZE		16 + PROG_NAME_LENGTH + COMMENT_LENGTH
 # define D_BIN_MAX_SIZE		CHAMP_MAX_SIZE + D_HEAD_SIZE
@@ -42,10 +42,18 @@ typedef struct			s_champ
 
 typedef struct			s_cell
 {
-	int					val;
-	int					pid;
-	int					pc;
+	unsigned int		val;
+	unsigned int		pid;
+	unsigned int		pc;
 }						t_cell;
+
+typedef struct			s_ocp
+{
+	char				arg1;
+	char				arg2;
+	char				arg3;
+	char				arg4;
+}						t_ocp;
 
 typedef struct			s_process
 {
@@ -60,16 +68,9 @@ typedef struct			s_process
 	unsigned char		ocp;
 	unsigned char		fct_args[4];
 	unsigned int		args_size;
+	t_ocp				ocp_split;
 	struct s_process	*next;
 }						t_process;
-
-typedef struct			s_ocp
-{
-	char				arg1;
-	char				arg2;
-	char				arg3;
-	char				arg4;
-}						t_ocp;
 
 typedef struct			s_conf
 {
@@ -89,7 +90,25 @@ typedef struct			s_conf
 	t_cell				*grid[MEM_SIZE];
 	t_process			*first_process;
 	const t_op			*op_tab;
+	void				(*op_funcs[16]) (unsigned int pid, t_ocp ocp, int args[4], struct s_conf *conf); //added
 }						t_conf;
+
+void					c_live(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_ld(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_st(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_add(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_sub(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_and(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_or(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_xor(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_zjump(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_ldi(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_sti(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_fork(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_lld(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_lldi(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_lfork(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+void					c_aff(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
 
 void					ft_init_op(t_conf *conf);
 void					ft_init_op(t_conf *conf);
