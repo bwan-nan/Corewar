@@ -86,7 +86,7 @@ static int			check_register(t_asm *glob, t_input *input, char *str)
 {
 	if (ft_strlen(str) > 3 || !str[1] || !ft_isdigits(&str[1]))
 	{
-		//ft_putendl("check register");
+		ft_putendl("check register");
 		return (print_error(SYNTAX_ERROR, input->line_number));
 	}
 	update_ocp(glob, input, T_REG);
@@ -117,7 +117,7 @@ static int			check_direct(t_asm *glob, t_input *input, char *str)
 	{
 		if (!str[2] || !(label = is_label(&str[2], glob->labels)))
 		{
-			//ft_putendl("check direct -> label");
+			ft_putendl("check direct -> label");
 			return (print_error(SYNTAX_ERROR, input->line_number));
 		}
 		add_to_queue(glob, input, label, T_DIR);
@@ -129,7 +129,7 @@ static int			check_direct(t_asm *glob, t_input *input, char *str)
 	}
 	else
 	{
-		//ft_putendl("else check direct");
+		ft_putendl("else check direct");
 		return (print_error(SYNTAX_ERROR, input->line_number));
 	}
 	update_ocp(glob, input, T_DIR);
@@ -160,8 +160,8 @@ static int			check_indirect(t_asm *glob, t_input *input, char *str)
 	else
 	{
 		//ft_putnbrendl(ret);
-		//ft_putendl(str);
-		//ft_putendl("else check indirect");
+		ft_putendl(str);
+		ft_putendl("else check indirect");
 		return (print_error(SYNTAX_ERROR, input->line_number));
 	}
 	update_ocp(glob, input, T_IND);
@@ -179,7 +179,7 @@ static int      check_param(t_asm *glob, char *str, char type, t_input *input)
 		return (check_indirect(glob, input, str));//:live, 4, -4
 	else
 	{
-		//ft_putendl(str);
+		ft_putendl(str);
 		//ft_putendl("check param");
 		return (print_error(SYNTAX_ERROR, input->line_number));
 	}
@@ -212,23 +212,21 @@ static int      check_params(t_asm *glob, char **tab, t_op op, t_input *input)
 	return (1);
 }
 
+
+
 int			check_instruction(t_asm *glob, char **tab, t_input *input)
 {
 	char			**param_tab;
 
-	if (input && input->label)
-		input->label->byte_nbr = glob->byte_nbr;
+	//if (input && input->label)
+	//	input->label->byte_nbr = glob->byte_nbr;
+//	if (glob->labels)
+//		input->label->byte_nbr = get_corresponding_label_byte(glob->labels)
 	input->byte_nbr = glob->byte_nbr;
 	if (tab[0] && (tab[0][0] == '#' || tab[0][0] == ';'))
 		return (1);
-	//ft_printf("{green}");
-	//ft_show_tab(tab);
 	if (!(param_tab = custom_split(tab)))
 		return (0);
-	//ft_printf("{red}");
-	//ft_show_tab(param_tab);
-	//ft_printf("{nc}");
-	//freetab(tab);
 	if ((input->op_index = is_instruction(param_tab[0])) == -1)
 		return (0);
 	glob->byte_nbr++;

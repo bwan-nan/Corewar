@@ -44,6 +44,7 @@ typedef struct		s_asm
 {
 	t_list			*input;
 	t_list			*labels;
+	t_list			*current_label;
 	t_list			*queue;
 	char			*ptr;
 	char			*ocp_ptr;
@@ -68,7 +69,6 @@ typedef struct		s_input
 	int				line_number;
 	char			type;
 	t_label			*label;
-	t_list			*previous;
 }					t_input;
 
 typedef struct		s_queue
@@ -80,14 +80,13 @@ typedef struct		s_queue
 }					t_queue;
 
 int			get_input(t_asm *glob, t_list **input, char *file);
-int			lexer(t_asm *glob, t_list **input);
+int			lexer(t_asm *glob);
 int			print_error(char *msg, int line_number);
 
 int			update_labels(char *line, t_list **labels);
 
 
-int			check_content(t_asm *glob, t_list **labels
-			, t_input *input, char *line);
+int			check_content(t_asm *glob, t_input *input, char *line);
 int			check_instruction(t_asm *glob, char **tab, t_input *input);
 int			check_header(t_input *input, char *line, int *status);
 char        **custom_split(char **tab);

@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 11:56:09 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/03 14:30:14 by pimichau         ###   ########.fr       */
+/*   Updated: 2019/07/23 02:01:08 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void		del_list(void *content, size_t size)
 	}
 }
 
-static int		update_str(const int fd, char **str, t_list **list)
+static int		update_str(const int fd, char **str)
 {
 	int		ret;
 	char	buffer[BUFF_SIZE + 1];
@@ -74,11 +74,6 @@ static int		update_str(const int fd, char **str, t_list **list)
 		ft_strdel(&tmp);
 		if (ft_strchr(*str, '\n'))
 			break ;
-	}
-	if (!str_isascii(str, ret))
-	{
-		ft_lstdel(list, del_list);
-		return (0);
 	}
 	return (1);
 }
@@ -103,7 +98,7 @@ int				get_next_line(const int fd, char **line)
 	if (((t_gnl *)elem->content)->str == NULL)
 		((t_gnl *)elem->content)->str = ft_strnew(0);
 	if (!ft_strchr(((t_gnl *)elem->content)->str, '\n'))
-		if (!update_str(fd, &(((t_gnl *)elem->content)->str), &list))
+		if (!update_str(fd, &(((t_gnl *)elem->content)->str)))
 			return (-1);
 	if (((t_gnl *)elem->content)->str[0])
 		return (update_line(elem->content, line));

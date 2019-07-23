@@ -50,6 +50,22 @@ static int		add_line(t_list **input, char *line, int *line_number)
 	return (1);
 }
 
+static int		line_is_empty(char *line)
+{
+	int		i;
+
+	i = 0;
+	if (!line)
+		return (1);
+	while (line[i])
+	{
+		if (!ft_iswhitespace(line[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int				get_input(t_asm *glob, t_list **input, char *file)
 {
 	char			*line;
@@ -59,7 +75,9 @@ int				get_input(t_asm *glob, t_list **input, char *file)
 	fd = open(file, O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (ft_strlen(line) == 0 && ++line_number)
+		//ft_putendl("test");
+		//ft_putendl(line);
+		if (line_is_empty(line) && ++line_number)
 		{
 			ft_strdel(&line);
 			continue ;
@@ -70,6 +88,7 @@ int				get_input(t_asm *glob, t_list **input, char *file)
 			return (print_error(MALLOC_ERROR, 0));
 	}
 	close(fd);
+	glob->current_label = glob->labels;
 	ft_lstrev(input);
 	if (*input == NULL)
 		return (print_error(EMPTY_FILE, 0));

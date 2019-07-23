@@ -12,7 +12,9 @@ static void fill_queue(t_asm *glob)
 	while (elem)
 	{
 		parent = ((t_queue *)elem->content)->parent;
+		ft_printf("PARENT:\nname = %s, byte_nbr = %d\n", parent->name, parent->byte_nbr);
 		node = ((t_queue *)elem->content)->node;
+		ft_printf("NODE\nname = %s, byte_nbr = %d\n\n", node->line, node->byte_nbr);
 		relative_address = parent->byte_nbr - node->byte_nbr;
 		byte = (char *)(&relative_address);
 		if (((t_queue *)elem->content)->size == 4)
@@ -36,18 +38,17 @@ static int	is_comment(char *line)
 	return (line[i] == '#' || line[i] == ';');
 }
 
-int			lexer(t_asm *glob, t_list **input)
+int			lexer(t_asm *glob)
 {
 	t_list	*line;
-	t_list	*label;
+//	t_list	*label;
 	static int	status = 0;
 	// status == 0 ? on accepte les .name et .comment
 	// status == 1 ? on accepte .name et pas .comment
 	// status == 2 ? on accepte .comment et pas .name
 	// status == 3 ? on accepte les instructions et les labels
 
-	line = *input;
-	label = glob->labels;
+	line = glob->input;
 	while (line)
 	{
 	//	ft_putendl(new while iteration in lexer:");
@@ -65,8 +66,8 @@ int			lexer(t_asm *glob, t_list **input)
 			else
 			{
 				//ft_putendl(((t_input *)line->content)->line);
-				if (!check_content(glob, &label, line->content
-	            , ((t_input *)line->content)->line))
+				if (!check_content(glob, line->content
+				, ((t_input *)line->content)->line))
 					return (0);
 			}
 			//ft_putendl(((t_input *)line->content)->bin);

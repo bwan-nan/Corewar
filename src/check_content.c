@@ -19,8 +19,7 @@ static char		*get_first_word(char *line, int *len)
 	return (start);
 }
 
-int				check_content(t_asm *glob, t_list **labels
-				, t_input *input, char *line)
+int				check_content(t_asm *glob, t_input *input, char *line)
 {
 	char		**tab;
 	char		*first_word;
@@ -32,19 +31,27 @@ int				check_content(t_asm *glob, t_list **labels
 	len = 0;
 	tab = NULL;
 	label = NULL;
-	if (*(labels))
-		label = (*labels)->content;
+	if (glob->current_label)
+		label = glob->current_label->content;
 	first_word = get_first_word(line, &len);
-	if (first_word && first_word[len] && first_word[len] == ':')
+	if (first_word && first_word[len] == ':')
 	{
 		if (label && !ft_strnequ(first_word, label->name, len))
+		{
+			ft_putendl(line);
+			ft_putendl(first_word);
+			ft_putendl(label->name);
 			return (print_error(INVALID_LABEL, input->line_number));
+		}
 		if (first_word[len + 1]
 		&& !(tab = ft_split_whitespaces(&first_word[len + 1])))
 			return (print_error(MALLOC_ERROR, 0));
-		if (label)
-			input->label = label;
-		(*labels) = (*labels)->next;
+		if (glob->current_label)
+		{
+			label = glob->current_label->content;
+			label->byte_nbr = glob->byte_nbr;
+		}
+		glob->current_label = glob->current_label->next;
 	}
 	else
 	{

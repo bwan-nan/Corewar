@@ -10,6 +10,7 @@ static int	add_label(t_list **labels, char *line, int start, int len)
 	if (!(node = ft_lstnew(&new, sizeof(t_label))))
 		return (0);
 	((t_label *)node->content)->name = ft_strsub(line, start, len);
+	ft_putendl(((t_label *)node->content)->name);
 	ft_lstappend(labels, node);
 	return (1);
 }
@@ -20,6 +21,7 @@ int			update_labels(char *line, t_list **labels)
     int     j;
 
     i = 0;
+	ft_putendl(line);
 	while (ft_iswhitespace(line[i]))
         i++;
     j = 0;
