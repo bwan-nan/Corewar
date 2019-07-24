@@ -179,14 +179,22 @@ int		update_prog_lengths(t_asm *glob, t_input *input)
 	return (1);
 }
 
+static int		header_status(int status)
+{
+	if (status == 0 || status == 2 || status == 3 || status == 5)
+		return (print_error(MISSING_NAME, 0));
+	return (print_error(MISSING_COMMENT, 0));
+}
+
 static int		get_header(t_input *input, int *status)
 {
 	int	first;
 	int	second;
 
-	if ((first = ft_strnchr_index(input->line, 1, '"')) != -1)
-		if (!check_before_quote(input, input->line, first, status))
-			return (print_error(LEXICAL_ERROR, input->line_number));
+	if ((first = ft_strnchr_index(input->line, 1, '"')) == -1)
+		return (header_status(*status));
+	if (!check_before_quote(input, input->line, first, status))
+		return (print_error(LEXICAL_ERROR, input->line_number));
 	if ((second = ft_strnchr_index(input->line, 2, '"')) != -1)
 	{
 		if (!check_after_quote(input->line, second))
@@ -215,9 +223,10 @@ static int		check_validity(t_input *input, int *status)
 	return (1);
 }
 
-int			check_header(t_asm *glob, t_list **input)
+int				check_header(t_asm *glob, t_list **input)
 {
 	int			status;
+	t_input		*content;
 	// status == 0 ? on accepte les .name et .comment
 	// status == 1 ? on accepte .comment et pas .name
 	// status == 2 ? on accepte .name et pas .comment
@@ -232,9 +241,22 @@ int			check_header(t_asm *glob, t_list **input)
 	status = 0;
 	while (*input)
 	{
-		if (!check_validity((*input)->content, &status))
+		content = (*input)->content;
+		if (status < 3
+		&& (is_empty(content->line) || is_comment(content->line)))
+		{
+			*input = (*input)->next;
+			continue ;
+		}
+		if (!check_validity(content, &status))
 			return (0);
-		if (!update_prog_lengths(glob, (*input)->content))
+		if (status >= 3 && status <= 6)
+		{
+			if (!(content->bin = ft_strjoin(content->bin, "\n")))
+				return (0);
+			content->bin_size++;
+		}
+		if (!update_prog_lengths(glob, content))
 			return (0);
 		if (status == 7)
 			break ;

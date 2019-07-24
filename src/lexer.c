@@ -12,9 +12,7 @@ static void fill_queue(t_asm *glob)
 	while (elem)
 	{
 		parent = ((t_queue *)elem->content)->parent;
-		ft_printf("PARENT:\nname = %s, byte_nbr = %d\n", parent->name, parent->byte_nbr);
 		node = ((t_queue *)elem->content)->node;
-		ft_printf("NODE\nname = %s, byte_nbr = %d\n\n", node->line, node->byte_nbr);
 		relative_address = parent->byte_nbr - node->byte_nbr;
 		byte = (char *)(&relative_address);
 		if (((t_queue *)elem->content)->size == 4)
@@ -28,7 +26,23 @@ static void fill_queue(t_asm *glob)
 	}
 }
 
-static int	is_comment(char *line)
+int		is_empty(char *line)
+{
+	int		i;
+
+	i = 0;
+	if (!line)
+		return (1);
+	while (line[i])
+	{
+		if (!ft_iswhitespace(line[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	is_comment(char *line)
 {
 	int		i;
 
@@ -37,12 +51,22 @@ static int	is_comment(char *line)
 		i++;
 	return (line[i] && (line[i] == '#' || line[i] == ';'));
 }
-
+/*
+static void print_labels(t_list *labels)
+{
+	t_label *label;
+	while (labels)
+	{
+		label = ((t_label *)labels->content);
+		ft_putendl(label->name);
+		labels = labels->next;
+	}
+}
+*/
 int			lexer(t_asm *glob)
 {
 	t_list	*input;
 	char	*line;
-//	t_list	*label;
 	int		valid_header;
 
 
@@ -50,31 +74,26 @@ int			lexer(t_asm *glob)
 	input = glob->input;
 	while (input)
 	{
-	//	ft_putendl(new while iteration in lexer:");
-		//ft_putendl(((t_input *)line->content)->line);
 		line = ((t_input *)input->content)->line;
-		if (!is_comment(line))
+		if (!is_empty(line) && !is_comment(line))
 		{
 			line = ((t_input *)input->content)->line;
 			if (!valid_header)
 			{
-				//ft_putendl(((t_input *)line->content)->line);
 				if (!(valid_header = check_header(glob, &input)))
 					return (0);
-				//ft_putendl(((t_input *)line->content)->bin);
+				if (!update_labels(glob, input->next, &glob->labels))
+					return (print_error(MALLOC_ERROR, 0));
 			}
 			else
 			{
-				//ft_putendl(((t_input *)line->content)->line);
+				//ft_putendl(line);
 				if (!check_content(glob, input->content, line))
 					return (0);
 			}
-			//ft_putendl(((t_input *)line->content)->bin);
 		}
 		input = input->next;
 	}
-	//ft_putendl("lexer done");
 	fill_queue(glob);
-	//ft_putendl("fill queue done");
 	return (1);
 }

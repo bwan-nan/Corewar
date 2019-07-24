@@ -25,6 +25,8 @@
 # define LEXICAL_ERROR			"Lexical error"
 # define INVALID_INSTRUCTION	"Invalid instruction"
 # define INVALID_LABEL			"Invalid label definition"
+# define MISSING_NAME			"Missing progam name."
+# define MISSING_COMMENT		"Missing program comment."
 
 typedef struct		s_op
 {
@@ -81,11 +83,11 @@ typedef struct		s_queue
 	int				size;
 }					t_queue;
 
-int			get_input(t_asm *glob, t_list **input, char *file);
+int			get_input(t_list **input, char *file);
 int			lexer(t_asm *glob);
 int			print_error(char *msg, int line_number);
 
-int			update_labels(char *line, t_list **labels);
+int			update_labels(t_asm *glob, t_list *input, t_list **labels);
 
 
 int			check_content(t_asm *glob, t_input *input, char *line);
@@ -97,4 +99,6 @@ int			add_to_queue(t_asm *glob, t_input *input
 void		reorder_list(t_list **list);
 
 int		ret_freetab(int ret, char **tab);
+int		is_empty(char *line);
+int		is_comment(char *line);
 #endif

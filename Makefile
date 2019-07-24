@@ -49,10 +49,10 @@ LIPATH = libft/inc/
 
 INCS += asm.h
 
-SRC += add_label.c
 SRC += asm.c
-SRC += check_content.c
 SRC += check_header.c
+SRC += update_labels.c
+SRC += check_content.c
 SRC += check_instruction.c
 SRC += custom_split.c
 SRC += get_input.c

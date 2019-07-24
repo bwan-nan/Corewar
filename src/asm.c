@@ -119,6 +119,7 @@ static int		create_cor_file(t_asm *glob, char *file)
 		}
 		input = input->next;
 	}
+	ft_printf("Writing output program to %s\n", name);
 	ft_strdel(&name);
 	close(fd);
 	return (1);
@@ -131,7 +132,7 @@ int				main(int ac, char **av)
 	init_asm(&glob);
 	if (ac != 2 || !file_exists(av[1]))
 		return (print_usage());
-	if (!get_input(&glob, &glob.input, av[1]))
+	if (!get_input(&glob.input, av[1]))
 		return (-1); // free input, si ret == 0, print "ERROR", si =-1 print "lexical_error" Free_input(&glob.input)
 	//ft_putendl("------------lexer---------------");
 	if (!lexer(&glob))

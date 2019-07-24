@@ -85,10 +85,7 @@ static				void update_ocp(t_asm *glob, t_input *input, char type)
 static int			check_register(t_asm *glob, t_input *input, char *str)
 {
 	if (ft_strlen(str) > 3 || !str[1] || !ft_isdigits(&str[1]))
-	{
-		ft_putendl("check register");
 		return (print_error(SYNTAX_ERROR, input->line_number));
-	}
 	update_ocp(glob, input, T_REG);
 	*(glob->ptr++) = ft_atoi(str + 1);
 	glob->byte_nbr++;
@@ -116,10 +113,7 @@ static int			check_direct(t_asm *glob, t_input *input, char *str)
 	if (str[1] == ':')
 	{
 		if (!str[2] || !(label = is_label(&str[2], glob->labels)))
-		{
-			ft_putendl("check direct -> label");
 			return (print_error(SYNTAX_ERROR, input->line_number));
-		}
 		add_to_queue(glob, input, label, T_DIR);
 	}
 	else if (str[1] && ft_isnumber(&str[1]))
@@ -128,10 +122,7 @@ static int			check_direct(t_asm *glob, t_input *input, char *str)
 		write_binary(glob, input->op_index, (char *)(&address), T_DIR);
 	}
 	else
-	{
-		ft_putendl("else check direct");
 		return (print_error(SYNTAX_ERROR, input->line_number));
-	}
 	update_ocp(glob, input, T_DIR);
 	glob->byte_nbr += (input->op_index < 8 || input->op_index == 12) ? 4 : 2;
 	return (1);
@@ -146,10 +137,7 @@ static int			check_indirect(t_asm *glob, t_input *input, char *str)
 	if (str[0] == ':')
 	{
 		if (!(label = is_label(&str[1], glob->labels)))
-		{
-			//ft_putendl("check indirect -> label");
 			return (print_error(SYNTAX_ERROR, input->line_number));
-		}
 		add_to_queue(glob, input, label, T_IND);
 	}
 	else if (str[0] && (ret = ft_isnumber(str)))
@@ -158,12 +146,7 @@ static int			check_indirect(t_asm *glob, t_input *input, char *str)
 		write_binary(glob, input->op_index, (char *)(&address), T_IND);
 	}
 	else
-	{
-		//ft_putnbrendl(ret);
-		ft_putendl(str);
-		ft_putendl("else check indirect");
 		return (print_error(SYNTAX_ERROR, input->line_number));
-	}
 	update_ocp(glob, input, T_IND);
 	glob->byte_nbr += 2;
 	return (1);
@@ -193,31 +176,19 @@ static int      check_params(t_asm *glob, char **tab, t_op op, t_input *input)
 	int			j;
 
  	if (get_tab_len(tab) != op.nb_params * 2 - 1)
-	{
-		ft_show_tab(tab);
-		ft_putendl("hello");
     	return (0);
-	}
  	glob->param = 0;
 	glob->byte_nbr += op_tab[input->op_index].ocp;
 	j = 0;
-	//ft_show_tab(tab);
 	while (j <  op.nb_params * 2 - 1)
 	{
-		//ft_putendl("here");
 		if (j % 2)
 		{
 			if (!ft_strequ(tab[j], ","))
-			{
-			//	ft_putendl("ici");
 				return (0);
-			}
 		}
 		else if (!check_param(glob, tab[j], op.params_type[(glob->param)++], input))
-		{
-		//	ft_putendl("error");
 			return (0);
-		}
 		j++;
 	}
 	return (1);
@@ -229,17 +200,11 @@ int			check_instruction(t_asm *glob, char **tab, t_input *input)
 {
 	char			**param_tab;
 
-	//if (input && input->label)
-	//	input->label->byte_nbr = glob->byte_nbr;
-//	if (glob->labels)
-//		input->label->byte_nbr = get_corresponding_label_byte(glob->labels)
 	input->byte_nbr = glob->byte_nbr;
 	if (tab[0] && (tab[0][0] == '#' || tab[0][0] == ';'))
 		return (1);
 	if (!(param_tab = custom_split(tab)))
 		return (0);
-	//ft_show_tab(param_tab);
-	//ft_putendl("\n");
 	if ((input->op_index = is_instruction(param_tab[0])) == -1)
 		return (0);
 	glob->byte_nbr++;
@@ -252,10 +217,7 @@ int			check_instruction(t_asm *glob, char **tab, t_input *input)
 		glob->ptr++;
 	if (!param_tab[1]
 	|| !check_params(glob, param_tab + 1, op_tab[input->op_index], input))
-	{
-		ft_putendl("final");
 		return (0);
-	}
 	input->bin_size = glob->byte_nbr - input->byte_nbr;
 	glob->inst_count += input->bin_size;
 	return (1);
