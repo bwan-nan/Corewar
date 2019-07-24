@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:08:47 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/23 18:57:56 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/24 14:55:27 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,8 @@ int				ft_champion_parser(t_champ *champ, t_conf *conf)
 	char			line[D_BIN_MAX_SIZE + 1];
 
 	ret = 0;
-	ft_printf("Acclamés par les spectateurs en furie, les champions font leur entrée dans l'arène...\n");
+	if (!conf->opt[3])
+		ft_printf("Acclamés par les spectateurs en furie, les champions font leur entrée dans l'arène...\n");
 	while (champ)
 	{
 		ft_bzero(line, D_BIN_MAX_SIZE + 1);
@@ -126,7 +127,8 @@ int				ft_champion_parser(t_champ *champ, t_conf *conf)
 			return (ret);
 		if ((ret = ft_check_inst(champ, line)) < 0)
 			return (ret);
-		ft_print_champ(champ, conf);
+		if (!conf->opt[8] && !conf->opt[3])
+			ft_print_champ(champ, conf);
 		champ = champ->next;
 	}
 	return (0);

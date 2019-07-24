@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/23 18:47:57 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/24 16:06:36 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct			s_process
 	t_bool				carry;
 	unsigned char		op_code;
 	unsigned char		ocp;
-	unsigned char		fct_args[4];
+	int					fct_args[4];
 	unsigned int		args_size;
 	t_ocp				ocp_split;
 	struct s_process	*next;
@@ -90,25 +90,25 @@ typedef struct			s_conf
 	t_cell				*grid[MEM_SIZE];
 	t_process			*first_process;
 	const t_op			*op_tab;
-	void				(*op_funcs[16]) (unsigned int pid, t_ocp ocp, int args[4], struct s_conf *conf); //added
+	int				(*op_funcs[16]) (unsigned int pid, t_ocp ocp, int args[4], struct s_conf *conf); //added
 }						t_conf;
 
-void					c_live(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_ld(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_st(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_add(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_sub(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_and(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_or(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_xor(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_zjump(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_ldi(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_sti(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_fork(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_lld(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_lldi(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_lfork(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-void					c_aff(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_live(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_ld(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_st(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_add(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_sub(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_and(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_or(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_xor(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_zjump(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_ldi(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_sti(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_fork(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_lld(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_lldi(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_lfork(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_aff(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
 
 void					ft_init_op(t_conf *conf);
 void					ft_init_op(t_conf *conf);

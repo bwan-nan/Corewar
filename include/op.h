@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2019/07/23 16:41:36 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/23 22:15:05 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 # define CHAMP_MAX_SIZE			MEM_SIZE / 6
 
 # define T_REG					1
-# define T_DIR					4
-# define T_IND					2
-# define T_LAB					8 //?
+# define T_DIR					2
+# define T_IND					4
+# define T_LAB					8
 
 # define COMMENT_CHAR			'#'
 # define LABEL_CHAR				':'

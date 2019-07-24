@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/13 19:12:03 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/18 11:27:12 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/23 22:57:41 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdint.h>
 # include <limits.h>
 # include <fcntl.h>
+# include <time.h>
 
 typedef unsigned char	t_byte;
 
@@ -45,7 +46,7 @@ int						ft_strcmp(const char *s1, const char *s2);
 int						ft_str_is_numeric(char *str);
 int						ft_get_next_line(const int fd, char **line);
 int						ft_ceil(float n);
-int						ft_break(int stop, int ret);
+int						ft_delay(time_t seconds);
 intmax_t				ft_atoim(const char *str);
 
 #endif

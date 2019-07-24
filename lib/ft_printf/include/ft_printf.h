@@ -6,13 +6,13 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/04/11 15:52:59 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/24 13:00:20 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-# define D_BUFF_SIZE 1024
+# define D_BUFF_SIZE 60
 # define D_PNULL "0x0"
 # define D_SNULL "(null)"
 # define D_WSNULL L"(null)"

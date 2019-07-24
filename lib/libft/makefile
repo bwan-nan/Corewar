@@ -6,7 +6,7 @@
 #    By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 17:34:44 by fdagbert          #+#    #+#              #
-#    Updated: 2019/07/18 11:27:43 by fdagbert         ###   ########.fr        #
+#    Updated: 2019/07/23 22:51:25 by fdagbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ FUNCTIONS = ft_bzero.c			\
 			ft_strcmp.c			\
 			ft_str_is_numeric.c	\
 			ft_get_next_line.c	\
-			ft_break.c			\
+			ft_delay.c			\
 			ft_ceil.c
 SRC = $(addprefix $(SRC_PATH)/, $(FUNCTIONS))
 

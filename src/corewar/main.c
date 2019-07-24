@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/23 18:15:26 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/24 15:01:43 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,13 @@ static int		ft_check_args(int argc, char **argv, const char *keys,
 	}
 	else
 		return (1);
+	if (conf->opt[3])
+	{
+		conf->opt[1] = 0;
+		conf->opt[2] = 0;
+		conf->opt[4] = 0;
+		conf->opt[9] = 0;
+	}
 	return (0);
 }
 
@@ -283,6 +290,7 @@ int				main(int argc, char **argv)
 		return (ft_end(err, &conf));
 	if ((err = ft_launch_arena(conf.first_process, &conf)) < 0)
 		return (ft_end(err, &conf));
-	ft_print_winner(&conf);
+	if (!conf.opt[3])
+		ft_print_winner(&conf);
 	return (ft_end(err, &conf));
 }

@@ -53,11 +53,14 @@ HEIGHT = 1080
 # Defne some colors
 GREEN = ( 140, 255, 60 )
 RED = ( 255, 75, 150 )
+YELLOW = ( 60, 255, 255 )
+BLUE = ( 60, 140, 255 )
 DARK_GRAY = ( 30, 30, 30 )
+WHITE = ( 255, 255, 255)
 
 BLACK = ( 0, 0, 0 )
 
-P_COLOR = [GREEN, RED]
+P_COLOR = [WHITE, GREEN, RED, BLUE, YELLOW]
 
 # Import the pygame library and initialise the game engine
 import pygame
@@ -101,7 +104,8 @@ def draw_memory(memory_tree):
         print('ceil_height', ceil_height)
 
         val = font.render(val, True, BLACK)
-        pygame.draw.rect(screen, P_COLOR[id - 1], (x, y, ceil_height, ceil_height))
+        print("id:", id)
+        pygame.draw.rect(screen, P_COLOR[id], (x, y, ceil_height, ceil_height))
         screen.blit(val, (x + (ceil_height / 12), y + (ceil_height / 5)))
         i += 2
 
@@ -140,6 +144,7 @@ while carryOn:
         print('this is the end...')
 
     if END_REACHED == 0:
+        print(corewar_src)
         corewar_src_tree = etree.fromstring(corewar_src)
     memory_tree = corewar_src_tree.find(".//memory")
     #print(etree.tostring(memory_tree, encoding='UTF-8'))
