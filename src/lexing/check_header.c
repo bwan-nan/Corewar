@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 13:46:46 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 15:49:10 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/25 16:55:58 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,40 +24,6 @@
 ** 0->(4)->2->(5)->7
 ** 0->(3)->1->(6)->7
 */
-
-static int		check_after_quote(char *line, int n)
-{
-	char	**tab;
-
-	if (line[n + 1])
-	{
-		if (!(tab = ft_split_whitespaces(line + n + 1)))
-			return (0);
-		if (tab[0] && !(tab[0][0] == '#' || tab[0][0] == ';'))
-			return (0); //ret_freetab
-	}
-	return (1);//ret_freetab
-}
-
-
-static void		update_status(char *type, int *status)
-{
-	if (*status == 3)
-	{
-		*type = 'N';
-		*status = 1;
-	}
-	else if (*status == 4)
-	{
-		*type = 'C';
-		*status = 2;
-	}
-	else if (*status == 5 || *status == 6)
-	{
-		*type = *status == 5 ? 'N' : 'C';
-		*status = 7;
-	}
-}
 
 static int		complete_header(t_input *input, int *status)
 {
@@ -81,33 +47,7 @@ static int		complete_header(t_input *input, int *status)
 	return (1);
 }
 
-static int		check_before_quote(t_input *input, char *line, int n, int *status)
-{
-	char		*str;
-
-	if (!(str = ft_trim(ft_strsub(line, 0, n))))
-		return (0);
-	if (ft_strequ(str, ".name") && *status != 1)
-	{
-		if (ft_strnchr_index(line, 2, '"') != -1 && (input->type = 'N'))
-			*status = *status == 0 ? 1 : 7;
-		else if ((input->type = 'n'))
-			*status = *status == 0 ? 3 : 5;
-	}
-	else if (ft_strequ(str, ".comment") && *status != 2)
-	{
-		if (ft_strnchr_index(line, 2, '"') != -1 && (input->type = 'C'))
-			*status = *status == 0 ? 2 : 7;
-		else if ((input->type = 'c'))
-			*status = *status == 0 ? 4 : 6;
-	}
-	else
-		return (0);//free str
-	ft_strdel(&str);
-	return (1);//ret_freetab
-}
-
-int		update_prog_lengths(t_asm *glob, t_input *input)
+int				update_prog_lengths(t_asm *glob, t_input *input)
 {
 	if (ft_strchr("cC", input->type))
 		glob->comment_length += input->bin_size;
@@ -118,13 +58,6 @@ int		update_prog_lengths(t_asm *glob, t_input *input)
 	else if (glob->comment_length > 2048)
 		return (print_error(COMMENT_ERROR, 0));
 	return (1);
-}
-
-static int		header_status(int status)
-{
-	if (status == 0 || status == 2 || status == 3 || status == 5)
-		return (print_error(MISSING_NAME, 0));
-	return (print_error(MISSING_COMMENT, 0));
 }
 
 static int		get_header(t_input *input, int *status)
@@ -156,11 +89,8 @@ static int		check_validity(t_input *input, int *status)
 		if (!get_header(input, status))
 			return (0);
 	}
-	else
-	{
-		if (!complete_header(input, status))
-			return (0);
-	}
+	else if (!complete_header(input, status))
+		return (0);
 	return (1);
 }
 
@@ -181,12 +111,9 @@ int				check_header(t_asm *glob, t_list **input)
 		}
 		if (!check_validity(content, &status))
 			return (0);
-		if (status >= 3 && status <= 6)
-		{
-			if (!(content->bin = ft_strjoin(content->bin, "\n")))
+		if (status >= 3 && status <= 6 && (++content->bin_size))
+			if (!(content->bin = ft_strjoinf(content->bin, "\n")))
 				return (0);
-			content->bin_size++;
-		}
 		if (!update_prog_lengths(glob, content))
 			return (0);
 		if (status == 7)

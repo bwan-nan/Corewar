@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 13:47:05 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 15:23:00 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/25 17:09:27 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int			is_comment(char *line)
 	return (line[i] && (line[i] == '#' || line[i] == ';'));
 }
 
-int			lexer(t_asm *glob)
+int			lexing(t_asm *glob)
 {
 	t_list	*input;
 	char	*line;

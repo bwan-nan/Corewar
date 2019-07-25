@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 12:46:37 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 14:11:29 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/25 16:55:29 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ int				file_exists(char *name)
 	return (1);
 }
 
-char		*get_file_name(char *str)
+char			*get_file_name(char *str)
 {
 	int		len;
 	char	*name;
 
 	len = ft_strlen(str);
-	if (!(name= ft_strnew(len + 2)))
+	if (!(name = ft_strnew(len + 2)))
 		return (NULL);
 	ft_strcpy(name, str);
 	name[len - 1] = 'c';

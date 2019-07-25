@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 17:52:27 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/07/25 14:07:38 by bwan-nan         ###   ########.fr        #
+#    Updated: 2019/07/25 16:45:16 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,6 +96,7 @@ SRC += ft_strequ.c
 SRC += ft_striter.c
 SRC += ft_striteri.c
 SRC += ft_strjoin.c
+SRC += ft_strjoinf.c
 SRC += ft_strlcat.c
 SRC += ft_strlen.c
 SRC += ft_strmap.c

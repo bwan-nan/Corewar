@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 14:06:30 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 14:06:50 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/25 16:02:18 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int		ret_freetab(char **tab, int ret)
 {
-	ft_freetab(tab);
+	if (tab)
+		ft_freetab(tab);
 	return (ret);
 }

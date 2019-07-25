@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 13:44:04 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 15:20:51 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/25 17:09:53 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ int				main(int ac, char **av)
 	if (ac != 2 || !file_exists(av[1]))
 		return (print_usage());
 	if (!get_input(&glob.input, av[1]))
-		return (-1); // free input, si ret == 0, print "ERROR", si =-1 print "lexical_error" Free_input(&glob.input)
-	if (!lexer(&glob))
-		return (-1); // free input
+		return (free_program(&glob, -1));
+	if (!lexing(&glob))
+		return (free_program(&glob, -1));
 	reorder_list(&glob.input);
-	return (create_cor_file(&glob, av[1]) != -1);
+	if (!create_cor_file(&glob, av[1]))
+		return (free_program(&glob, -1));
+	return (free_program(&glob, 0));
 }
