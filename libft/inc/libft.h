@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 17:54:15 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/18 13:42:44 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/25 14:07:09 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int					ft_sqrt(int nb);
 int					get_tab_len(char **tab);
 long long			ft_recursive_power(long long nb, int power);
 void				ft_freetab(char **tab);
+int					ret_freetab(char **tab, int ret);
 
 #endif

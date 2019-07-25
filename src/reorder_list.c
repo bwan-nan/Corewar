@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reorder_list.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/25 13:47:22 by bwan-nan          #+#    #+#             */
+/*   Updated: 2019/07/25 15:14:16 by bwan-nan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "asm.h"
 
 static t_list	*get_insertion_node(t_list *list)
@@ -16,7 +28,7 @@ static t_list	*get_insertion_node(t_list *list)
 	return (NULL);
 }
 
-static void 	list_insert(t_list **head, t_list *insertion_node)
+static void		list_insert(t_list **head, t_list *insertion_node)
 {
 	t_list *elem;
 	t_list *insertion_node_next;
@@ -28,7 +40,7 @@ static void 	list_insert(t_list **head, t_list *insertion_node)
 	elem->next = insertion_node_next;
 }
 
-static void 	shift_comment(t_list **head, t_list *insertion_node)
+static void		shift_comment(t_list **head, t_list *insertion_node)
 {
 	t_input		*input;
 

@@ -6,7 +6,7 @@
 /*   By: pimichau <pimichau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 11:39:04 by pimichau          #+#    #+#             */
-/*   Updated: 2019/07/10 11:41:21 by pimichau         ###   ########.fr       */
+/*   Updated: 2019/07/25 15:23:30 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "op.h"
 # include "libft.h"
 # include <stdbool.h>
+# include <fcntl.h>
 
 # define MALLOC_ERROR			"Memory allocation failed."
 # define NAME_ERROR				"Champion name too long (Max length 128)."
@@ -27,6 +28,7 @@
 # define INVALID_LABEL			"Invalid label definition"
 # define MISSING_NAME			"Missing progam name."
 # define MISSING_COMMENT		"Missing program comment."
+
 
 typedef struct		s_op
 {
@@ -40,7 +42,7 @@ typedef struct		s_op
 	int		carry;
 }					t_op;
 
-extern t_op 	op_tab[17];
+extern t_op 	g_op_tab[17];
 
 typedef struct		s_asm
 {
@@ -83,6 +85,8 @@ typedef struct		s_queue
 	int				size;
 }					t_queue;
 
+int			file_exists(char *file);
+char		*get_file_name(char *str);
 int			get_input(t_list **input, char *file);
 int			lexer(t_asm *glob);
 int			print_error(char *msg, int line_number);
@@ -94,11 +98,25 @@ int			check_content(t_asm *glob, t_input *input, char *line);
 int			check_instruction(t_asm *glob, char **tab, t_input *input);
 int			check_header(t_asm *glob, t_list **input);
 char        **custom_split(char **tab);
-int			add_to_queue(t_asm *glob, t_input *input
-			, t_label *label, int type);
+int			add_to_queue(t_asm *glob, t_input *input, t_label *label, int type);
+void		fill_queue(t_asm *glob);
 void		reorder_list(t_list **list);
+int			create_cor_file(t_asm *glob, char *file);
 
-int		ret_freetab(int ret, char **tab);
-int		is_empty(char *line);
-int		is_comment(char *line);
+int			is_empty(char *line);
+int			is_comment(char *line);
+
+
+void		update_ocp(t_asm *glob, t_input *input, char type);
+int			is_instruction(char *str);
+int			ft_isnumber(char *str);
+int			ft_isdigits(char *str);
+t_label		*is_label(char *str, t_list *label);
+void		write_binary(t_asm *glob, int op_index, char *byte, int type);
+int			check_register(t_asm *glob, t_input *input, char *str);
+int			check_direct(t_asm *glob, t_input *input, char *str);
+int			check_indirect(t_asm *glob, t_input *input, char *str);
+int			check_param(t_asm *glob, char *str, char type, t_input *input);
+int			check_params(t_asm *glob, char **tab, t_op op, t_input *input);
+
 #endif

@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:04:21 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/07/02 16:45:55 by pimichau         ###   ########.fr        #
+#    Updated: 2019/07/25 15:08:03 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,12 +54,15 @@ SRC += check_header.c
 SRC += update_labels.c
 SRC += check_content.c
 SRC += check_instruction.c
+SRC += check_params.c
+SRC += instruction_tools.c
 SRC += custom_split.c
 SRC += get_input.c
 SRC += lexer.c
 SRC += op.c
 SRC += queue.c
 SRC += reorder_list.c
+SRC += create_cor_file.c
 
 
 DSYM = $(NAME).dSYM
@@ -67,6 +70,7 @@ DSYM = $(NAME).dSYM
 OBJ = $(patsubst %.c, $(OPATH)%.o, $(SRC))
 
 vpath	%.c src/
+vpath	%.c src/tools
 
 vpath	%.h inc/
 vpath	%.h libft/inc/

@@ -6,27 +6,11 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 12:46:37 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/24 20:24:27 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/25 14:11:29 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
-#include <fcntl.h>
-
-int		ret_freetab(int ret, char **tab)
-{
-	ft_freetab(tab);
-	return (ret);
-}
-
-int		print_error(char *msg, int line_number)
-{
-	if (!line_number)
-		ft_putendl(msg);
-	else
-		ft_printf("%s in line %d.\n", msg, line_number);
-	return (0);
-}
 
 static int		add_line(t_list **input, char *line, int *line_number)
 {
@@ -50,6 +34,38 @@ static int		add_line(t_list **input, char *line, int *line_number)
 	return (1);
 }
 
+int				file_exists(char *name)
+{
+	char	*ext;
+	int		fd;
+
+	ext = ft_strrchr(name, '.');
+	if (!ft_strequ(ext, ".s"))
+		return (0);
+	if ((fd = open(name, O_RDONLY)) == -1)
+	{
+		close(fd);
+		return (0);
+	}
+	close(fd);
+	return (1);
+}
+
+char		*get_file_name(char *str)
+{
+	int		len;
+	char	*name;
+
+	len = ft_strlen(str);
+	if (!(name= ft_strnew(len + 2)))
+		return (NULL);
+	ft_strcpy(name, str);
+	name[len - 1] = 'c';
+	name[len] = 'o';
+	name[len + 1] = 'r';
+	return (name);
+}
+
 int				get_input(t_list **input, char *file)
 {
 	char			*line;
@@ -59,18 +75,8 @@ int				get_input(t_list **input, char *file)
 	fd = open(file, O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
-		//ft_putendl("test");
-		//ft_putendl(line);
-	/*	if (line_is_empty(line) && ++line_number)
-		{
-			ft_strdel(&line);
-			continue ;
-		}*/
 		if (!add_line(input, line, &line_number))
 			return (print_error(MALLOC_ERROR, 0));
-		/*if (!is_empty(line))
-			if (!update_labels(line, &glob->labels))
-				return (print_error(MALLOC_ERROR, 0));*/
 	}
 	close(fd);
 	ft_lstrev(input);

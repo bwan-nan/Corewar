@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 17:52:27 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/07/23 15:57:13 by bwan-nan         ###   ########.fr        #
+#    Updated: 2019/07/25 14:07:38 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -187,6 +187,7 @@ SRC += ft_max.c
 SRC += get_tab_len.c
 SRC += print_bits.c
 SRC += ft_freetab.c
+SRC += ret_freetab.c
 
 INC = libft.h
 IPATH = inc/
