@@ -136,7 +136,7 @@ int				main(int ac, char **av)
 		return (-1); // free input, si ret == 0, print "ERROR", si =-1 print "lexical_error" Free_input(&glob.input)
 	//ft_putendl("------------lexer---------------");
 	if (!lexer(&glob))
-		return (-1); // free input
+		return (print_and_free(&glob, -1, NULL)); // free input
 	//ft_putendl("-----------reordering-----------");
 		//magic number, padding, bon nombre de zeros etc...
 	reorder_list(&glob.input);
@@ -145,5 +145,5 @@ int				main(int ac, char **av)
 		return(-1);
 	//debug(&glob);
 	//ft_putnbrendl(glob.byte_nbr);
-	return (0);
+	return (print_and_free(&glob, 0, NULL));
 }

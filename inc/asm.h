@@ -6,7 +6,7 @@
 /*   By: pimichau <pimichau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 11:39:04 by pimichau          #+#    #+#             */
-/*   Updated: 2019/07/10 11:41:21 by pimichau         ###   ########.fr       */
+/*   Updated: 2019/07/25 15:26:57 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,7 @@ void		reorder_list(t_list **list);
 int		ret_freetab(int ret, char **tab);
 int		is_empty(char *line);
 int		is_comment(char *line);
+int		print_and_free(t_asm *glob, int ret, char *msg);
+int		ret_freetab(int ret, char **tab);
+
 #endif

@@ -6,18 +6,12 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 12:46:37 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/24 20:24:27 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/25 15:34:21 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include <fcntl.h>
-
-int		ret_freetab(int ret, char **tab)
-{
-	ft_freetab(tab);
-	return (ret);
-}
 
 int		print_error(char *msg, int line_number)
 {

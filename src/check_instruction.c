@@ -206,10 +206,10 @@ int			check_instruction(t_asm *glob, char **tab, t_input *input)
 	if (!(param_tab = custom_split(tab)))
 		return (0);
 	if ((input->op_index = is_instruction(param_tab[0])) == -1)
-		return (0);
+		return (ret_freetab(0, param_tab));
 	glob->byte_nbr++;
 	if (!(input->bin = ft_strnew(11)))
-		return (0);
+		return (ret_freetab(0, param_tab));
 	glob->ptr = input->bin;
 	*(glob->ptr++) = (op_tab[input->op_index].id);
 	glob->ocp_ptr = glob->ptr;
@@ -217,8 +217,8 @@ int			check_instruction(t_asm *glob, char **tab, t_input *input)
 		glob->ptr++;
 	if (!param_tab[1]
 	|| !check_params(glob, param_tab + 1, op_tab[input->op_index], input))
-		return (0);
+		return (ret_freetab(0, param_tab));
 	input->bin_size = glob->byte_nbr - input->byte_nbr;
 	glob->inst_count += input->bin_size;
-	return (1);
+	return (ret_freetab(1, param_tab));
 }

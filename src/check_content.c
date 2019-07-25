@@ -63,10 +63,10 @@ int				check_content(t_asm *glob, t_input *input, char *line)
 	{
 		if (!check_instruction(glob, tab, input))
 		{
-			//ft_putendl("check content");
+			ft_freetab(tab);
 			return (print_error(INVALID_INSTRUCTION, input->line_number));
 		}
 	}
-	//freetab...
+	ft_freetab(tab);
 	return (1);
 }

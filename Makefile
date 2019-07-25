@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:04:21 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/07/02 16:45:55 by pimichau         ###   ########.fr        #
+#    Updated: 2019/07/25 15:26:05 by pimichau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,8 @@ SRC += lexer.c
 SRC += op.c
 SRC += queue.c
 SRC += reorder_list.c
+SRC += print_and_free.c
+SRC += tools.c
 
 
 DSYM = $(NAME).dSYM
