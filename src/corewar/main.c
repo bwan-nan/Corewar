@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/24 15:01:43 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/24 21:43:32 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ int				main(int argc, char **argv)
 	int					err;
 	t_conf				conf;
 	static const char	keys[D_OPT_MAX + 1] = {'d', 'v', 'a', 'x', 's', 'c',
-		'n', 'h', 'b', 'e', 0};
+		'n', 'h', 'b', 'e', 'm', 0};
 
 	err = 0;
 	ft_init_conf(0, &conf);

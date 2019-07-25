@@ -1,3 +1,11 @@
+####################################################################
+# IMPORT
+####################################################################
+
+import sys
+import math
+import pygame
+
 try:
   from lxml import etree
   print("running with lxml.etree")
@@ -23,8 +31,12 @@ except ImportError:
           print("running with ElementTree")
         except ImportError:
           print("Failed to import ElementTree from any known place")
-import sys
-import math
+
+
+####################################################################
+# IMPORT
+####################################################################
+
 
 if len(sys.argv) == 2:
     if sys.argv[1] == '-py2':
@@ -32,10 +44,10 @@ if len(sys.argv) == 2:
     elif sys.argv[1] == '-py3':
         PYTHON_V = 3
     else:
-        print('Usage: python visu-hex [-py2][-py3]')
+        print('Usage: python Corewar_visualizer.py [-py2][-py3]')
         raise SystemExit
 else:
-    print('Usage: python visu-hex [-py2][-py3]')
+    print('Usage: python Corewar_visualizer.py [-py2][-py3]')
     raise SystemExit
 
 
@@ -44,27 +56,47 @@ else:
 ####################################################################
 
 
+# we'll continue to read the std entry until END_REACHED == 1
 END_REACHED = 0
+# bool == 1 if xml balise is detect, else 0. That allows different output on std out
+SAVE_XML = 0
 
-# Define size
+# Define windows size
 WIDTH = 1920
 HEIGHT = 1080
 
-# Defne some colors
+# Define colors
+BLACK = ( 0, 0, 0 )
+WHITE = ( 255, 255, 255 )
 GREEN = ( 140, 255, 60 )
-RED = ( 255, 75, 150 )
-YELLOW = ( 60, 255, 255 )
-BLUE = ( 60, 140, 255 )
+RED = (255, 75, 150 )
+LIGHT_GRAY = ( 240, 240, 240 )
+GRAY = ( 128, 128, 128 )
 DARK_GRAY = ( 30, 30, 30 )
-WHITE = ( 255, 255, 255)
+BLUE = ( 50, 150, 255 )
+LIGHT_BLUE = ( 60, 180, 255 )
+DARK_BLUE = ( 15, 50, 85 )
+
+DEFAULT = GRAY
+C1 = ( 255, 100, 100 )
+C2 = ( 255, 175, 100 )
+C3 = ( 255, 255, 100 )
+C4 = ( 175, 255, 100 )
+C5 = ( 100, 255, 175 )
+C6 = ( 100, 255, 255 )
+C7 = ( 100, 175, 255 )
+C8 = ( 100, 175, 255 )
+C9 = ( 100, 100, 255 )
+CA = ( 175, 100, 255 )
+CB = ( 255, 100, 255 )
+CC = ( 255, 100, 255 )
+CD = ( 255, 100, 175 )
 
 BLACK = ( 0, 0, 0 )
 
-P_COLOR = [WHITE, GREEN, RED, BLUE, YELLOW]
+P_COLOR = [C1,C2,C3,C4,C5,C6,C7,C8,C9,CA,CB,CC,CD]
 
-# Import the pygame library and initialise the game engine
-import pygame
-
+# initialise the game engine
 pygame.init()
 
 # Open a new window
@@ -80,42 +112,88 @@ clock = pygame.time.Clock()
 
 
 ####################################################################
+# FUNCTIONS
+####################################################################
+
+
+def get_cells(memory_tree):
+    cells = memory_tree.text.split(',')
+    size = int(memory_tree.get('size'))
+    side = int(math.ceil(math.sqrt(size)))
+    cell_height = int(HEIGHT / side)
+
+    return (cells, size, side, cell_height)
+
+
+def draw_memory(memory_tree, cells, size, side, cell_height):
+    font = pygame.font.SysFont("Arial", cell_height)
+
+    i = 0
+    while i < len(cells) - 1:
+        val = cells[i]
+        pid = int(cells[i + 1])
+        x = (int(i / 2) % side) * cell_height
+        y = int(int(i / 2) / side) * cell_height
+
+        val = font.render(val, True, BLACK)
+        pygame.draw.rect(screen, P_COLOR[pid], (x, y, cell_height, cell_height))
+        screen.blit(val, (x + (cell_height / 12), y + (cell_height / 5)))
+        i += 2
+
+
+def draw_processes(processes_tree, cells, cell_height):
+    font = pygame.font.SysFont("Arial", 18)
+
+    processes_tree_length = len(processes_tree)
+    for i in range(processes_tree_length):
+        # highligth
+        process = processes_tree[i]
+        current_action = process.find(".//current_action")
+        current_pos = int(current_action.get("pos"))
+
+        val = cells[current_pos * 2]
+        pid = int(cells[current_pos * 2 + 1])
+        x = (int(current_pos * 2 / 2) % side) * cell_height
+        y = int(int(current_pos * 2 / 2) / side) * cell_height
+
+        font2 = pygame.font.SysFont("Arial", cell_height)
+        val = font2.render(val, True, BLACK)
+        pygame.draw.rect(screen, WHITE, (x, y, cell_height, cell_height))
+        screen.blit(val, (x + (cell_height / 12), y + (cell_height / 5))) 
+
+        # show properties if last
+        if i == processes_tree_length - 1:
+            # show properties
+            screen.blit(font.render("[player_id] " + process.get("player_id"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 0))
+            screen.blit(font.render("[process_id] " + process.get("process_id"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 20))
+            screen.blit(font.render("[carry] " + process.get("carry"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 40))
+            # show registers
+            registers = process.find(".//registers")
+            screen.blit(font.render("[REG_0] " + registers.get("r1"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 100))
+            screen.blit(font.render("[REG_1] " + registers.get("r2"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 120))
+            screen.blit(font.render("[REG_2] " + registers.get("r3"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 140))
+            screen.blit(font.render("[REG_3] " + registers.get("r4"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 160))
+            screen.blit(font.render("[REG_4] " + registers.get("r5"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 180))
+            screen.blit(font.render("[REG_5] " + registers.get("r6"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 200))
+            screen.blit(font.render("[REG_6] " + registers.get("r7"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 220))
+            screen.blit(font.render("[REG_7] " + registers.get("r8"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 240))
+            screen.blit(font.render("[REG_8] " + registers.get("r9"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 260))
+            screen.blit(font.render("[REG_9] " + registers.get("r10"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 280))
+            screen.blit(font.render("[REG_A] " + registers.get("r11"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 300))
+            screen.blit(font.render("[REG_B] " + registers.get("r12"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 320))
+            screen.blit(font.render("[REG_C] " + registers.get("r13"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 340))
+            screen.blit(font.render("[REG_D] " + registers.get("r14"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 360))
+            screen.blit(font.render("[REG_E] " + registers.get("r15"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 380))
+            screen.blit(font.render("[REG_F] " + registers.get("r16"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 400))
+
+
+####################################################################
 # MAIN
 ####################################################################
 
 
-def draw_memory(memory_tree):
-    print('draw_memory')
-    size = int(memory_tree.get('size'))
-    ceils = memory_tree.text.split(',')
-
-    side = int(math.ceil(math.sqrt(size)))
-    ceil_height = int(HEIGHT / side)
-    font = pygame.font.SysFont("Arial", ceil_height)
-
-    i = 0
-    while i < len(ceils) - 1:
-        val = ceils[i]
-        id = int(ceils[i + 1])
-        x = (int(i / 2) % side) * ceil_height
-        y = int(int(i / 2) / side) * ceil_height
-        print('x', x)
-        print('y', y)
-        print('ceil_height', ceil_height)
-
-        val = font.render(val, True, BLACK)
-        print("id:", id)
-        pygame.draw.rect(screen, P_COLOR[id], (x, y, ceil_height, ceil_height))
-        screen.blit(val, (x + (ceil_height / 12), y + (ceil_height / 5)))
-        i += 2
-
 line = ''
-
 while carryOn:
-
-    # First, clear the screen to white.
-    screen.fill(BLACK)
-
     for event in pygame.event.get(): # User did something
         if event.type == pygame.QUIT: # If user clicked close
             carryOn = False # Flag that we are done so we exit this loop
@@ -135,27 +213,37 @@ while carryOn:
             except EOFError:
                 break
             line = str(line)
-            corewar_src += line
+            if (line == '<corewar>'):
+                SAVE_XML = 1
+            if SAVE_XML == 1:
+                corewar_src += line
             # check if end of file
             if line == '</corewar>':
+                SAVE_XML = 0
                 break
             if line == '<end_reached/>':
                 END_REACHED = 1
-        print('this is the end...')
 
     if END_REACHED == 0:
-        print(corewar_src)
         corewar_src_tree = etree.fromstring(corewar_src)
-    memory_tree = corewar_src_tree.find(".//memory")
-    #print(etree.tostring(memory_tree, encoding='UTF-8'))
-    draw_memory(memory_tree)
 
-    # --- Go ahead and update the screen with what we've drawn.
+    # First, clear the screen to white.
+    screen.fill(BLACK)
+
+    # Draw memory grid
+    memory_tree = corewar_src_tree.find(".//memory")
+    cells, size, side, cell_height = get_cells(memory_tree)
+    draw_memory(memory_tree, cells, size, side, cell_height)
+
+    # Draw processes
+    processes_tree = corewar_src_tree.find(".//processes")
+    draw_processes(processes_tree, cells, cell_height)
+
+    # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
 
-    # --- Limit to 60 frames per second
-    clock.tick(60)
+    # Limit to 60 frames per second.
+    clock.tick(120)
 
-#Once we have exited the main program loop we can stop the game engine:
+#Once we have exited the main program loop we can stop the game engine.
 pygame.quit()
-print('... my friend')

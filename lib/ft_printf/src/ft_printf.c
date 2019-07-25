@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 18:22:40 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/04/11 14:18:06 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/25 00:23:38 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,19 @@ static int		ft_find_format(t_config *conf, const char *format, int i)
 	j = 0;
 	while (format[i] != '%' && format[i] != '{' && format[i] != 0)
 	{
-		ft_addbuff(conf, format[i++]);
-		j++;
+		if (format[i] == '\t' && format[i + 1] == '\t')
+		{
+			while (format[i] == '\t')
+			{
+				i++;
+				j++;
+			}
+		}
+		else
+		{
+			ft_addbuff(conf, format[i++]);
+			j++;
+		}
 	}
 	return (j);
 }

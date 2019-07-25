@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/12 00:50:01 by fdagbert          #+#    #+#             */
-/*   Updated: 2018/09/03 19:54:53 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/24 21:11:17 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static const t_effects		g_effects[] = {
 	{"{BKMAG}", "\033[45m", 5},
 	{"{BKCYA}", "\033[46m", 5},
 	{"{BKWHI}", "\033[47m", 5},
+	{"{CLEAR}", "\e[3J\e[H\e[2J", 11},
 	{NULL, NULL, 0}
 };
 
@@ -56,7 +57,8 @@ int			ft_text_effects(t_config *conf, const char *str)
 			if (g_effects[i].keys[j] == '\0')
 			{
 				ft_addbuff(conf, 0);
-				write(1, g_effects[i].code, g_effects[i].len);
+				if ((write(1, g_effects[i].code, g_effects[i].len)) < 0)
+					return (-1);
 				return (j);
 			}
 		}

@@ -6,13 +6,13 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/24 16:06:36 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/24 21:43:58 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COREWAR_H
 # define COREWAR_H
-# define D_OPT_MAX			10
+# define D_OPT_MAX			11
 # define D_OP_MAX			16
 # define D_DEBUG_SIZE		64
 # define D_MAN_PATH			"./src/man/man_cor"

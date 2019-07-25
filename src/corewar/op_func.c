@@ -6,11 +6,10 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/07/24 17:44:51 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/25 17:15:52 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "corewar.h"
 
 typedef unsigned int uint;
@@ -89,11 +88,10 @@ int		c_live(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf)
 	process = get_process_by_id(conf->first_process, pid);
 	//get_args(process->pc, ocp, &args, 1);
 	(void)ocp;
-	conf->players[champ_id]->nb_live += 1;
+	conf->players[champ_id]->nb_live++;
+	conf->nb_live++;
+	process->nb_live++;
 	conf->last_live = champ_id;
-	conf->nb_live += 1;
-	conf->last_live = champ_id;
-	process->nb_live += 1;
 	//printf("function called: \"%s\" by process %d\n", "live", pid);
 	//printf("%s ( %d ), a été raporter comme étant en vie.", conf->players[champ_id]->name, args[0]);
 	return (1);
@@ -103,11 +101,12 @@ int		c_ld(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf)
 {
 	t_process	*process;
 
-	//ft_printf("arg1:%d, arg2:%d, arg3:%d, arg4:%d\n", args[0], args[1], args[2], args[3]);
+	ft_printf("arg1:%d, arg2:%d, arg3:%d, arg4:%d\n", args[0], args[1], args[2], args[3]);
 	process = get_process_by_id(conf->first_process, pid);
-	get_args(process->pc, ocp, &args, 1);
-	process->reg[args[1]] = conf->grid[args[0]]->val;
-	process->carry = (!conf->grid[args[0]]->val) ? 1 : 0;
+	//get_args(process->pc, ocp, &args, 1);
+	(void)ocp;
+	process->reg[args[1] - 1] = args[0];
+	process->carry = (!args[0]) ? 1 : 0;
 	//printf("function called: \"%s\" by process %d\n", "ld", pid);
 	return (1);
 }
@@ -189,14 +188,20 @@ int		c_zjump(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf)
 {
 	t_process	*process;
 
-	//ft_printf("arg1:%d, arg2:%d, arg3:%d, arg4:%d\n", args[0], args[1], args[2], args[3]);
+	//ft_printf("arg1:%d arg2:%d, arg3:%d, arg4:%d\n", args[0], args[1], args[2], args[3]);
 	process = get_process_by_id(conf->first_process, pid);
 	//get_args(process->pc, ocp, &args, 1);
 	(void)ocp;
-	process->pc = (process->carry) ? (unsigned int)args[0] : process->pc;
+	//process->pc = (process->carry) ? (unsigned int)args[0] : process->pc;
 	//int args[4] --> unsigned char fct_args[4]
 	//process->pc --> unsigned int
-	return (0);
+	if (process->carry == 1)
+	{
+		process->pc += args[0];
+		return (0);
+	}
+	else
+		return (1);
 }
 
 int		c_ldi(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf)

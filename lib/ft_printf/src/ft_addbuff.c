@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/05 00:16:18 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/04/01 21:55:56 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/24 21:01:19 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void		ft_printbuff(t_config *conf, size_t size)
 {
-	write(conf->fd, conf->buff, size);
+	if ((write(conf->fd, conf->buff, size)) < 0)
+		conf->ret = -1;
 	ft_bzero(conf->buff, D_BUFF_SIZE + 1);
 	conf->ret += size;
 }

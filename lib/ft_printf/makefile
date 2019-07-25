@@ -6,7 +6,7 @@
 #    By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 17:34:44 by fdagbert          #+#    #+#              #
-#    Updated: 2019/04/11 14:41:55 by fdagbert         ###   ########.fr        #
+#    Updated: 2019/07/24 20:57:49 by fdagbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ INCLUDES = $(LIBFT_PATH)/$(INC_PATH) $(INC_PATH)
 INC_CC = $(foreach DIR,$(INCLUDES),-I$(DIR))
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -Ofast
 
 .PHONY: all, clean, fclean, re, lib
 
