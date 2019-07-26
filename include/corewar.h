@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/24 21:43:58 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/26 15:06:11 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define D_MAN_PATH			"./src/man/man_cor"
 # define D_HEAD_SIZE		16 + PROG_NAME_LENGTH + COMMENT_LENGTH
 # define D_BIN_MAX_SIZE		CHAMP_MAX_SIZE + D_HEAD_SIZE
+# define D_CLEAR_TRICK		1
 
 # include "ft_printf.h"
 # include "op.h"
@@ -61,13 +62,13 @@ typedef struct			s_process
 	unsigned int		id_champ;
 	unsigned int		nb_live;
 	unsigned int		reg[REG_NUMBER];
-	unsigned int		pc;
+	int					pc;
 	unsigned int		cycle_to_wait;
 	t_bool				carry;
 	unsigned char		op_code;
 	unsigned char		ocp;
-	int					fct_args[4];
 	unsigned int		args_size;
+	int					fct_args[4];
 	t_ocp				ocp_split;
 	struct s_process	*next;
 }						t_process;
@@ -76,7 +77,7 @@ typedef struct			s_conf
 {
 	int					opt[D_OPT_MAX + 1];
 	unsigned int		dump;
-	unsigned int		nb_player;
+	unsigned int		nb_players;
 	unsigned int		nb_process;
 	unsigned int		total_process;
 	unsigned int		nb_live;
@@ -90,27 +91,26 @@ typedef struct			s_conf
 	t_cell				*grid[MEM_SIZE];
 	t_process			*first_process;
 	const t_op			*op_tab;
-	int				(*op_funcs[16]) (unsigned int pid, t_ocp ocp, int args[4], struct s_conf *conf); //added
+	int					(*op_funcs[16])(t_process *process, struct s_conf *conf); //added
 }						t_conf;
 
-int						c_live(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_ld(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_st(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_add(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_sub(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_and(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_or(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_xor(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_zjump(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_ldi(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_sti(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_fork(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_lld(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_lldi(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_lfork(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
-int						c_aff(unsigned int pid, t_ocp ocp, int args[4], t_conf *conf); //added
+int						c_live(t_process *process, t_conf *conf); //added
+int						c_ld(t_process *process, t_conf *conf); //added
+int						c_st(t_process *process, t_conf *conf); //added
+int						c_add(t_process *process, t_conf *conf); //added
+int						c_sub(t_process *process, t_conf *conf); //added
+int						c_and(t_process *process, t_conf *conf); //added
+int						c_or(t_process *process, t_conf *conf); //added
+int						c_xor(t_process *process, t_conf *conf); //added
+int						c_zjump(t_process *process, t_conf *conf); //added
+int						c_ldi(t_process *process, t_conf *conf); //added
+int						c_sti(t_process *process, t_conf *conf); //added
+int						c_fork(t_process *process, t_conf *conf); //added
+int						c_lld(t_process *process, t_conf *conf); //added
+int						c_lldi(t_process *process, t_conf *conf); //added
+int						c_lfork(t_process *process, t_conf *conf); //added
+int						c_aff(t_process *process, t_conf *conf); //added
 
-void					ft_init_op(t_conf *conf);
 void					ft_init_op(t_conf *conf);
 int						ft_champion_parser(t_champ *champ, t_conf *conf);
 int						ft_init_arena(t_champ *champ, t_conf *conf);

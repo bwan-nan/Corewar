@@ -6,7 +6,7 @@
 #    By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 17:34:44 by fdagbert          #+#    #+#              #
-#    Updated: 2019/07/23 17:13:26 by fdagbert         ###   ########.fr        #
+#    Updated: 2019/07/26 05:18:00 by fdagbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ COR_FCT = op.c						\
 		  ft_launch_arena.c			\
 		  ft_end.c					\
 		  ft_clean.c				\
-		  op_func.c					\
+		  ft_op_func.c				\
 		  main.c
 COR_SRC = $(addprefix $(SRC_COR_PATH)/,$(COR_FCT))
 

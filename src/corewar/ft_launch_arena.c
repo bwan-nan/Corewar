@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/25 17:20:33 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/26 15:04:12 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ static void		ft_print_grid(t_conf *conf)
 	{
 		while (i < 200000000) //tempo pour la vitesse de l'affichage
 			i++;
-		write(1, "\e[3J\e[H\e[2|", 11); //trick
+		if (D_CLEAR_TRICK)
+			write(1, "\e[3J\e[H\e[2|", 11); //trick
+		else
+			ft_printf("{CLEAR}");
 		i = 0;
 	}
 	while (i < MEM_SIZE)
@@ -68,7 +71,7 @@ static void		ft_print_xml(t_conf *conf)
 	process = conf->first_process;
 	ft_printf("<corewar>\n<players>");
 	i = 1;
-	while (i <= conf->nb_player)
+	while (i <= conf->nb_players)
 	{
 		ft_printf("<player id=\"%u\" name=\"%s\" />", i, conf->players[i]->name);
 		i++;
@@ -140,7 +143,7 @@ static void		ft_print_all_process(t_process *process, t_conf *conf)
 	}
 	ft_printf("\n");
 	i = 1;
-	while (i <= conf->nb_player)
+	while (i <= conf->nb_players)
 	{
 		if (conf->players[i])
 			ft_printf("Player %u, nb_process:%u\n", i,
@@ -255,7 +258,7 @@ static int				ft_check_args_size(t_process *process, t_conf *conf)
 		process->args_size++;
 		pc++;
 		process->ocp = conf->grid[pc]->val;
-		ft_printf("PC:%u OCP :%b\n", pc, process->ocp);
+		//ft_printf("PC:%u OCP :%b\n", pc, process->ocp);
 		process->ocp = process->ocp & 0xFF;
 		process->ocp_split.arg1 = process->ocp >> 6;
 		process->ocp = process->ocp & 0x3F;
@@ -264,7 +267,7 @@ static int				ft_check_args_size(t_process *process, t_conf *conf)
 		process->ocp_split.arg3 = process->ocp >> 2;
 		process->ocp = process->ocp & 0x03;
 		process->ocp_split.arg4 = process->ocp;
-		ft_printf("OCP SPLIT:%x %x %x %x\n", process->ocp_split.arg1, process->ocp_split.arg2, process->ocp_split.arg3, process->ocp_split.arg4);
+		//ft_printf("OCP SPLIT:%x %x %x %x\n", process->ocp_split.arg1, process->ocp_split.arg2, process->ocp_split.arg3, process->ocp_split.arg4);
 		pc++;
 		if (ft_check_ocp_split(pc, process->ocp_split, process, conf) < 0)
 			return (-17);
@@ -272,27 +275,27 @@ static int				ft_check_args_size(t_process *process, t_conf *conf)
 	else
 	{
 		process->args_size = conf->op_tab[process->op_code].dir_size + 1;
-		ft_printf("arg_size: %u\n", process->args_size);
+		//ft_printf("arg_size: %u\n", process->args_size);
 
 		pc++;
-		ft_printf("val:%x\n", conf->grid[pc]->val);
+		//ft_printf("val:%x\n", conf->grid[pc]->val);
 		ft_memcpy(&process->fct_args[0], &conf->grid[pc]->val, 1);
 
 		process->fct_args[0] = process->fct_args[0] << 8;
 		pc++;
-		ft_printf("val:%x\n", conf->grid[pc]->val);
+		//ft_printf("val:%x\n", conf->grid[pc]->val);
 		ft_memcpy(&process->fct_args[0], &conf->grid[pc]->val, 1);
 
 		if (process->args_size == 5)
 		{
 			process->fct_args[0] = process->fct_args[0] << 8;
 			pc++;
-			ft_printf("val:%x\n", conf->grid[pc]->val);
+			//ft_printf("val:%x\n", conf->grid[pc]->val);
 			ft_memcpy(&process->fct_args[0], &conf->grid[pc]->val, 1);
 
 			process->fct_args[0] = process->fct_args[0] << 8;
 			pc++;
-			ft_printf("val:%x\n", conf->grid[pc]->val);
+			//ft_printf("val:%x\n", conf->grid[pc]->val);
 			ft_memcpy(&process->fct_args[0], &conf->grid[pc]->val, 1);
 		}
 		else if (process->args_size == 3)
@@ -366,6 +369,9 @@ static void		ft_check_cycle_to_die(t_conf *conf)
 
 int				ft_launch_arena(t_process *process, t_conf *conf)
 {
+	int		ret;
+
+	ret = 0;
 	if (conf->opt[8] && conf->opt[10])
 		ft_printf("{CLEAR}");
 	if (conf->opt[8] && !conf->opt[0])
@@ -396,8 +402,9 @@ int				ft_launch_arena(t_process *process, t_conf *conf)
 						ft_printf("Process %u from player %u executed.\n",
 								process->id_proc, process->id_champ);
 					ft_print_process(process, conf);
-					ft_printf("arg[0]:%u, arg[1]:%u, arg[2]:%u, arg[3]:%u\n", process->fct_args[0], process->fct_args[1], process->fct_args[2], process->fct_args[3]);
-					if (conf->op_funcs[process->op_code](conf->grid[process->pc]->pid, process->ocp_split, process->fct_args, conf))
+					if ((ret = conf->op_funcs[process->op_code](process, conf)) < 0)
+						return (-1);
+					else if (ret)
 						process->pc = (process->pc + process->args_size) % MEM_SIZE;
 				}
 				conf->grid[process->pc]->pc = process->id_champ;

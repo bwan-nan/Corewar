@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/24 21:43:32 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/26 05:17:22 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void			op_funcs_init(t_conf *conf) //added
 static void		ft_init_conf(int i, t_conf *conf)
 {
 	conf->dump = 0;
-	conf->nb_player = 0;
+	conf->nb_players = 0;
 	conf->nb_process = 0;
 	conf->total_process = 0;
 	conf->nb_live = 0;
@@ -145,7 +145,7 @@ static int		ft_create_player(char *argv, t_champ *champ, t_conf *conf)
 			return (-1);
 		champ = champ->next;
 	}
-	champ->id = ++conf->nb_player;
+	champ->id = ++conf->nb_players;
 	ft_init_player(argv, champ);
 	return (0);
 }
@@ -231,9 +231,9 @@ static int		ft_init_fd(t_champ *champ, t_conf *conf)
 		conf->players[champ->id] = champ;
 		champ = champ->next;
 	}
-	if (!conf->nb_player)
+	if (!conf->nb_players)
 		return (-5);
-	if (conf->nb_player > MAX_PLAYERS)
+	if (conf->nb_players > MAX_PLAYERS)
 		return (-6);
 	return (0);
 }
