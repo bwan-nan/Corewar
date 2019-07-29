@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 13:44:17 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/29 18:41:49 by pimichau         ###   ########.fr       */
+/*   Updated: 2019/07/29 18:51:19 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,14 @@ static char		*get_first_word(char *str, int *len)
 {
 	char	*start;
 	int		i;
-	int		index;
-	int		check; 
 
 	i = 0;
-	check = 1;
 	*len = 0;
-	index = ft_strchr_index(str, ':');
-	if (!index)
-		return (0);
 	while (ft_iswhitespace(str[i]))
 		i++;
 	start = &str[i];
-	while (i < index)
-	{
-		if (!ft_strchr(LABEL_CHARS, str[i++]))
-			break;
+	while (str[i] && ft_strchr(LABEL_CHARS, str[i++]))
 		(*len)++;
-	}
 	return (start);
 }
 
