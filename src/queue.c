@@ -6,13 +6,13 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 13:47:18 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 15:23:59 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/29 15:27:18 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void	fill_queue(t_asm *glob)
+int		fill_queue(t_asm *glob)
 {
 	t_list		*elem;
 	t_label		*parent;
@@ -36,6 +36,7 @@ void	fill_queue(t_asm *glob)
 		*(((t_queue *)elem->content)->to_complete) = *byte;
 		elem = elem->next;
 	}
+	return (1);
 }
 
 int		add_to_queue(t_asm *glob, t_input *input

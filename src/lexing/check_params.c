@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 15:05:52 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 15:12:12 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/29 16:42:13 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		check_register(t_asm *glob, t_input *input, char *str)
 {
 	if (ft_strlen(str) > 3 || !str[1] || !ft_isdigits(&str[1]))
-		return (print_error(SYNTAX_ERROR, input->line_number));
+		return (0);
 	update_ocp(glob, input, T_REG);
 	*(glob->ptr++) = ft_atoi(str + 1);
 	glob->byte_nbr++;
@@ -30,7 +30,7 @@ int		check_direct(t_asm *glob, t_input *input, char *str)
 	if (str[1] == ':')
 	{
 		if (!str[2] || !(label = is_label(&str[2], glob->labels)))
-			return (print_error(SYNTAX_ERROR, input->line_number));
+			return (0);
 		add_to_queue(glob, input, label, T_DIR);
 	}
 	else if (str[1] && ft_isnumber(&str[1]))
@@ -39,7 +39,7 @@ int		check_direct(t_asm *glob, t_input *input, char *str)
 		write_binary(glob, input->op_index, (char *)(&address), T_DIR);
 	}
 	else
-		return (print_error(SYNTAX_ERROR, input->line_number));
+		return (0);
 	update_ocp(glob, input, T_DIR);
 	glob->byte_nbr += (input->op_index < 8 || input->op_index == 12) ? 4 : 2;
 	return (1);
@@ -54,7 +54,7 @@ int		check_indirect(t_asm *glob, t_input *input, char *str)
 	if (str[0] == ':')
 	{
 		if (!(label = is_label(&str[1], glob->labels)))
-			return (print_error(SYNTAX_ERROR, input->line_number));
+			return (0);
 		add_to_queue(glob, input, label, T_IND);
 	}
 	else if (str[0] && (ret = ft_isnumber(str)))
@@ -63,7 +63,7 @@ int		check_indirect(t_asm *glob, t_input *input, char *str)
 		write_binary(glob, input->op_index, (char *)(&address), T_IND);
 	}
 	else
-		return (print_error(SYNTAX_ERROR, input->line_number));
+		return (0);
 	update_ocp(glob, input, T_IND);
 	glob->byte_nbr += 2;
 	return (1);
@@ -78,7 +78,7 @@ int		check_param(t_asm *glob, char *str, char type, t_input *input)
 	else if (type & T_IND)
 		return (check_indirect(glob, input, str));
 	else
-		return (print_error(SYNTAX_ERROR, input->line_number));
+		return (0);
 	return (1);
 }
 

@@ -1,2 +1,2 @@
-.name "stayin' alive
+.name "stayin' alive"
 .comment "Ha, Ha, Ha, stayiiiiin' aliiiiiiiiiive

@@ -92,4 +92,4 @@ avdef:
 	st			r2, 400
 	st			r2, 400
 	st			r2, 400
-	st			r2, %100
+	live %1 %1

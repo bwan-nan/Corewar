@@ -6,7 +6,7 @@
 /*   By: pimichau <pimichau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 11:39:04 by pimichau          #+#    #+#             */
-/*   Updated: 2019/07/25 17:09:42 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/29 17:00:27 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@
 # define EMPTY_FILE				"Empty file."
 # define SYNTAX_ERROR			"Syntax error"
 # define LEXICAL_ERROR			"Lexical error"
-# define INVALID_INSTRUCTION	"Invalid instruction"
+# define INVALID_INSTRUCTION	"Invalid instruction or params"
 # define INVALID_LABEL			"Invalid label definition"
-# define MISSING_NAME			"Missing progam name."
-# define MISSING_COMMENT		"Missing program comment."
+# define MISSING_NAME			"Missing or incomplete program name."
+# define MISSING_COMMENT		"Missing or incomplete program comment."
+# define NO_INST				"Missing instructions."
 
 typedef struct		s_op
 {
@@ -98,7 +99,7 @@ int					check_header(t_asm *glob, t_list **input);
 char				**custom_split(char **tab);
 int					add_to_queue(t_asm *glob, t_input *input
 					, t_label *label, int type);
-void				fill_queue(t_asm *glob);
+int					fill_queue(t_asm *glob);
 void				reorder_list(t_list **list);
 int					create_cor_file(t_asm *glob, char *file);
 

@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 16:52:04 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 16:52:59 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/29 16:26:15 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	update_status(char *type, int *status)
 
 int		header_status(int status)
 {
+	if (status == 7)
+		return (1);
 	if (status == 0 || status == 2 || status == 3 || status == 5)
 		return (print_error(MISSING_NAME, 0));
 	return (print_error(MISSING_COMMENT, 0));

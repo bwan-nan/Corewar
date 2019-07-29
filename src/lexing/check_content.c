@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 13:44:17 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 16:37:19 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/29 18:22:56 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,24 @@ static char		*get_first_word(char *str, int *len)
 {
 	char	*start;
 	int		i;
+	int		index;
+	int		check; 
 
 	i = 0;
+	check = 1;
 	*len = 0;
+	index = ft_strchr_index(str, ':');
+	if (!index)
+		return (0);
 	while (ft_iswhitespace(str[i]))
 		i++;
 	start = &str[i];
-	while (str[i] && ft_strchr(LABEL_CHARS, str[i++]))
+	while (i < index)
+	{
+		if (!ft_strchr(LABEL_CHARS, str[i]))
+			
 		(*len)++;
+	}
 	return (start);
 }
 
@@ -38,7 +48,7 @@ static int		look_for_instruction(t_asm *glob, t_input *input, char **tab)
 		}
 	}
 	ft_freetab(tab);
-	return (1);
+	return (2);
 }
 
 int				check_content(t_asm *glob, t_input *input, char *line)
@@ -52,7 +62,8 @@ int				check_content(t_asm *glob, t_input *input, char *line)
 	label = NULL;
 	if (glob->current_label)
 		label = glob->current_label->content;
-	first_word = get_first_word(line, &len);
+	if (!(first_word = get_first_word(line, &len)))
+		return (print_error(INVALID_LABEL, input->line_number));
 	if (first_word && first_word[len] == ':')
 	{
 		if (label && !ft_strnequ(first_word, label->name, len))

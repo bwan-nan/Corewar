@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 13:46:46 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 16:55:58 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/29 17:53:24 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ static int		complete_header(t_input *input, int *status)
 		if (!(input->bin = ft_strsub(input->line, 0, quote)))
 			return (0);
 		input->bin_size = ft_strlen(input->bin);
+		if (!check_after_quote(input->line, quote))
+			return (print_error(LEXICAL_ERROR, input->line_number));
 		update_status(&input->type, status);
-		return (check_after_quote(input->line, quote));
+		return (1);
 	}
 	if (!(input->bin = ft_strdup(input->line)))
 		return (0);
@@ -120,5 +122,5 @@ int				check_header(t_asm *glob, t_list **input)
 			break ;
 		*input = (*input)->next;
 	}
-	return (status == 7);
+	return (header_status(status));
 }
