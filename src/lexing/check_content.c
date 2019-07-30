@@ -34,7 +34,7 @@ static int		look_for_instruction(t_asm *glob, t_input *input, char **tab)
 		if (!check_instruction(glob, tab, input))
 		{
 			ft_freetab(tab);
-			return (print_error(INVALID_INSTRUCTION, input->line_number));
+			return (0);
 		}
 	}
 	ft_freetab(tab);
@@ -52,8 +52,7 @@ int				check_content(t_asm *glob, t_input *input, char *line)
 	label = NULL;
 	if (glob->current_label)
 		label = glob->current_label->content;
-	if (!(first_word = get_first_word(line, &len)))
-		return (print_error(INVALID_LABEL, input->line_number));
+	first_word = get_first_word(line, &len);
 	if (first_word && first_word[len] == ':')
 	{
 		if (label && !ft_strnequ(first_word, label->name, len))

@@ -23,6 +23,17 @@ void			write_binary(t_asm *glob, int op_index, char *byte, int type)
 	*(glob->ptr++) = *byte;
 }
 
+static int		check_invalid_label(t_input *input, char **param_tab)
+{
+	if (ft_strchr(param_tab[0], ':'))
+	{
+		ft_freetab(param_tab);
+		return (print_error(INVALID_LABEL, input->line_number));
+	}
+	ft_freetab(param_tab);
+	return (print_error(INVALID_INSTRUCTION, input->line_number));
+}
+
 int				check_instruction(t_asm *glob, char **tab, t_input *input)
 {
 	char			**param_tab;
@@ -33,7 +44,7 @@ int				check_instruction(t_asm *glob, char **tab, t_input *input)
 	if (!(param_tab = custom_split(tab)))
 		return (0);
 	if ((input->op_index = is_instruction(param_tab[0])) == -1)
-		return (ret_freetab(param_tab, 0));
+		return (check_invalid_label(input, param_tab));
 	glob->byte_nbr++;
 	if (!(input->bin = ft_strnew(11)))
 		return (ret_freetab(param_tab, 0));
@@ -44,7 +55,7 @@ int				check_instruction(t_asm *glob, char **tab, t_input *input)
 		glob->ptr++;
 	if (!param_tab[1]
 	|| !check_params(glob, param_tab + 1, g_op_tab[input->op_index], input))
-		return (0);
+		return (print_error(INVALID_PARAMS, input->line_number));
 	input->bin_size = glob->byte_nbr - input->byte_nbr;
 	glob->inst_count += input->bin_size;
 	return (ret_freetab(param_tab, 1));

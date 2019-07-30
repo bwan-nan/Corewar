@@ -70,8 +70,9 @@ int				get_input(t_list **input, char *file)
 {
 	char			*line;
 	int				fd;
-	static int		line_number = 0;
+	int				line_number;
 
+	line_number = 0;
 	fd = open(file, O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{

@@ -14,7 +14,7 @@ if [ ! -f "asm" ] ; then
 	exit -1
 fi
 
-if [ ! -d "$validDirectory" ] && [ ! -d "$invalidDirectory" ] ; then
+if [ ! -d "$validDirectory" ] || [ ! -d "$invalidDirectory" ] ; then
 	./split_files.sh
 fi
 

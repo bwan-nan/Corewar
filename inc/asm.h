@@ -24,11 +24,13 @@
 # define EMPTY_FILE				"Empty file."
 # define SYNTAX_ERROR			"Syntax error"
 # define LEXICAL_ERROR			"Lexical error"
-# define INVALID_INSTRUCTION	"Invalid instruction or params"
+# define INVALID_INSTRUCTION	"Invalid instruction"
 # define INVALID_LABEL			"Invalid label definition"
+# define INVALID_PARAMS			"Invalid parameters definition"
 # define MISSING_NAME			"Missing or incomplete program name."
 # define MISSING_COMMENT		"Missing or incomplete program comment."
 # define NO_INST				"Missing instructions."
+# define MAN_PATH				"src/man/man.txt"
 
 typedef struct		s_op
 {
@@ -127,4 +129,5 @@ void				update_status(char *type, int *status);
 int					header_status(int status);
 
 int					free_program(t_asm *glob, int ret);
+int					is_asm_file(char *name);
 #endif

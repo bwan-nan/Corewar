@@ -42,8 +42,9 @@ int			lexing(t_asm *glob)
 {
 	t_list			*input;
 	char			*line;
-	static int		check = 0;
+	int				check;
 
+	check = 0;
 	input = glob->input;
 	while (input)
 	{

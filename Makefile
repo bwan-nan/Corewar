@@ -66,6 +66,7 @@ SRC += queue.c
 SRC += reorder_list.c
 SRC += create_cor_file.c
 SRC += free_program.c
+SRC += is_asm_file.c
 
 
 DSYM = $(NAME).dSYM

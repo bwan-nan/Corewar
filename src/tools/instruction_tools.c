@@ -47,22 +47,22 @@ int		ft_isnumber(char *str)
 	static int				call = 0;
 
 	if (!str || (*str == '-' && call > 0))
-		return (0);
+		return ((call = 0));
 	else if (*str == '-' && call++ == 0)
 		return (ft_isnumber(str + 1));
 	i = -1;
 	while (str[++i])
 		if (!ft_isdigit(str[i]))
-			return (0);
+			return ((call = 0));
 	if (i > 20)
-		return (0);
+		return ((call = 0));
 	if (i == 20)
 	{
 		ft_strcpy(cpy, str);
 		if ((nb = ft_atoull(cpy)) > 1844674407370955161)
-			return (0);
+			return ((call = 0));
 		else if (nb == 1844674407370955161 && str[19] > '5')
-			return (0);
+			return ((call = 0));
 	}
 	return (!(call = 0));
 }
