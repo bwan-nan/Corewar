@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2019/07/26 05:22:27 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/30 14:41:47 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define REG_NUMBER				16
 
-# define REG_SIZE				4 // 1 ?
+# define REG_SIZE				4
 # define DIR_SIZE				4
 # define IND_SIZE				2
 
@@ -71,13 +71,12 @@ typedef struct					s_op
 	int							dir_size;
 }								t_op;
 
-/*
-typedef struct		s_header
+typedef struct					s_header
 {
-  unsigned int		magic;
-  char				prog_name[PROG_NAME_LENGTH + 1];
-  unsigned int		prog_size;
-  char				comment[COMMENT_LENGTH + 1];
-}					t_header;
-*/
+	unsigned int				magic;
+	char						prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int				prog_size;
+	char						comment[COMMENT_LENGTH + 1];
+}								t_header;
+
 #endif

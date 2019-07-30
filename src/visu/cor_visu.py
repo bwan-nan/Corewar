@@ -103,6 +103,13 @@ pygame.init()
 size = (WIDTH, HEIGHT)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("ULTIMATE VISUALIZER TM - [ESCAPE]:quit")
+icon = pygame.image.load('corewar_ico.jpg')
+pygame.display.set_icon(icon)
+
+#Sounds and musics
+#click_sound = pygame.mixer.Sound('*.wav')
+music = pygame.mixer.music.load('Pictures Of Purple Skies.mp3')
+pygame.mixer.music.play(-1)
 
 # The loop will carry on until the user exit the game (e.g. clicks the close button).
 carryOn = True
@@ -126,7 +133,8 @@ def get_cells(memory_tree):
 
 
 def draw_memory(memory_tree, cells, size, side, cell_height):
-    font = pygame.font.SysFont("Arial", cell_height)
+    #font = pygame.font.SysFont("Arial", cell_height)
+    font = pygame.font.Font('NEON CLUB MUSIC.otf', int(cell_height / 2))
 
     i = 0
     while i < len(cells) - 1:
@@ -140,9 +148,33 @@ def draw_memory(memory_tree, cells, size, side, cell_height):
         screen.blit(val, (x + (cell_height / 12), y + (cell_height / 5)))
         i += 2
 
+def draw_properties(process, color, x_start, y_start):
+    # show properties
+    screen.blit(font.render("[player_id] " + process.get("player_id"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 0))
+    screen.blit(font.render("[process_id] " + process.get("process_id"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 20))
+    screen.blit(font.render("[carry] " + process.get("carry"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 40))
+    # show registers
+    registers = process.find(".//registers")
+    screen.blit(font.render("[REG_0] " + registers.get("r1"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 100))
+    screen.blit(font.render("[REG_1] " + registers.get("r2"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 120))
+    screen.blit(font.render("[REG_2] " + registers.get("r3"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 140))
+    screen.blit(font.render("[REG_3] " + registers.get("r4"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 160))
+    screen.blit(font.render("[REG_4] " + registers.get("r5"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 180))
+    screen.blit(font.render("[REG_5] " + registers.get("r6"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 200))
+    screen.blit(font.render("[REG_6] " + registers.get("r7"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 220))
+    screen.blit(font.render("[REG_7] " + registers.get("r8"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 240))
+    screen.blit(font.render("[REG_8] " + registers.get("r9"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 260))
+    screen.blit(font.render("[REG_9] " + registers.get("r10"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 280))
+    screen.blit(font.render("[REG_A] " + registers.get("r11"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 300))
+    screen.blit(font.render("[REG_B] " + registers.get("r12"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 320))
+    screen.blit(font.render("[REG_C] " + registers.get("r13"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 340))
+    screen.blit(font.render("[REG_D] " + registers.get("r14"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 360))
+    screen.blit(font.render("[REG_E] " + registers.get("r15"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 380))
+    screen.blit(font.render("[REG_F] " + registers.get("r16"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 400))
 
 def draw_processes(processes_tree, cells, cell_height):
-    font = pygame.font.SysFont("Arial", 18)
+    #font = pygame.font.SysFont("Arial", 18)
+    font = pygame.font.Font('NEON CLUB MUSIC.otf', 18)
 
     processes_tree_length = len(processes_tree)
     for i in range(processes_tree_length):
@@ -156,42 +188,23 @@ def draw_processes(processes_tree, cells, cell_height):
         x = (int(current_pos * 2 / 2) % side) * cell_height
         y = int(int(current_pos * 2 / 2) / side) * cell_height
 
-        font2 = pygame.font.SysFont("Arial", cell_height)
+        #font2 = pygame.font.SysFont("Arial", cell_height)
+        font2 = pygame.font.Font('NEON CLUB MUSIC.otf', int(cell_height / 2))
         val = font2.render(val, True, BLACK)
         pygame.draw.rect(screen, WHITE, (x, y, cell_height, cell_height))
         screen.blit(val, (x + (cell_height / 12), y + (cell_height / 5))) 
-
-        # show properties if last
-        if i == processes_tree_length - 1:
-            # show properties
-            screen.blit(font.render("[player_id] " + process.get("player_id"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 0))
-            screen.blit(font.render("[process_id] " + process.get("process_id"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 20))
-            screen.blit(font.render("[carry] " + process.get("carry"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 40))
-            # show registers
-            registers = process.find(".//registers")
-            screen.blit(font.render("[REG_0] " + registers.get("r1"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 100))
-            screen.blit(font.render("[REG_1] " + registers.get("r2"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 120))
-            screen.blit(font.render("[REG_2] " + registers.get("r3"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 140))
-            screen.blit(font.render("[REG_3] " + registers.get("r4"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 160))
-            screen.blit(font.render("[REG_4] " + registers.get("r5"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 180))
-            screen.blit(font.render("[REG_5] " + registers.get("r6"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 200))
-            screen.blit(font.render("[REG_6] " + registers.get("r7"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 220))
-            screen.blit(font.render("[REG_7] " + registers.get("r8"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 240))
-            screen.blit(font.render("[REG_8] " + registers.get("r9"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 260))
-            screen.blit(font.render("[REG_9] " + registers.get("r10"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 280))
-            screen.blit(font.render("[REG_A] " + registers.get("r11"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 300))
-            screen.blit(font.render("[REG_B] " + registers.get("r12"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 320))
-            screen.blit(font.render("[REG_C] " + registers.get("r13"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 340))
-            screen.blit(font.render("[REG_D] " + registers.get("r14"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 360))
-            screen.blit(font.render("[REG_E] " + registers.get("r15"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 380))
-            screen.blit(font.render("[REG_F] " + registers.get("r16"), True, WHITE), (HEIGHT + 100, HEIGHT / 2 - 200 + 400))
+        
+        # show properties
+        x_start = 1118
+        y_start = 268 + i * 145
+        #draw_properties(process, P_COLOR[pid], x_start, y_start)
 
 
 ####################################################################
 # MAIN
 ####################################################################
 
-
+bg_2 = pygame.image.load("corewar_background_r2.jpg")
 line = ''
 while carryOn:
     for event in pygame.event.get(): # User did something
@@ -229,6 +242,7 @@ while carryOn:
 
     # First, clear the screen to white.
     screen.fill(BLACK)
+    screen.blit(bg_2, (0, 0))
 
     # Draw memory grid
     memory_tree = corewar_src_tree.find(".//memory")

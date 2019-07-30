@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/26 15:06:11 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/30 17:08:30 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define COREWAR_H
 # define D_OPT_MAX			11
 # define D_OP_MAX			16
-# define D_DEBUG_SIZE		64
+# define D_CLEAR_TRICK		1
+# define D_GRID_SIZE		64
 # define D_MAN_PATH			"./src/man/man_cor"
 # define D_HEAD_SIZE		16 + PROG_NAME_LENGTH + COMMENT_LENGTH
 # define D_BIN_MAX_SIZE		CHAMP_MAX_SIZE + D_HEAD_SIZE
-# define D_CLEAR_TRICK		1
 
 # include "ft_printf.h"
 # include "op.h"
@@ -43,7 +43,7 @@ typedef struct			s_champ
 
 typedef struct			s_cell
 {
-	unsigned int		val;
+	unsigned char		val;
 	unsigned int		pid;
 	unsigned int		pc;
 }						t_cell;
@@ -69,7 +69,7 @@ typedef struct			s_process
 	unsigned char		ocp;
 	unsigned int		args_size;
 	int					fct_args[4];
-	t_ocp				ocp_split;
+	t_ocp				ocp_splitted;
 	struct s_process	*next;
 }						t_process;
 
@@ -91,31 +91,49 @@ typedef struct			s_conf
 	t_cell				*grid[MEM_SIZE];
 	t_process			*first_process;
 	const t_op			*op_tab;
-	int					(*op_funcs[16])(t_process *process, struct s_conf *conf); //added
+	int					(*op_inst[D_OP_MAX])(t_process *process,
+							struct s_conf *conf);
 }						t_conf;
 
-int						c_live(t_process *process, t_conf *conf); //added
-int						c_ld(t_process *process, t_conf *conf); //added
-int						c_st(t_process *process, t_conf *conf); //added
-int						c_add(t_process *process, t_conf *conf); //added
-int						c_sub(t_process *process, t_conf *conf); //added
-int						c_and(t_process *process, t_conf *conf); //added
-int						c_or(t_process *process, t_conf *conf); //added
-int						c_xor(t_process *process, t_conf *conf); //added
-int						c_zjump(t_process *process, t_conf *conf); //added
-int						c_ldi(t_process *process, t_conf *conf); //added
-int						c_sti(t_process *process, t_conf *conf); //added
-int						c_fork(t_process *process, t_conf *conf); //added
-int						c_lld(t_process *process, t_conf *conf); //added
-int						c_lldi(t_process *process, t_conf *conf); //added
-int						c_lfork(t_process *process, t_conf *conf); //added
-int						c_aff(t_process *process, t_conf *conf); //added
+int						c_check_arg_type(int index1, int index2, int reg3,
+							t_process *process);
+unsigned int			c_modulo_indirect(int val, int pc, int index,
+							t_conf *conf);
+int						c_sum(int index1, int index2, t_process *process);
 
+int						c_live(t_process *process, t_conf *conf);
+int						c_ld(t_process *process, t_conf *conf);
+int						c_st(t_process *process, t_conf *conf);
+int						c_add(t_process *process, t_conf *conf);
+int						c_sub(t_process *process, t_conf *conf);
+int						c_and(t_process *process, t_conf *conf);
+int						c_or(t_process *process, t_conf *conf);
+int						c_xor(t_process *process, t_conf *conf);
+int						c_zjmp(t_process *process, t_conf *conf);
+int						c_ldi(t_process *process, t_conf *conf);
+int						c_sti(t_process *process, t_conf *conf);
+int						c_fork(t_process *process, t_conf *conf);
+int						c_lld(t_process *process, t_conf *conf);
+int						c_lldi(t_process *process, t_conf *conf);
+int						c_lfork(t_process *process, t_conf *conf);
+int						c_aff(t_process *process, t_conf *conf);
+
+void					ft_init_conf(int i, t_conf *conf);
 void					ft_init_op(t_conf *conf);
+int						ft_end(int error, t_conf *conf);
+int						ft_check_args(int argc, char **argv, const char *keys,
+							t_conf *conf);
+int						ft_check_players(char *argv, t_conf *conf);
 int						ft_champion_parser(t_champ *champ, t_conf *conf);
 int						ft_init_arena(t_champ *champ, t_conf *conf);
-int						ft_launch_arena(t_process *process, t_conf *conf);
-int						ft_end(int error, t_conf *conf);
+int						ft_launch_arena(int ret, t_process *process,
+							t_conf *conf);
+int						ft_check_args_size(t_process *process, t_conf *conf);
+void					ft_check_cycle_to_die(t_conf *conf);
+void					ft_print_visu(int step, t_process *process,
+							t_conf *conf);
+void					ft_print_grid(t_conf *conf);
+void					ft_print_xml(t_conf *conf);
 void					ft_clean(t_conf *conf);
 
 #endif

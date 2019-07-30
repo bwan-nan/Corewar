@@ -6,7 +6,7 @@
 #    By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 17:34:44 by fdagbert          #+#    #+#              #
-#    Updated: 2019/07/26 05:18:00 by fdagbert         ###   ########.fr        #
+#    Updated: 2019/07/30 16:56:43 by fdagbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,12 +28,25 @@ FTPRINTF_PATH = $(LIB_PATH)/ft_printf
 
 SRC_COR_PATH = $(SRC_PATH)/$(NAME_COR)
 COR_FCT = op.c						\
+		  ft_init_conf.c			\
+		  ft_end.c					\
+		  ft_check_args.c			\
+		  ft_check_players.c		\
 		  ft_champion_parser.c		\
 		  ft_init_arena.c			\
 		  ft_launch_arena.c			\
-		  ft_end.c					\
+		  ft_check_args_size.c		\
+		  ft_check_cycle_to_die.c	\
+		  ft_print_visu.c			\
+		  ft_print_grid.c			\
+		  ft_print_xml.c			\
 		  ft_clean.c				\
-		  ft_op_func.c				\
+		  c_tools.c					\
+		  c_live_zjmp_aff.c			\
+		  c_ld_st_ldi_sti.c			\
+		  c_add_sub_and_or_xor.c	\
+		  c_fork_lfork.c			\
+		  c_lld_lldi.c				\
 		  main.c
 COR_SRC = $(addprefix $(SRC_COR_PATH)/,$(COR_FCT))
 
