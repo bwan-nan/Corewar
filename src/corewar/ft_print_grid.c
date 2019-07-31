@@ -6,11 +6,27 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 17:10:58 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/30 21:59:20 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+
+static void		ft_print_dump(t_conf *conf)
+{
+	int		i;
+
+	i = 0;
+	ft_printf("0x0000 :");
+	while (i < MEM_SIZE)
+	{
+		ft_printf(" %.2x", conf->grid[i]->val);
+		i++;
+		if (!(i % D_GRID_SIZE) && i != MEM_SIZE)
+			ft_printf("\n%#.4x :", i);
+	}
+	ft_printf("\n");
+}
 
 static void		ft_refresh_grid(t_conf *conf)
 {
@@ -61,19 +77,24 @@ void			ft_print_grid(t_conf *conf)
 	int		i;
 
 	i = 0;
-	ft_refresh_grid(conf);
-	if (!conf->opt[1])
-		ft_printf("{YEL}Cycle:%u{OFF}\n", conf->cycle);
-	while (i < MEM_SIZE)
+	if (conf->opt[0] && conf->cycle == conf->dump)
+		ft_print_dump(conf);
+	else if (!conf->opt[0])
 	{
-		if (conf->grid[i]->pc == 0)
-			ft_print_color(i, conf);
-		else
-			ft_print_invert(i, conf);
-		i++;
-		if (!(i % D_GRID_SIZE))
-			ft_printf("|\n");
+		ft_refresh_grid(conf);
+		if (!conf->opt[1])
+			ft_printf("{YEL}Cycle:%u{OFF}\n", conf->cycle);
+		while (i < MEM_SIZE)
+		{
+			if (conf->grid[i]->pc == 0)
+				ft_print_color(i, conf);
+			else
+				ft_print_invert(i, conf);
+			i++;
+			if (!(i % D_GRID_SIZE))
+				ft_printf("|\n");
+		}
+		if (!conf->opt[10])
+			ft_printf("\n");
 	}
-	if (!conf->opt[10])
-		ft_printf("\n");
 }

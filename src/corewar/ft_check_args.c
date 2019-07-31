@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 15:12:01 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/31 00:32:41 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,39 @@ static int		ft_check_options(char *argv, const char *keys, t_conf *conf)
 
 static int		ft_check_next_arg(char *argv, int opt, t_conf *conf)
 {
-	if (opt == 0)
+	if (!argv || !ft_str_is_numeric(argv))
 	{
-		if (!argv)
+		if (opt == 0)
 			return (-23);
-		if (!ft_str_is_numeric(argv))
-			return (-23);
-		conf->dump = (unsigned int)ft_atoi(argv);
+		else if (opt == 6)
+			conf->force_id = 0;
+		return (1);
 	}
+	if (opt == 0)
+		conf->dump = (unsigned int)ft_atoi(argv);
+	else if (opt == 6)
+		conf->force_id = (unsigned int)ft_atoi(argv);
 	return (0);
+}
+
+static int		ft_check_opt_arg(int i, char **argv, t_conf *conf)
+{
+	int			err;
+
+	err = 0;
+	if (conf->opt[0] && i++)
+	{
+		if ((err = ft_check_next_arg(argv[i], 0, conf)) < 0)
+			return (err);
+	}
+	if (conf->opt[6] && i++)
+	{
+		if ((err = ft_check_next_arg(argv[i], 6, conf)) < 0)
+			return (err);
+		if (err)
+			i--;
+	}
+	return (i);
 }
 
 static int		ft_get_args_type(int i, char **argv, const char *keys,
@@ -62,12 +86,8 @@ static int		ft_get_args_type(int i, char **argv, const char *keys,
 		{
 			if ((err = ft_check_options(argv[i], keys, conf)) < 0)
 				return (err);
-			if (conf->opt[0])
-			{
-				i++;
-				if ((err = ft_check_next_arg(argv[i], 0, conf)) < 0)
-					return (err);
-			}
+			if ((i = ft_check_opt_arg(i, argv, conf)) < 0)
+				return (i);
 		}
 		else if (argv[i][0])
 		{

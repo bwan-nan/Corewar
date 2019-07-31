@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:08:47 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/29 16:15:03 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/31 01:02:30 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,29 +65,24 @@ static int		ft_check_inst(t_champ *champ, char *line)
 	return (0);
 }
 
-static void		ft_print_champ(t_champ *champ, t_conf *conf)
+static void		ft_print_champ(t_champ *champ)
 {
 	int		i;
 
 	i = 0;
-	ft_printf("* Joueur %u, avec un poids de %u octets, %s ! (\"%s\")\n",
-			champ->id, champ->inst_size, champ->name, champ->comment);
-	if (conf->opt[8])
+	ft_printf("champ path:%s, fd:%d, id:%u, nb_live:%u, init_pc:%u, \
+			magic:%x, pad1:%x, pad2:%x\n",
+			champ->path, champ->fd, champ->id, champ->nb_live,
+			champ->init_pc, champ->magic, champ->padding1, champ->padding2);
+	ft_printf("champ inst:\n| ");
+	while (i < CHAMP_MAX_SIZE)
 	{
-		ft_printf("champ path:%s, fd:%d, id:%u, nb_live:%u, init_pc:%u, \
-				magic:%x, pad1:%x, pad2:%x\n",
-				champ->path, champ->fd, champ->id, champ->nb_live,
-				champ->init_pc, champ->magic, champ->padding1, champ->padding2);
-		ft_printf("champ inst:\n| ");
-		while (i < CHAMP_MAX_SIZE)
-		{
-			ft_printf("%.2X | ", champ->inst[i]);
-			i++;
-			if (!(i % D_GRID_SIZE))
-				ft_printf("\n| ");
-		}
-		ft_printf("\n\n");
+		ft_printf("%.2X | ", champ->inst[i]);
+		i++;
+		if (!(i % D_GRID_SIZE))
+			ft_printf("\n| ");
 	}
+	ft_printf("\n\n");
 }
 
 int				ft_champion_parser(t_champ *champ, t_conf *conf)
@@ -96,9 +91,6 @@ int				ft_champion_parser(t_champ *champ, t_conf *conf)
 	char			line[D_BIN_MAX_SIZE + 1];
 
 	ret = 0;
-	if (!conf->opt[3])
-		ft_printf("Acclamés par les spectateurs en furie, les champions font \
-				leur entrée dans l'arène...\n");
 	while (champ)
 	{
 		ft_bzero(line, D_BIN_MAX_SIZE + 1);
@@ -110,8 +102,8 @@ int				ft_champion_parser(t_champ *champ, t_conf *conf)
 			return (ret);
 		if ((ret = ft_check_inst(champ, line)) < 0)
 			return (ret);
-		if (!conf->opt[8] && !conf->opt[3])
-			ft_print_champ(champ, conf);
+		if (conf->opt[8] && !conf->opt[10])
+			ft_print_champ(champ);
 		champ = champ->next;
 	}
 	return (0);

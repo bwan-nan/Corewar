@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 20:04:18 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/29 16:20:38 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/31 00:16:54 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void		ft_print_error(char *error, t_conf *conf)
 
 static void		ft_init_error_cor(int error, t_conf *conf)
 {
-	char		error_tab[20][45];
+	char		error_tab[20][50];
 
 	ft_bzero(error_tab[0], 45);
 	ft_strcpy(error_tab[1], "Memory limit (malloc)");
@@ -49,13 +49,14 @@ static void		ft_init_error_cor(int error, t_conf *conf)
 
 static void		ft_init_error_opt(int error, t_conf *conf)
 {
-	char		error_opt[5][45];
+	char		error_opt[6][50];
 
 	ft_strcpy(error_opt[0], "Invalid option: see help (-h)");
 	ft_strcpy(error_opt[1], "Option already enabled");
 	ft_strcpy(error_opt[2], "Can not open/close file man_lem");
-	ft_strcpy(error_opt[3], "Dump option must be a positive number");
-	ft_bzero(error_opt[4], 45);
+	ft_strcpy(error_opt[3], "Option must be followed by a positive number");
+	ft_strcpy(error_opt[4], "Id number out of range / already used (-n)");
+	ft_bzero(error_opt[5], 50);
 	ft_print_error(error_opt[error], conf);
 }
 

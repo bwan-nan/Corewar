@@ -6,11 +6,39 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 15:15:34 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/31 01:51:16 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+
+static void		ft_order_champ(t_champ *champ, t_champ *next, t_champ *last,
+		t_conf *conf)
+{
+	next = champ->next;
+	last = champ;
+	while (champ->next)
+	{
+		if (champ->id > champ->next->id)
+		{
+			if (last != champ)
+				last->next = champ->next;
+			if (champ == conf->first_player)
+				conf->first_player = champ->next;
+			next = champ->next->next;
+			if (next)
+				champ->next->next = champ;
+			champ->next = next;
+			champ = conf->first_player;
+			last = champ;
+		}
+		else
+		{
+			last = champ;
+			champ = champ->next;
+		}
+	}
+}
 
 static void		ft_init_process(int i, t_process *process, t_champ *champ,
 		t_conf *conf)
@@ -71,11 +99,8 @@ static void		ft_init_grid(t_champ *champ, t_conf *conf)
 	}
 }
 
-int				ft_init_arena(t_champ *champ, t_conf *conf)
+int				ft_init_arena(int i, t_champ *champ, t_conf *conf)
 {
-	unsigned int	i;
-
-	i = 0;
 	while (i < MEM_SIZE)
 	{
 		if (!(conf->grid[i] = (t_cell *)malloc(sizeof(*conf->grid[i]))))
@@ -85,8 +110,14 @@ int				ft_init_arena(t_champ *champ, t_conf *conf)
 		conf->grid[i]->pc = 0;
 		i++;
 	}
+	ft_order_champ(conf->first_player, NULL, NULL, conf);
+	champ = conf->first_player;
+	ft_printf("Acclamés par les spectateurs en furie, les champions font leur \
+			entrée dans l'arène...\n");
 	while (champ)
 	{
+		ft_printf("* Joueur %u, avec un poids de %u octets, %s ! (\"%s\")\n",
+				champ->id, champ->inst_size, champ->name, champ->comment);
 		ft_init_grid(champ, conf);
 		champ = champ->next;
 	}

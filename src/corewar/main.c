@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 04:25:28 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/31 01:01:05 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int				main(int argc, char **argv)
 		return (ft_end(err, &conf));
 	if ((err = ft_champion_parser(conf.first_player, &conf)) < 0)
 		return (ft_end(err, &conf));
-	if ((err = ft_init_arena(conf.first_player, &conf)) < 0)
+	if ((err = ft_init_arena(0, conf.first_player, &conf)) < 0)
 		return (ft_end(err, &conf));
 	if ((err = ft_launch_arena(0, conf.first_process, &conf)) < 0)
 		return (ft_end(err, &conf));

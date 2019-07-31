@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 02:25:49 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 16:58:18 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/30 21:57:01 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ void			ft_print_visu(int step, t_process *process, t_conf *conf)
 {
 	if (!step)
 		ft_init_visu(conf);
-	else if (step == 1 && !conf->opt[3] && (conf->opt[1]
-				|| (conf->opt[0] && conf->cycle == conf->dump)))
+	else if (step == 1 && !conf->opt[3] && conf->opt[1])
 		ft_printf("{YEL}\nCycle:%u{OFF}\n", conf->cycle);
 	else if (step == 2)
 	{
@@ -108,7 +107,10 @@ void			ft_print_visu(int step, t_process *process, t_conf *conf)
 			ft_print_xml(conf);
 	}
 	else if (step == 4)
-		ft_print_arena(NULL, conf);
-	else if (step == 5 && conf->opt[3])
-		ft_printf("<end_reached/>\n");
+	{
+		if (conf->opt[0])
+			ft_print_grid(conf);
+		if (conf->opt[3])
+			ft_printf("<end_reached/>\n");
+	}
 }

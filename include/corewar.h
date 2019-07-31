@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 17:08:30 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/31 01:01:20 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct			s_champ
 	char				*path;
 	int					fd;
 	unsigned int		id;
+	unsigned int		force_id;
 	unsigned int		nb_live;
 	unsigned int		nb_process;
 	unsigned int		init_pc;
@@ -77,6 +78,7 @@ typedef struct			s_conf
 {
 	int					opt[D_OPT_MAX + 1];
 	unsigned int		dump;
+	unsigned int		force_id;
 	unsigned int		nb_players;
 	unsigned int		nb_process;
 	unsigned int		total_process;
@@ -125,7 +127,7 @@ int						ft_check_args(int argc, char **argv, const char *keys,
 							t_conf *conf);
 int						ft_check_players(char *argv, t_conf *conf);
 int						ft_champion_parser(t_champ *champ, t_conf *conf);
-int						ft_init_arena(t_champ *champ, t_conf *conf);
+int						ft_init_arena(int i, t_champ *champ, t_conf *conf);
 int						ft_launch_arena(int ret, t_process *process,
 							t_conf *conf);
 int						ft_check_args_size(t_process *process, t_conf *conf);
