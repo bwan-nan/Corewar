@@ -6,7 +6,7 @@
 /*   By: pimichau <pimichau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 11:39:04 by pimichau          #+#    #+#             */
-/*   Updated: 2019/07/29 17:00:27 by pimichau         ###   ########.fr       */
+/*   Updated: 2019/07/31 13:23:41 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct		s_asm
 	int				byte_nbr;
 	int				inst_count;
 	int				param;
+	int				check;
 	int				name_length;
 	int				comment_length;
 }					t_asm;
@@ -130,4 +131,5 @@ int					header_status(int status);
 
 int					free_program(t_asm *glob, int ret);
 int					is_asm_file(char *name);
+int					print_error(char *error_msg, int line_number);
 #endif

@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 13:44:04 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 17:09:53 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/31 13:23:17 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void		init_asm(t_asm *glob)
 	glob->labels = NULL;
 	glob->current_label = NULL;
 	glob->param = 0;
+	glob->check = 0;
 	glob->ptr = NULL;
 	glob->ocp_ptr = NULL;
 	glob->queue = NULL;
@@ -31,15 +32,6 @@ static void		init_asm(t_asm *glob)
 	glob->inst_count = 0;
 	glob->name_length = 0;
 	glob->comment_length = 0;
-}
-
-int				print_error(char *msg, int line_number)
-{
-	if (!line_number)
-		ft_putendl(msg);
-	else
-		ft_printf("%s in line %d.\n", msg, line_number);
-	return (0);
 }
 
 static int		ft_asm(char *file)
@@ -57,15 +49,15 @@ static int		ft_asm(char *file)
 	return (free_program(&glob, 0));
 }
 
-static int        print_man(void)
+static int		print_man(void)
 {
-    int        fd;
+	int			fd;
 	char		*line;
 	int			i;
 
-    fd = 0;
-    if ((fd = open(MAN_PATH, O_RDONLY)) < 0)
-        return (-1);
+	fd = 0;
+	if ((fd = open(MAN_PATH, O_RDONLY)) < 0)
+		return (-1);
 	i = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
@@ -79,9 +71,9 @@ static int        print_man(void)
 		i++;
 	}
 	ft_strdel(&line);
-    if (close(fd) < 0)
-        return (-1);
-    return (0);
+	if (close(fd) < 0)
+		return (-1);
+	return (0);
 }
 
 int				main(int ac, char **av)

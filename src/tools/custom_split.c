@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 13:46:56 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 15:45:55 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/31 12:54:56 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int		add_word(char **tab, char **param_tab
 			return (1);
 		i++;
 	}
-	if (tab[1])
+	if (tab && tab[0] && tab[1])
 		return (add_word(tab + 1, param_tab, word_index, params_count));
 	return (1);
 }

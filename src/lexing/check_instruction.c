@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 13:46:51 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 15:57:53 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/31 13:25:11 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ static int		check_invalid_label(t_input *input, char **param_tab)
 	return (print_error(INVALID_INSTRUCTION, input->line_number));
 }
 
+static int		param_error(char **tab, int line_nbr)
+{
+	ft_freetab(tab);
+	return (print_error(INVALID_PARAMS, line_nbr));
+}
+
 int				check_instruction(t_asm *glob, char **tab, t_input *input)
 {
 	char			**param_tab;
@@ -55,7 +61,7 @@ int				check_instruction(t_asm *glob, char **tab, t_input *input)
 		glob->ptr++;
 	if (!param_tab[1]
 	|| !check_params(glob, param_tab + 1, g_op_tab[input->op_index], input))
-		return (print_error(INVALID_PARAMS, input->line_number));
+		return (param_error(param_tab, input->line_number));
 	input->bin_size = glob->byte_nbr - input->byte_nbr;
 	glob->inst_count += input->bin_size;
 	return (ret_freetab(param_tab, 1));

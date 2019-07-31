@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:04:21 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/07/25 17:12:13 by bwan-nan         ###   ########.fr        #
+#    Updated: 2019/07/31 13:06:15 by pimichau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ SRC += reorder_list.c
 SRC += create_cor_file.c
 SRC += free_program.c
 SRC += is_asm_file.c
+SRC += print_error.c
 
 
 DSYM = $(NAME).dSYM

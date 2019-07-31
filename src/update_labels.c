@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 13:47:27 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 15:15:40 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/07/31 12:51:50 by pimichau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static int	add_label(t_list **labels, char *line)
 	int		j;
 
 	i = 0;
-	while (ft_iswhitespace(line[i]))
+	while (line[i] && ft_iswhitespace(line[i]))
 		i++;
 	j = 0;
-	while (ft_strchr(LABEL_CHARS, line[i + j]))
+	while (line[i + j] && ft_strchr(LABEL_CHARS, line[i + j]))
 		j++;
-	if (line[i + j] == ':')
+	if (line[i + j] && line[i + j] == ':')
 		return (create_label(labels, line, i, j));
 	return (1);
 }
