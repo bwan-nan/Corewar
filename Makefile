@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:04:21 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/08/01 17:10:05 by bwan-nan         ###   ########.fr        #
+#    Updated: 2019/08/01 18:20:35 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,10 @@ DFLAGS = -fsanitize=address
 IFLAGS = -I $(IPATH) -I $(LIPATH)
 CFLAGS = $(WFLAGS) $(IFLAGS)
 
-OPATH = obj/
+OPATH_ASM = obj_asm/
+OPATH_COR = obj_cor/
+OPATH += $(OPATH_ASM)
+OPATH += $(OPATH_COR)
 SPATH = src/ASM/
 IPATH = inc/
 LPATH = libft/
@@ -103,8 +106,8 @@ SRCS += $(ASM_SRC)
 DSYM = $(ASM).dSYM
 
 #OBJ = $(patsubst %.c, $(OPATH)%.o, $(SRCS))
-OBJ_ASM = $(patsubst %.c, $(OPATH)%.o, $(ASM_SRC))
-OBJ_COR = $(patsubst %.c, $(OPATH)%.o, $(COR_SRC))
+OBJ_ASM = $(patsubst %.c, $(OPATH_ASM)%.o, $(ASM_SRC))
+OBJ_COR = $(patsubst %.c, $(OPATH_COR)%.o, $(COR_SRC))
 
 vpath	%.c src/ASM/
 vpath	%.c src/ASM/lexing/
@@ -121,19 +124,19 @@ debug : $(LIBDB) $(ASM_SRC)
 	$(MAKE) -C $(LPATH) debug
 	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(ASM) $^
 
-$(ASM): $(LIB) $(OPATH) $(OBJ_ASM) $(INC_ASM)
+$(ASM): $(LIB) $(OPATH_ASM) $(OBJ_ASM) $(INC_ASM)
 	$(CC) -o $@ $< $(OBJ_ASM)
 	printf "$(GREEN)$@ is ready.\n$(NC)"
 
-$(COR): $(LIB) $(OPATH) $(OBJ_COR) $(INC_COR)
+$(COR): $(LIB) $(OPATH_COR) $(OBJ_COR) $(INC_COR)
 	$(CC) -o $@ $< $(OBJ_COR)
 	printf "$(GREEN)$@ is ready.\n$(NC)"
 
-$(OBJ_ASM): $(OPATH)%.o : %.c $(INC_ASM)
+$(OBJ_ASM): $(OPATH_ASM)%.o : %.c $(INC_ASM)
 	$(COMPILE) $(CFLAGS) $< -o $@
 	printf "$(CYAN)Compiling $<\n$(NC)"
 
-$(OBJ_COR): $(OPATH)%.o : %.c $(INC_COR)
+$(OBJ_COR): $(OPATH_COR)%.o : %.c $(INC_COR)
 	$(COMPILE) $(CFLAGS) $< -o $@
 	printf "$(CYAN)Compiling $<\n$(NC)"
 
@@ -144,7 +147,10 @@ $(LIB) : FORCE
 $(LIBDB) :
 	$(MAKE) -C $(LPATH) debug
 
-$(OPATH):
+$(OPATH_COR):
+	$(MKDIR) $@
+
+$(OPATH_ASM):
 	$(MKDIR) $@
 
 clean :
