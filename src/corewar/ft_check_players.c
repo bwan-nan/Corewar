@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/31 00:32:52 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 15:26:40 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static int		ft_force_id_players(t_champ *new, t_conf *conf)
 	int				*id_tab;
 	int				err;
 
-	new->force_id = conf->force_id;
+	if (conf->opt[6])
+		new->force_id = conf->force_id;
 	id = 0;
 	if (!(id_tab = (int *)malloc(sizeof(*id_tab) * (MAX_PLAYERS + 1))))
 		return (-1);
@@ -61,6 +62,7 @@ static int		ft_force_id_players(t_champ *new, t_conf *conf)
 	}
 	conf->force_id = 0;
 	conf->opt[6] = 0;
+	conf->check_id = 1;
 	free(id_tab);
 	return (0);
 }
@@ -102,7 +104,7 @@ static int		ft_create_player(int err, char *argv, t_champ *champ,
 	}
 	champ->id = ++conf->nb_players;
 	ft_init_player(argv, champ);
-	if (conf->opt[6])
+	if (conf->opt[6] || conf->check_id)
 	{
 		if ((err = ft_force_id_players(champ, conf)) < 0)
 			return (err);

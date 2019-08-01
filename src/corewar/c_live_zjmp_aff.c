@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 02:42:35 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 14:52:32 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 06:59:39 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int			c_live(t_process *process, t_conf *conf)
 {
 	int		id;
 
-	id = process->fct_args[0];
+	id = -(process->fct_args[0]);
 	if (id <= 0 || id > (int)conf->nb_players)
 		return (1);
 	process->nb_live++;
@@ -55,6 +55,7 @@ int			c_aff(t_process *process, t_conf *conf)
 		return (1);
 	reg1 = process->reg[reg1 - 1];
 	reg1 = reg1 % 256;
-	ft_printf("%c", reg1);
+	if (conf->opt[2])
+		ft_printf("Aff: %c\n", reg1);
 	return (1);
 }

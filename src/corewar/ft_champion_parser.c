@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:08:47 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/31 01:02:30 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 12:53:28 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int		ft_check_header(int i, t_champ *champ, char *line, t_conf *conf)
 	if (champ->padding2 != COREWAR_EXEC_PADDING)
 		return (-15);
 	champ->init_pc = (MEM_SIZE / conf->nb_players);
-	champ->init_pc = champ->init_pc * (champ->id - 1);
+	champ->init_pc = (champ->init_pc * (champ->id - 1)) % MEM_SIZE;
 	return (0);
 }
 

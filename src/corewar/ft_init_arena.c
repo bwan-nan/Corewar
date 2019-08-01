@@ -6,37 +6,27 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/31 01:51:16 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 15:25:38 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static void		ft_order_champ(t_champ *champ, t_champ *next, t_champ *last,
-		t_conf *conf)
+static void		ft_order_champ(t_champ *champ, t_champ *next, t_conf *conf)
 {
-	next = champ->next;
-	last = champ;
 	while (champ->next)
 	{
 		if (champ->id > champ->next->id)
 		{
-			if (last != champ)
-				last->next = champ->next;
 			if (champ == conf->first_player)
 				conf->first_player = champ->next;
-			next = champ->next->next;
-			if (next)
-				champ->next->next = champ;
-			champ->next = next;
+			next = champ->next;
+			champ->next = next->next;
+			next->next = champ;
 			champ = conf->first_player;
-			last = champ;
 		}
 		else
-		{
-			last = champ;
 			champ = champ->next;
-		}
 	}
 }
 
@@ -49,7 +39,7 @@ static void		ft_init_process(int i, t_process *process, t_champ *champ,
 	process->id_proc = conf->total_process;
 	process->id_champ = champ->id;
 	process->nb_live = 0;
-	process->reg[0] = champ->id;
+	process->reg[0] = -(champ->id);
 	while (i < REG_NUMBER)
 		process->reg[i++] = 0;
 	process->pc = champ->init_pc;
@@ -110,7 +100,7 @@ int				ft_init_arena(int i, t_champ *champ, t_conf *conf)
 		conf->grid[i]->pc = 0;
 		i++;
 	}
-	ft_order_champ(conf->first_player, NULL, NULL, conf);
+	ft_order_champ(conf->first_player, NULL, conf);
 	champ = conf->first_player;
 	ft_printf("Acclamés par les spectateurs en furie, les champions font leur \
 			entrée dans l'arène...\n");

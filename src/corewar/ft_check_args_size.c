@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 15:12:53 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 03:36:04 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int		ft_decode_direct(int pc, int *fct_arg, t_process *process,
 		pc = ft_decode_arg(0, pc, fct_arg, conf);
 	}
 	else if (conf->op_tab[process->op_code].dir_size == 2)
-		*fct_arg = (signed short int)*fct_arg;
+		*fct_arg = (short)*fct_arg;
 	return (pc);
 }
 
@@ -60,6 +60,7 @@ static int		ft_check_ocp(int pc, t_ocp ocp_splitted, t_process *process,
 			process->args_size += 2;
 			pc = ft_decode_arg(1, pc, &process->fct_args[i], conf);
 			pc = ft_decode_arg(0, pc, &process->fct_args[i], conf);
+			process->fct_args[i] = (short)process->fct_args[i];
 		}
 		else
 			return (-17);

@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 22:43:25 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 14:14:51 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void			ft_init_conf(int i, t_conf *conf)
 {
 	conf->dump = 0;
 	conf->force_id = 0;
+	conf->check_id = 0;
 	conf->nb_players = 0;
 	conf->nb_process = 0;
 	conf->total_process = 0;

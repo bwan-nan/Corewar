@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 17:07:08 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 13:48:35 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static int		ft_get_op_code(t_process *process, t_conf *conf)
 		return (0);
 	}
 	/*else if (process->op_code == UCHAR_MAX)
-		return (0);
-	else
-		return (-16);*/
+	  return (0);
+	  else
+	  return (-16);*/
 	else
 		process->op_code = UCHAR_MAX;
 	return (0);
@@ -91,7 +91,8 @@ static int		ft_check_process(int ret, t_process *process, t_conf *conf)
 int				ft_launch_arena(int ret, t_process *process, t_conf *conf)
 {
 	ft_print_visu(0, process, conf);
-	while (conf->nb_process && (!conf->opt[0] || conf->cycle <= conf->dump))
+	while (conf->nb_process && (!conf->opt[0] || conf->cycle <= conf->dump)
+			&& conf->cycle_to_die <= CYCLE_TO_DIE)
 	{
 		conf->cycle++;
 		conf->period++;
