@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 15:25:25 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 17:52:15 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ static int		ft_get_args_type(int i, char **argv, const char *keys,
 			if ((err = ft_check_players(argv[i], conf)) < 0)
 				return (err);
 		}
+		if (conf->nb_players > MAX_PLAYERS)
+			return (-6);
 		i++;
 	}
 	return (0);

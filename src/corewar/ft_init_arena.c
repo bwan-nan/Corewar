@@ -6,27 +6,26 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 15:25:38 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 18:56:38 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static void		ft_order_champ(t_champ *champ, t_champ *next, t_conf *conf)
+static void		ft_init_grid(t_champ *champ, t_conf *conf)
 {
-	while (champ->next)
+	unsigned int	i;
+	unsigned int	j;
+
+	i = champ->init_pc;
+	j = 0;
+	while (j < champ->inst_size)
 	{
-		if (champ->id > champ->next->id)
-		{
-			if (champ == conf->first_player)
-				conf->first_player = champ->next;
-			next = champ->next;
-			champ->next = next->next;
-			next->next = champ;
-			champ = conf->first_player;
-		}
-		else
-			champ = champ->next;
+		conf->grid[i]->val = champ->inst[j];
+		conf->grid[i]->pid = champ->id;
+		i++;
+		j++;
+		i = i % MEM_SIZE;
 	}
 }
 
@@ -61,32 +60,33 @@ static void		ft_init_process(int i, t_process *process, t_champ *champ,
 static int		ft_create_process(t_process *process, t_champ *champ,
 		t_conf *conf)
 {
-	while (champ)
-	{
-		if (!(process = (t_process *)malloc(sizeof(*process))))
-			return (-1);
-		process->next = conf->first_process;
-		conf->first_process = process;
-		ft_init_process(1, process, champ, conf);
-		champ = champ->next;
-	}
+	if (!(process = (t_process *)malloc(sizeof(*process))))
+		return (-1);
+	process->next = conf->first_process;
+	conf->first_process = process;
+	ft_init_process(1, process, champ, conf);
 	return (0);
 }
 
-static void		ft_init_grid(t_champ *champ, t_conf *conf)
+static int		ft_order_champ(int i, t_conf *conf)
 {
-	unsigned int	i;
-	unsigned int	j;
-
-	i = champ->init_pc;
-	j = 0;
-	while (j < champ->inst_size)
+	ft_printf("Acclamés par les spectateurs en furie, les champions font leur \
+			entrée dans l'arène...\n");
+	while (i <= MAX_PLAYERS)
 	{
-		conf->grid[i]->val = champ->inst[j];
-		conf->grid[i]->pid = champ->id;
+		if (conf->players[i])
+		{
+			ft_printf("* Joueur %u, avec un poids de %u octets, %s ! (\"%s\")\
+					\n", i, conf->players[i]->inst_size, conf->players[i]->name,
+					conf->players[i]->comment);
+			ft_init_grid(conf->players[i], conf);
+			if (ft_create_process(conf->first_process, conf->players[i],
+						conf) < 0)
+				return (-1);
+		}
 		i++;
-		j++;
 	}
+	return (0);
 }
 
 int				ft_init_arena(int i, t_champ *champ, t_conf *conf)
@@ -100,18 +100,12 @@ int				ft_init_arena(int i, t_champ *champ, t_conf *conf)
 		conf->grid[i]->pc = 0;
 		i++;
 	}
-	ft_order_champ(conf->first_player, NULL, conf);
-	champ = conf->first_player;
-	ft_printf("Acclamés par les spectateurs en furie, les champions font leur \
-			entrée dans l'arène...\n");
 	while (champ)
 	{
-		ft_printf("* Joueur %u, avec un poids de %u octets, %s ! (\"%s\")\n",
-				champ->id, champ->inst_size, champ->name, champ->comment);
-		ft_init_grid(champ, conf);
+		conf->players[champ->id] = champ;
 		champ = champ->next;
 	}
-	if (ft_create_process(conf->first_process, conf->first_player, conf) < 0)
+	if (ft_order_champ(1, conf) < 0)
 		return (-1);
 	return (0);
 }

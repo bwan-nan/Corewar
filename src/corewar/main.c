@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/31 01:01:05 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 18:29:13 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,14 @@ static int		ft_print_man(t_conf *conf)
 
 static int		ft_init_fd(t_champ *champ, t_conf *conf)
 {
+	if (!conf->nb_players)
+		return (-5);
 	while (champ)
 	{
 		if ((champ->fd = open(champ->path, O_RDONLY)) < 0)
 			return (-2);
-		conf->players[champ->id] = champ;
 		champ = champ->next;
 	}
-	if (!conf->nb_players)
-		return (-5);
-	if (conf->nb_players > MAX_PLAYERS)
-		return (-6);
 	return (0);
 }
 
@@ -59,6 +56,8 @@ static int		ft_check_define(void)
 		else
 			return (-9);
 	}
+	if (MAX_PLAYERS > 4)
+		return (-18);
 	return (0);
 }
 

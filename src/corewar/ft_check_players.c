@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 15:26:40 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 18:39:52 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int		ft_check_id_players(int id, int *id_tab, t_champ *champ,
 	champ = conf->first_player;
 	while (champ)
 	{
-		while (id <= MAX_PLAYERS && id_tab[id])
+		while (id < MAX_PLAYERS && id_tab[id])
 			id++;
 		if (!champ->force_id)
 		{
