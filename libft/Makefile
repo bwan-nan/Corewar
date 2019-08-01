@@ -13,7 +13,7 @@
 NAME = libft.a
 DBNAME = libftdb.a
 
-CC = Clang
+CC = gcc
 CFLAGS = -Wall -Werror -Wextra
 IFLAGS = -I $(IPATH)
 COMPILE = $(CC) -c
@@ -145,7 +145,6 @@ SRC += ft_binatoi.c
 SRC += ft_itoa.c
 SRC += ft_itoa_base.c
 SRC += ft_llitoa.c
-SRC += ft_llitoa_base.c
 SRC += ft_ullitoa.c
 SRC += ft_ullitoa_base.c
 SRC += get_bits.c
@@ -218,7 +217,7 @@ $(DBNAME): $(OBJD)
 	printf "$(GREEN)$@ is ready.\n$(NC)"
 
 $(NAME): $(OBJS)
-	ar -rusc $@ $^
+	ar -rsc $@ $^
 	ranlib $@
 	printf "$(GREEN)$@ is ready.\n$(NC)"
 

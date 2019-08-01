@@ -28,7 +28,7 @@ PURPLE=\033[0;35m
 CYAN=\033[0;36m
 WHITE=\033[0;37m
 
-CC = Clang
+CC = gcc
 COMPILE = $(CC) -c
 DEBUG = $(CC) -g
 
@@ -54,7 +54,7 @@ LIPATH = libft/inc/
 INC_ASM += asm.h
 INC_COR += corewar.h
 
-INCS += $(INC_ASM) 
+INCS += $(INC_ASM)
 INCS += $(INC_COR)
 
 ASM_SRC += asm.c
@@ -80,24 +80,24 @@ ASM_SRC += print_error.c
 COR_SRC += op_cor.c
 COR_SRC += ft_str_is_numeric.c
 COR_SRC += ft_init_conf.c
-COR_SRC += ft_end.c	
-COR_SRC += ft_check_args.c			
-COR_SRC += ft_check_players.c		
-COR_SRC += ft_champion_parser.c		
-COR_SRC += ft_init_arena.c			
-COR_SRC += ft_launch_arena.c			
-COR_SRC += ft_check_args_size.c		
-COR_SRC += ft_check_cycle_to_die.c	
-COR_SRC += ft_print_visu.c			
-COR_SRC += ft_print_grid.c			
-COR_SRC += ft_print_xml.c			
-COR_SRC += ft_clean.c				
-COR_SRC += c_tools.c					
-COR_SRC += c_live_zjmp_aff.c			
-COR_SRC += c_ld_st_ldi_sti.c			
-COR_SRC += c_add_sub_and_or_xor.c	
-COR_SRC += c_fork_lfork.c			
-COR_SRC += c_lld_lldi.c				
+COR_SRC += ft_end.c
+COR_SRC += ft_check_args.c
+COR_SRC += ft_check_players.c
+COR_SRC += ft_champion_parser.c
+COR_SRC += ft_init_arena.c
+COR_SRC += ft_launch_arena.c
+COR_SRC += ft_check_args_size.c
+COR_SRC += ft_check_cycle_to_die.c
+COR_SRC += ft_print_visu.c
+COR_SRC += ft_print_grid.c
+COR_SRC += ft_print_xml.c
+COR_SRC += ft_clean.c
+COR_SRC += c_tools.c
+COR_SRC += c_live_zjmp_aff.c
+COR_SRC += c_ld_st_ldi_sti.c
+COR_SRC += c_add_sub_and_or_xor.c
+COR_SRC += c_fork_lfork.c
+COR_SRC += c_lld_lldi.c
 COR_SRC += main.c
 
 SRCS += $(COR_SRC)
@@ -118,18 +118,18 @@ vpath	%.c src/corewar/
 vpath	%.h inc/
 vpath	%.h libft/inc/
 
-all : $(LIB) $(ASM) $(COR) 
+all : $(LIB) $(ASM) $(COR)
 
 debug : $(LIBDB) $(ASM_SRC)
 	$(MAKE) -C $(LPATH) debug
 	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(ASM) $^
 
 $(ASM): $(LIB) $(OPATH_ASM) $(OBJ_ASM) $(INC_ASM)
-	$(CC) -o $@ $< $(OBJ_ASM)
+	$(CC) $(CFLAGS) -o $@ $(OBJ_ASM) $<
 	printf "$(GREEN)$@ is ready.\n$(NC)"
 
 $(COR): $(LIB) $(OPATH_COR) $(OBJ_COR) $(INC_COR)
-	$(CC) -o $@ $< $(OBJ_COR)
+	$(CC) $(CFLAGS) -o $@ $(OBJ_COR) $<
 	printf "$(GREEN)$@ is ready.\n$(NC)"
 
 $(OBJ_ASM): $(OPATH_ASM)%.o : %.c $(INC_ASM)

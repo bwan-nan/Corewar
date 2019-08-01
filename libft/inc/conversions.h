@@ -19,7 +19,6 @@ int					ft_binatoi(char *str);
 char				*ft_itoa(int n);
 char				*ft_itoa_base(int value, int base);
 char				*ft_llitoa(long long nb);
-char				*ft_llitoa_base(long long nb, int base);
 char				*ft_ullitoa(unsigned long long nb);
 char				*ft_ullitoa_base(unsigned long long nb, int base);
 

@@ -20,7 +20,7 @@
 # define D_HEAD_SIZE		16 + PROG_NAME_LENGTH + COMMENT_LENGTH
 # define D_BIN_MAX_SIZE		CHAMP_MAX_SIZE + D_HEAD_SIZE
 
-# include "ft_printf.h"
+# include "libft.h"
 # include <wchar.h>
 # include <limits.h>
 # include <fcntl.h>

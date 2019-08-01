@@ -79,7 +79,6 @@ static int		print_man(void)
 int				main(int ac, char **av)
 {
 	int i;
-	int	ret;
 
 	i = 1;
 	if (ac == 1)
@@ -93,7 +92,7 @@ int				main(int ac, char **av)
 		while (i < ac)
 		{
 			if (is_asm_file(av[i]))
-				ret = ft_asm(av[i]);
+				ft_asm(av[i]);
 			i++;
 		}
 	}
