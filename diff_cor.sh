@@ -9,6 +9,11 @@ RED=$(tput setaf 1)
 validDirectory="Valid_files"
 invalidDirectory="Invalid_files"
 
+if [[ "$1" == "clean" ]] && [[ "$2" == "" ]] ; then
+	rm a b verbosity *.txt
+	exit 1
+fi
+
 if [[ "$1" == "" ]] || [[ "$2" == "" ]] ; then
 	echo "Usage: ./test.sh file1.cor file2.cor"
 	exit -1
@@ -70,12 +75,13 @@ printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours
 			DIFF=`diff a b`
 			ko=0;
 			if [[ "$DIFF" ]] ; then
-				if [ -f "error.txt" ] ; then
-					rm error.txt
-				fi
-				./vm_champs/corewar -d $j -v 4 $1 $2 > error.txt
+				./vm_champs/corewar -d $j -v 4 $1 $2 > cycle_N.txt
+				./vm_champs/corewar -d $(($j-1)) -v 4 $1 $2 > cycle_N-1.txt
+				diff cycle_N.txt cycle_N-1.txt | grep -v 0x | grep P > cycle$j.txt
+				rm cycle_N.txt
+				rm cycle_N-1.txt
 				printf "${BRIGHT}${WHITE}${RED}KO: cycle %d\n${NORMAL}" $j
-				printf "${BRIGHT}${WHITE}${RED}See more details in error.txt\n${NORMAL}"
+				printf "${BRIGHT}${WHITE}${RED}For more details, see cycle$j.txt\n${NORMAL}"
 				ko=1;
 				break
 			fi
