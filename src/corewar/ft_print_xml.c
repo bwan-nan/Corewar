@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 15:56:52 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/07/31 16:48:59 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void		ft_xml_registers(t_process *process)
 	i = 0;
 	while (i < REG_NUMBER)
 	{
-		ft_printf("r%u=\"%d\" ", i + 1, process->reg[i]);
+		ft_printf("r%u=\"%x\" ", i + 1, process->reg[i]);
 		i++;
 	}
 	ft_printf("/></process>");
@@ -65,14 +65,15 @@ static void		ft_xml_processes(t_conf *conf)
 	{
 		ft_printf("<process player_id=\"%u\" process_id=\"%u\" nb_live=\"%u\" \
 				carry=\"%u\" cycle_wait=\"%u\"><current_action pos=\"%u\">\
-				<byte size=\"%d\" type=\"op\"/><byte size=\"%d\" type=\"ocp\"/>\
-				<byte size=\"%d\" type=\"direct\"/><byte size=\"%d\" type=\"\
-				indirect\"/><byte size=\"%d\" type=\"register\"/>\
+				<byte size=\"1\" type=\"op\" value=\"%llx\"/><byte size=\"%d\" \
+				type=\"ocp\" value=\"%llx\"/><byte size=\"%d\" type=\"direct\" \
+				value=\"0\"/><byte size=\"2\" type=\"indirect\" value=\"0\"\
+				/><byte size=\"%d\" type=\"register\" value=\"0\"/>\
 				</current_action><registers ",
 				process->id_champ, process->id_proc, process->nb_live,
 				process->carry, process->cycle_to_wait, process->pc,
-				conf->op_tab[process->op_code].ocp,
-				conf->op_tab[process->op_code].dir_size);
+				process->op_code, conf->op_tab[process->op_code].ocp,
+				process->ocp, conf->op_tab[process->op_code].dir_size);
 		ft_xml_registers(process);
 		process = process->next;
 	}

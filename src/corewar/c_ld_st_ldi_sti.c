@@ -6,13 +6,13 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/07/30 16:51:19 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 12:01:09 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int		c_ld(t_process *process, t_conf *conf)
+int				c_ld(t_process *process, t_conf *conf)
 {
 	int		index;
 	int		reg1;
@@ -31,12 +31,12 @@ int		c_ld(t_process *process, t_conf *conf)
 	else
 		return (1);
 	process->carry = 0;
-	if (!index)
+	if (!process->reg[reg1 - 1])
 		process->carry = 1;
 	return (1);
 }
 
-int		c_st(t_process *process, t_conf *conf)
+int				c_st(t_process *process, t_conf *conf)
 {
 	int		reg1;
 	int		index;
@@ -51,8 +51,7 @@ int		c_st(t_process *process, t_conf *conf)
 	if (process->ocp_splitted.arg2 == IND_CODE)
 	{
 		pc = c_modulo_indirect(0, pc, index, conf);
-		conf->grid[pc]->val = process->reg[reg1 - 1];
-		conf->grid[pc]->pid = process->id_champ;
+		c_store_int(pc, reg1, process, conf);
 	}
 	else if (process->ocp_splitted.arg2 == REG_CODE)
 	{
@@ -62,7 +61,7 @@ int		c_st(t_process *process, t_conf *conf)
 	return (1);
 }
 
-int		c_ldi(t_process *process, t_conf *conf)
+int				c_ldi(t_process *process, t_conf *conf)
 {
 	int		index1;
 	int		index2;
@@ -86,12 +85,11 @@ int		c_ldi(t_process *process, t_conf *conf)
 	else if (process->ocp_splitted.arg2 == IND_CODE)
 		return (1);
 	sum = c_sum(index1, index2, process);
-	process->reg[reg3 - 1] = conf->grid[sum]->val;
-	process->carry = 0;
+	c_read_int(sum, reg3, process, conf);
 	return (1);
 }
 
-int		c_sti(t_process *process, t_conf *conf)
+int				c_sti(t_process *process, t_conf *conf)
 {
 	int		reg1;
 	int		index2;
@@ -103,7 +101,7 @@ int		c_sti(t_process *process, t_conf *conf)
 	index2 = process->fct_args[1];
 	index3 = process->fct_args[2];
 	pc = process->pc;
-	if (c_check_arg_type(index2, index3, reg1, process) == 1)
+	if (c_check_arg_type(reg1, index2, index3, process) == 1)
 		return (1);
 	if (process->ocp_splitted.arg2 == REG_CODE)
 		index2 = process->reg[index2 - 1];
@@ -114,8 +112,6 @@ int		c_sti(t_process *process, t_conf *conf)
 	else if (process->ocp_splitted.arg3 == IND_CODE)
 		return (1);
 	sum = c_sum(index2, index3, process);
-	conf->grid[sum]->val = process->reg[reg1 - 1];
-	conf->grid[sum]->pid = process->id_champ;
-	process->carry = 0;
+	c_store_int(sum, reg1, process, conf);
 	return (1);
 }

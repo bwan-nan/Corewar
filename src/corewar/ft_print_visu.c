@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 02:25:49 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 21:57:01 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 14:04:17 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void		ft_print_process(t_process *process, t_conf *conf)
 {
-	if (conf->opt[1] || (conf->opt[0] && conf->cycle == conf->dump))
+	if (conf->opt[1])
 	{
-		ft_printf("Debug process, id_proc:{CYA}%4u{OFF} id_champ:{CYA}%2u{OFF} \
-				nb_live:{CYA}%3u{OFF} pc:{CYA}%4d{OFF} cycle_wait:{CYA}%4u{OFF}\
+		ft_printf("Debug process, id_proc:{CYA}%5u{OFF} id_champ:{CYA}%2u{OFF} \
+				nb_live:{CYA}%4u{OFF} pc:{CYA}%4d{OFF} cycle_wait:{CYA}%4u{OFF}\
 				carry:{CYA}%u{OFF} ",
 				process->id_proc, process->id_champ, process->nb_live,
 				process->pc, process->cycle_to_wait, process->carry);
@@ -51,33 +51,24 @@ static void		ft_print_all_process(t_process *process, t_conf *conf)
 	while (i <= conf->nb_players)
 	{
 		if (conf->players[i])
-			ft_printf("Player %u, nb_process:%u\n", i,
-					conf->players[i]->nb_process);
+			ft_printf("Player %u, nb_process:%u nb_live:%u\n", i,
+					conf->players[i]->nb_process, conf->players[i]->nb_live);
 		i++;
 	}
 }
 
-static void		ft_print_arena(t_process *process, t_conf *conf)
+static void		ft_print_arena(t_conf *conf)
 {
-	if (process)
-		ft_print_process(process, conf);
-	else
+	if (conf->opt[1])
 	{
-		if (conf->opt[3] && !conf->opt[9])
-			ft_print_xml(conf);
-		if (((conf->opt[0] && conf->cycle == conf->dump)
-					|| conf->opt[1]) && !conf->opt[3])
-		{
-			ft_print_all_process(conf->first_process, conf);
-			ft_printf("{YEL}Conf, total_process:%u nb_process:%u \
-					cycle_to_die:%u nb_live:%u nb_check:%u last_live:%d{OFF}\n",
-					conf->total_process, conf->nb_process, conf->cycle_to_die,
-					conf->nb_live, conf->nb_check, conf->last_live);
-		}
-		if (((conf->opt[0] && conf->cycle == conf->dump)
-					|| conf->opt[8]) && !conf->opt[3])
-			ft_print_grid(conf);
+		ft_print_all_process(conf->first_process, conf);
+		ft_printf("{YEL}Conf, total_process:%u nb_process:%u \
+				cycle_to_die:%u nb_live:%u nb_check:%u last_live:%d{OFF}\n",
+				conf->total_process, conf->nb_process, conf->cycle_to_die,
+				conf->nb_live, conf->nb_check, conf->last_live);
 	}
+	if (conf->opt[8])
+		ft_print_grid(conf);
 }
 
 static void		ft_init_visu(t_conf *conf)
@@ -85,7 +76,7 @@ static void		ft_init_visu(t_conf *conf)
 	if (conf->opt[8] && conf->opt[10])
 		ft_printf("{CLEAR}");
 	if (conf->opt[8] && !conf->opt[0])
-		ft_print_arena(NULL, conf);
+		ft_print_arena(conf);
 }
 
 void			ft_print_visu(int step, t_process *process, t_conf *conf)
@@ -99,17 +90,19 @@ void			ft_print_visu(int step, t_process *process, t_conf *conf)
 		if (conf->opt[1])
 			ft_printf("Process %u from player %u executed.\n",
 					process->id_proc, process->id_champ);
-		ft_print_arena(process, conf);
+		ft_print_process(process, conf);
 	}
-	else if (step == 3)
-	{
-		if (conf->opt[3] && conf->opt[9] && !conf->opt[9])
+	else if (step == 3 && conf->opt[3] && conf->opt[9])
 			ft_print_xml(conf);
-	}
 	else if (step == 4)
 	{
-		if (conf->opt[0])
-			ft_print_grid(conf);
+		ft_print_arena(conf);
+		if (conf->opt[3] && !conf->opt[9])
+			ft_print_xml(conf);
+	}
+	else if (step == 5)
+	{
+		ft_print_grid(conf);
 		if (conf->opt[3])
 			ft_printf("<end_reached/>\n");
 	}

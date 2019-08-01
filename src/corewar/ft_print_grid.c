@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/30 21:59:20 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 13:42:46 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ void			ft_print_grid(t_conf *conf)
 	int		i;
 
 	i = 0;
-	if (conf->opt[0] && conf->cycle == conf->dump)
+	if (conf->opt[0])
 		ft_print_dump(conf);
-	else if (!conf->opt[0])
+	else if (!conf->opt[0] && conf->opt[8])
 	{
 		ft_refresh_grid(conf);
 		if (!conf->opt[1])

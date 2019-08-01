@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 16:25:14 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/01 16:30:37 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define COREWAR_H
 # define D_OPT_MAX			11
 # define D_OP_MAX			16
-# define D_CLEAR_TRICK		1
+# define D_CLEAR_TRICK		0
 # define D_GRID_SIZE		64
 # define D_MAN_PATH			"./src/man/man_cor"
 # define D_HEAD_SIZE		16 + PROG_NAME_LENGTH + COMMENT_LENGTH
@@ -30,8 +30,8 @@ typedef struct			s_champ
 {
 	char				*path;
 	int					fd;
-	unsigned int		id;
-	unsigned int		force_id;
+	int					id;
+	int					force_id;
 	unsigned int		nb_live;
 	unsigned int		nb_process;
 	unsigned int		init_pc;
@@ -82,6 +82,7 @@ typedef struct			s_conf
 	int					opt[D_OPT_MAX + 1];
 	unsigned int		dump;
 	unsigned int		force_id;
+	unsigned int		check_id;
 	unsigned int		nb_players;
 	unsigned int		nb_process;
 	unsigned int		total_process;
@@ -102,9 +103,13 @@ typedef struct			s_conf
 
 int						c_check_arg_type(int index1, int index2, int reg3,
 							t_process *process);
-unsigned int			c_modulo_indirect(int val, int pc, int index,
+int						c_modulo_indirect(int val, int pc, int index,
 							t_conf *conf);
 int						c_sum(int index1, int index2, t_process *process);
+void					c_store_int(int pc, int reg1, t_process *process,
+							t_conf *conf);
+void					c_read_int(int pc, int reg1, t_process *process,
+							t_conf *conf);
 
 int						c_live(t_process *process, t_conf *conf);
 int						c_ld(t_process *process, t_conf *conf);

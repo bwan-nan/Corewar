@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:04:21 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/08/01 16:26:34 by bwan-nan         ###   ########.fr        #
+#    Updated: 2019/08/01 16:41:00 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,19 +121,19 @@ debug : $(LIBDB) $(ASM_SRC)
 	$(MAKE) -C $(LPATH) debug
 	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(ASM) $^
 
-$(ASM): $(LIB) $(OBJ_ASM) $(INC_ASM)
+$(ASM): $(LIB) $(OPATH) $(OBJ_ASM) $(INC_ASM)
 	$(CC) -o $@ $< $(OBJ_ASM)
 	printf "$(GREEN)$@ is ready.\n$(NC)"
 
-$(COR): $(LIB) $(OBJ_COR) $(INC_COR)
+$(COR): $(LIB) $(OPATH) $(OBJ_COR) $(INC_COR)
 	$(CC) -o $@ $< $(OBJ_COR)
 	printf "$(GREEN)$@ is ready.\n$(NC)"
 
-$(OBJ_ASM) : $(OPATH)%.o : %.c $(INC_ASM)
+$(OBJ_ASM): $(OPATH)%.o : %.c $(INC_ASM)
 	$(COMPILE) $(CFLAGS) $< -o $@
 	printf "$(CYAN)Compiling $<\n$(NC)"
 
-$(OBJ_COR) : $(OPATH)%.o : %.c $(INC_COR)
+$(OBJ_COR): $(OPATH)%.o : %.c $(INC_COR)
 	$(COMPILE) $(CFLAGS) $< -o $@
 	printf "$(CYAN)Compiling $<\n$(NC)"
 
