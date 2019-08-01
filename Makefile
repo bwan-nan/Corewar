@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:04:21 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/07/31 13:06:15 by pimichau         ###   ########.fr        #
+#    Updated: 2019/08/01 14:55:18 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,56 +42,56 @@ IFLAGS = -I $(IPATH) -I $(LIPATH)
 CFLAGS = $(WFLAGS) $(IFLAGS)
 
 OPATH = obj/
-SPATH = src/
+SPATH = src/ASM/
 IPATH = inc/
 LPATH = libft/
 LIPATH = libft/inc/
 
-INCS += asm.h
+ASM_INCS += asm.h
 
-SRC += asm.c
-SRC += check_header.c
-SRC += check_quote.c
-SRC += header_status.c
-SRC += update_labels.c
-SRC += check_content.c
-SRC += check_instruction.c
-SRC += check_params.c
-SRC += instruction_tools.c
-SRC += custom_split.c
-SRC += get_input.c
-SRC += lexing.c
-SRC += op.c
-SRC += queue.c
-SRC += reorder_list.c
-SRC += create_cor_file.c
-SRC += free_program.c
-SRC += is_asm_file.c
-SRC += print_error.c
+ASM += asm.c
+ASM += check_header.c
+ASM += check_quote.c
+ASM += header_status.c
+ASM += update_labels.c
+ASM += check_content.c
+ASM += check_instruction.c
+ASM += check_params.c
+ASM += instruction_tools.c
+ASM += custom_split.c
+ASM += get_input.c
+ASM += lexing.c
+ASM += op.c
+ASM += queue.c
+ASM += reorder_list.c
+ASM += create_cor_file.c
+ASM += free_program.c
+ASM += is_asm_file.c
+ASM += print_error.c
 
 
 DSYM = $(NAME).dSYM
 
-OBJ = $(patsubst %.c, $(OPATH)%.o, $(SRC))
+OBJ = $(patsubst %.c, $(OPATH)%.o, $(ASM))
 
-vpath	%.c src/
-vpath	%.c src/lexing
-vpath	%.c src/tools
+vpath	%.c src/ASM/
+vpath	%.c src/ASM/lexing
+vpath	%.c src/ASM/tools
 
 vpath	%.h inc/
 vpath	%.h libft/inc/
 
 all : $(LIB) $(NAME)
 
-debug : $(LIBDB) $(SRC)
+debug : $(LIBDB) $(ASM)
 	$(MAKE) -C $(LPATH) debug
 	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(NAME) $^
 
-$(NAME): $(LIB) $(OPATH) $(OBJ) $(INCS)
+$(NAME): $(LIB) $(OPATH) $(OBJ) $(ASM_INCS)
 	$(CC) -o $@ $< $(OBJ)
 	printf "$(GREEN)$@ is ready.\n$(NC)"
 
-$(OBJ) : $(OPATH)%.o : %.c $(INCS)
+$(OBJ) : $(OPATH)%.o : %.c $(ASM_INCS)
 	$(COMPILE) $(CFLAGS) $< -o $@
 	printf "$(CYAN)Compiling $<\n$(NC)"
 
