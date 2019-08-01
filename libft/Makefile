@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 17:52:27 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/07/25 16:45:16 by bwan-nan         ###   ########.fr        #
+#    Updated: 2019/08/01 15:18:25 by bwan-nan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,20 +47,29 @@ SRCM = main.c
 
 # ---------------------------------- ft_printf -----------------------------------#
 SRC += ft_printf.c
-SRC += init_struct.c
-SRC += parsing.c
-SRC += output_handler.c
-SRC += diouxx_conv.c
-SRC += print_diouxx.c
-SRC += print_csp.c
-SRC += print_flags.c
-SRC += float_conv.c
-SRC += binary_conv.c
-SRC += colors.c
-SRC += float_operations.c
-SRC += init_floats.c
-SRC += date_conv.c
-SRC += print_float.c
+SRC += ft_wcslen.c
+SRC += ft_check_flags.c
+SRC += ft_check_conf.c
+SRC += ft_set_wild.c
+SRC += ft_addbuff.c
+SRC += ft_imtoa_base.c
+SRC += ft_umtoa_base.c
+SRC += ft_conv_int.c
+SRC += ft_fill_int.c
+SRC += ft_conv_new.c
+SRC += ft_conv_char.c
+SRC += ft_conv_utf8.c
+SRC += ft_conv_string.c
+SRC += ft_conv_wstr.c
+SRC += ft_conv_address.c
+SRC += ft_conv_pct.c
+SRC += ft_conv_ctrl.c
+SRC += ft_conv_date.c
+SRC += ft_format_date.c
+SRC += ft_conv_fd.c
+SRC += ft_conv_file.c
+SRC += ft_conv_crypt.c
+SRC += ft_text_effects.c
 
 # ------------------------------------- Memory -----------------------------------#
 SRC += ft_memalloc.c

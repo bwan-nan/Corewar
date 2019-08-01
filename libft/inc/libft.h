@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 17:54:15 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/25 14:07:09 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/01 15:18:57 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 # include "get_next_line.h"
 # include "output.h"
 # include "strings.h"
+# include "memory.h"
 # include "lists.h"
 # include "conversions.h"
 # include "binary.h"
 # include "ft_printf.h"
+# include <stdlib.h>
 
 void				ft_show_tab(char **tab);
 float				ft_power(float nb, int exp);

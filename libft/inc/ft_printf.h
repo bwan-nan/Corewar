@@ -3,177 +3,114 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pimichau <pimichau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/28 11:52:16 by pimichau          #+#    #+#             */
-/*   Updated: 2019/03/01 23:35:05 by bwan-nan         ###   ########.fr       */
+/*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
+/*   Updated: 2019/08/01 15:16:08 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-
-# include <stdarg.h>
-# include <string.h>
-# include <unistd.h>
-# include <stdlib.h>
+# define D_BUFF_SIZE 60
+# define D_PNULL "0x0"
+# define D_SNULL "(null)"
+# define D_WSNULL L"(null)"
+# define D_FILE_ERR "Error: file could not be read"
+# define D_THOUSAND_SEP ','
+# define D_ENABLE_SEP_ACCU 0
+# define D_ENABLE_L_LL 0
+# define D_EPOCH 1970
+# define D_UTC 1
+# define D_ENABLE_DST 1
+# define D_HEMISP_SIDE 1
+# define D_TIME_LANG 1
+# define D_CRYPT_KEY "E2r10P19"
 
 # include "libft.h"
-# include "output.h"
-# include "strings.h"
-# include "memory.h"
-# include "lists.h"
-# include "conversions.h"
-# include "binary.h"
+# include <stdarg.h>
+# include <unistd.h>
+# include <inttypes.h>
+# include <wchar.h>
 
-# define OPTIONS	"cspdiouxXfbkK"
-# define ULL		unsigned long long
-
-# define BLACK		"{black}"
-# define RED		"{red}"
-# define GREEN		"{green}"
-# define YELLOW		"{yellow}"
-# define BLUE		"{blue}"
-# define PURPLE		"{purple}"
-# define CYAN		"{cyan}"
-# define GREY		"{grey}"
-# define BOLD		"{bold}"
-# define UNDERLINED	"{ul}"
-# define NC			"{nc}"
-
-# define FLAG		conv->flag
-# define SIZE		conv->size
-# define WIDTH		conv->width
-# define PREC		conv->prec
-# define TYPE		conv->conv_type
-# define FLOATS		conv->floats
-# define RET		conv->ret
-# define ARG		conv->ap
-# define STYLE		conv->style
-# define OFFSET		conv->offset
-
-# define RESULT		conv->floats->result
-# define LEN		conv->floats->len
-# define RESULT		conv->floats->result
-# define IS_NEG		conv->floats->is_neg
-# define P_DIFF		conv->floats->p_diff
-# define SIGN		conv->floats->sign
-# define EDGE		conv->floats->edge
-# define B_SIZE		conv->floats->b_size
-# define INDEX		conv->floats->max_index
-# define F_LEN		conv->floats->f_len
-
-typedef struct		s_flag
+typedef struct	s_config
 {
-	int				zero;
-	int				space;
-	int				sharp;
-	int				plus;
-	int				less;
-}					t_flag;
+	const char	*format;
+	int			ret;
+	int			fd;
+	va_list		ap;
+	char		buff[D_BUFF_SIZE + 1];
+	int			options[10];
+	int			width;
+	int			accuracy;
+	int			size;
+	char		type;
+	int			base;
+	int			lenraw;
+	int			lenfinal;
+	int			lenstart;
+	int			neg;
+	int			sep;
+	int			fzero;
+	int			fsharp;
+}				t_config;
 
-typedef struct		s_size
+typedef struct	s_types
 {
-	int				h;
-	int				hh;
-	int				l;
-	int				ll;
-	int				j;
-	int				lf;
-}					t_size;
+	char		*key;
+	void		(*ft_start_conv)(t_config *conf);
+}				t_types;
 
-typedef union		u_ftype
+typedef struct	s_effects
 {
-	float			f_num;
-	double			d_num;
-	long double		ld_num;
-	long			l_num;
-	int				i_num;
-	short			s_num;
-	char			character;
-}					t_ftype;
+	char		*keys;
+	char		*code;
+	int			len;
+}				t_effects;
 
-typedef struct		s_float
+typedef struct	s_time
 {
-	int				e_len;
-	int				m_len;
-	int				f_len;
-	int				is_neg;
-	int				bias;
-	int				v_exp;
-	int				len;
-	int				p_diff;
-	int				sign;
-	int				edge;
-	int				b_size;
-	int				max_index;
-	t_ftype			f_value;
-	char			*binary;
-	char			*mant;
-	char			*exp;
-	char			*result;
-	char			*min;
-}					t_float;
+	int			total_day;
+	int			hour;
+	int			minute;
+	int			second;
+	int			year;
+	int			week;
+	int			month;
+	int			day;
+	int			leap;
+	int			summer;
+}				t_time;
 
-typedef struct		s_conv
+typedef union	u_conv
 {
-	va_list			ap;
-	t_flag			flag;
-	int				width;
-	int				prec;
-	t_size			size;
-	int				(*f[13])(struct s_conv *conv);
-	int				offset;
-	size_t			ret;
-	char			*style;
-	char			conv_type;
-	char			type[13];
-	t_float			*floats;
-}					t_conv;
+	intmax_t	j;
+	uintmax_t	ju;
+}				t_conv;
 
-int					ft_printf(const char *format, ...);
-
-int					check_flags(char *fmt, t_conv *conv);
-int					color_check(t_conv *conv, const char *format, int *i);
-
-int					print_c(t_conv *conv);
-void				print_sp(t_conv *conv, char *output);
-void				print_di(t_conv *conv, char *output);
-void				print_o(t_conv *conv, char *output);
-void				print_u(t_conv *conv, char *output);
-void				print_x(t_conv *conv, char *output);
-void				print_float(t_conv *conv);
-void				print_space_before(t_conv *conv, int max, char *output);
-void				print_space_after(t_conv *conv, int max);
-void				print_zeros(t_conv *conv, int digits);
-void				print_extra_x(t_conv *conv, int prec, int len);
-void				print_extra_o(t_conv *conv, int len,
-					int *prec, int is_width);
-
-int					output_handler(char *fmt, t_conv *conv);
-
-int					handle_di(t_conv *conv);
-int					handle_o(t_conv *conv);
-int					handle_u(t_conv *conv);
-int					handle_xx(t_conv *conv);
-int					handle_s(t_conv *conv);
-int					handle_p(t_conv *conv);
-int					handle_f(t_conv *conv);
-int					handle_b(t_conv *conv);
-int					timestamp_to_date(t_conv *conv);
-int					date_to_timestamp(t_conv *conv);
-
-void				init_fp(t_conv *conv);
-void				init_conv(t_conv *conv);
-int					init_floats(t_conv *conv);
-char				*init_str(int size, char c);
-void				del_floats(t_conv *conv);
-
-void				str_addition(char **result, char *add);
-void				str_mult_by_two(char **str, t_conv *conv);
-void				str_div_by_two(char **str, t_conv *conv);
-int					format_float(t_conv *conv, char *number);
-char				*set_min(t_conv *conv, int exp);
-int					get_float_len(char *str);
+int				ft_printf(const char *restrict format, ...);
+size_t			ft_wcslen(const wchar_t *s);
+int				ft_check_flags(t_config *conf, const char *str);
+int				ft_check_conf(t_config *conf);
+int				ft_set_wild(t_config *conf, const char *str);
+void			ft_addbuff(t_config *conf, char c);
+void			ft_imtoa_base(t_config *conf, intmax_t n, int count);
+void			ft_umtoa_base(t_config *conf, uintmax_t n, int count);
+void			ft_conv_int(t_config *conf);
+void			ft_fill_int(t_config *conf, t_conv *number);
+void			ft_conv_new(t_config *conf, unsigned char c);
+void			ft_conv_char(t_config *conf);
+void			ft_conv_utf8(t_config *conf, t_conv *letter, char *byte);
+void			ft_conv_string(t_config *conf);
+void			ft_conv_wstr(t_config *conf);
+void			ft_conv_address(t_config *conf);
+void			ft_conv_pct(t_config *conf);
+void			ft_conv_ctrl(t_config *conf);
+void			ft_conv_date(t_config *conf);
+void			ft_format_date(t_config *conf, t_time *t);
+void			ft_conv_fd(t_config *conf);
+void			ft_conv_file(t_config *conf);
+void			ft_conv_crypt(t_config *conf);
+int				ft_text_effects(t_config *conf, const char *str);
 
 #endif

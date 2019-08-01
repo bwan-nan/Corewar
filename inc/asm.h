@@ -6,14 +6,14 @@
 /*   By: pimichau <pimichau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 11:39:04 by pimichau          #+#    #+#             */
-/*   Updated: 2019/07/31 13:23:41 by pimichau         ###   ########.fr       */
+/*   Updated: 2019/08/01 16:25:04 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASM_H
 # define ASM_H
 
-# include "op.h"
+# include "op_asm.h"
 # include "libft.h"
 # include <stdbool.h>
 # include <fcntl.h>
