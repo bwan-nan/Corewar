@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 20:04:18 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/07/31 00:16:54 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 17:49:56 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void		ft_init_error_cor(int error, t_conf *conf)
 	ft_strcpy(error_tab[15], "Wrong padding");
 	ft_strcpy(error_tab[16], "Wrong op_code byte in champion instruction");
 	ft_strcpy(error_tab[17], "Wrong ocp byte in champion instruction");
-	ft_strcpy(error_tab[18], "#No one ant in the hex !");
+	ft_strcpy(error_tab[18], "Max players number reached");
 	ft_strcpy(error_tab[19], "#Ant number out of range (int)");
 	ft_print_error(error_tab[error], conf);
 }
