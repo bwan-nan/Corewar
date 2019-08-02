@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 02:42:35 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/02 01:52:32 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/02 16:33:41 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int			c_live(t_process *process, t_conf *conf)
 	if (id <= 0 || id > (int)conf->nb_players)
 		return (1);
 	conf->players[id]->nb_live++;
+	conf->grid[process->pc]->live = D_GRID_LIVE;
 	conf->last_live = id;
 	return (1);
 }

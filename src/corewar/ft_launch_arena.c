@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 23:02:40 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/02 21:24:50 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int		ft_get_op_code(t_process *process, t_conf *conf)
 static int		ft_apply_inst(int ret, t_process *process, t_conf *conf)
 {
 	conf->grid[process->pc]->pc = 0;
-	if (process->op_code == UCHAR_MAX)
+	if (process->op_code >= D_OP_MAX)
 		process->pc = (process->pc + 1) % MEM_SIZE;
 	else
 	{
@@ -72,8 +72,8 @@ static int		ft_check_process(int ret, t_process *process, t_conf *conf)
 	if (!process->cycle_to_wait)
 	{
 		ft_reinit_process(process, conf);
-		if (ft_get_op_code(process, conf) < 0)
-			return (-16);
+		//if (ft_get_op_code(process, conf) < 0)
+		//	return (-16);
 		if ((ret = ft_apply_inst(0, process, conf)) < 0)
 			return (ret);
 		ft_print_visu(3, process, conf);

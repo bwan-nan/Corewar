@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/02 00:25:56 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/02 20:25:52 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ static void		ft_init_process(int i, t_process *process, t_champ *champ,
 	process->pc = champ->init_pc;
 	process->carry = 0;
 	process->op_code = conf->grid[process->pc]->val - 1;
-	process->cycle_to_wait = conf->op_tab[process->op_code].cycles;
+	process->cycle_to_wait = 1;
+	if (process->op_code < D_OP_MAX)
+		process->cycle_to_wait = conf->op_tab[process->op_code].cycles;
 	process->ocp = 0;
 	i = 0;
 	while (i < 4)
@@ -97,8 +99,9 @@ int				ft_init_arena(int i, t_champ *champ, t_conf *conf)
 			return (-1);
 		conf->grid[i]->val = 0;
 		conf->grid[i]->pid = 0;
-		conf->grid[i]->bold = 0;
 		conf->grid[i]->pc = 0;
+		conf->grid[i]->bold = 0;
+		conf->grid[i]->live = 0;
 		i++;
 	}
 	while (champ)

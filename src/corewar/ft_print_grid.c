@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/02 00:46:14 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/02 16:45:57 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static void		ft_refresh_grid(t_conf *conf)
 	i = 0;
 	if (conf->opt[10])
 	{
-		while (i < 100000000)
+		while (i < /*10000000*/0)
 			i++;
 		if (D_CLEAR_TRICK)
-			write(1, "\e[3J\e[H\e[2|", 11);
+			write(1, "\e[3J\e[H\e[2 ", 11);
 		else
 			ft_printf("{CLEAR}");
 	}
@@ -58,6 +58,12 @@ static void		ft_print_color(int i, t_conf *conf)
 		ft_printf("|%.2X", conf->grid[i]->val);
 }
 
+static void		ft_print_live(int i, t_conf *conf)
+{
+		ft_printf("|{BOLD}{WHI}%.2X{OFF}", conf->grid[i]->val);
+		conf->grid[i]->live--;
+}
+
 static void		ft_print_bold(int i, t_conf *conf)
 {
 	if (conf->grid[i]->pid == 1)
@@ -69,7 +75,7 @@ static void		ft_print_bold(int i, t_conf *conf)
 	else if (conf->grid[i]->pid == 4)
 		ft_printf("|{BOLD}{RED}%.2X{OFF}", conf->grid[i]->val);
 	else
-		ft_printf("|{BOLD}%.2X", conf->grid[i]->val);
+		ft_printf("|{BOLD}%.2X{OFF}", conf->grid[i]->val);
 	conf->grid[i]->bold--;
 }
 
@@ -104,6 +110,8 @@ void			ft_print_grid(t_conf *conf)
 		{
 			if (conf->grid[i]->pc)
 				ft_print_invert(i, conf);
+			else if (conf->grid[i]->live)
+				ft_print_live(i, conf);
 			else if (conf->grid[i]->bold)
 				ft_print_bold(i, conf);
 			else

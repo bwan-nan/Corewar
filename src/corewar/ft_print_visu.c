@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 02:25:49 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 23:28:16 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/02 21:28:25 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,17 @@ static void		ft_print_all_process(t_process *process, t_conf *conf)
 {
 	unsigned int		i;
 
+	ft_printf("\n");
 	while (process)
 	{
 		i = -1;
 		ft_print_process(process, conf);
 		while (++i < REG_NUMBER)
-			ft_printf("| Reg[%d]:{MAG}%.2X{OFF} ", i, process->reg[i]);
+		{
+			if (i == 8)
+				ft_printf("|\n");
+			ft_printf("| Reg[%d]:{MAG}%8X{OFF} ", i, process->reg[i]);
+		}
 		ft_printf("|\n");
 		process = process->next;
 	}

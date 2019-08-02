@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 03:36:04 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/02 21:16:55 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int		ft_decode_arg(int shift, int pc, int *fct_arg, t_conf *conf)
 	if (shift)
 		*fct_arg = *fct_arg << 8;
 	pc++;
+	pc = pc % MEM_SIZE;
 	return (pc);
 }
 
@@ -73,6 +74,7 @@ static int		ft_decode_ocp(int pc, t_process *process, t_conf *conf)
 {
 	process->args_size++;
 	pc++;
+	pc = pc % MEM_SIZE;
 	process->ocp = conf->grid[pc]->val;
 	process->ocp = process->ocp & 0xFF;
 	process->ocp_splitted.arg1 = process->ocp >> 6;
@@ -83,6 +85,7 @@ static int		ft_decode_ocp(int pc, t_process *process, t_conf *conf)
 	process->ocp = process->ocp & 0x03;
 	process->ocp_splitted.arg4 = process->ocp;
 	pc++;
+	pc = pc % MEM_SIZE;
 	return (pc);
 }
 
@@ -105,6 +108,7 @@ int				ft_check_args_size(t_process *process, t_conf *conf)
 	else
 	{
 		pc++;
+		pc = pc % MEM_SIZE;
 		ft_decode_direct(pc, &process->fct_args[0], process, conf);
 	}
 	return (0);
