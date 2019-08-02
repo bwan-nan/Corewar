@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 18:56:38 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/02 00:25:56 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int				ft_init_arena(int i, t_champ *champ, t_conf *conf)
 			return (-1);
 		conf->grid[i]->val = 0;
 		conf->grid[i]->pid = 0;
+		conf->grid[i]->bold = 0;
 		conf->grid[i]->pc = 0;
 		i++;
 	}

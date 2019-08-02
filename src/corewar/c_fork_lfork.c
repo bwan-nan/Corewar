@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/01 13:36:18 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/02 01:21:08 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ static void		ft_init_fork(t_process *new, t_process *process, int pc,
 		i++;
 	}
 	new->pc = pc;
-	new->carry = 0;
+	new->carry = process->carry;
 	new->op_code = conf->grid[new->pc]->val - 1;
 	if (new->op_code == UCHAR_MAX)
 		new->cycle_to_wait = 1;
 	else
 		new->cycle_to_wait = conf->op_tab[new->op_code].cycles;
-	ft_init_ocp(process);
+	ft_init_ocp(new);
 	ft_update_conf(new, process, conf);
 }
 

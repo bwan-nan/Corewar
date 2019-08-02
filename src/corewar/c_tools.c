@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/01 07:59:56 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/02 02:34:38 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,6 @@ int			c_sum(int index1, int index2, t_process *process)
 	sum = sum % MEM_SIZE;
 	while (sum < 0)
 		sum += MEM_SIZE;
-	process->carry = 0;
-	if (!sum)
-		process->carry = 1;
 	return (sum);
 }
 
@@ -70,15 +67,19 @@ void		c_store_int(int pc, int reg1, t_process *process, t_conf *conf)
 {
 	conf->grid[pc]->val = process->reg[reg1 - 1] >> 24;
 	conf->grid[pc]->pid = process->id_champ;
+	conf->grid[pc]->bold = 50;
 	pc = (pc + 1) % MEM_SIZE;
 	conf->grid[pc]->val = (process->reg[reg1 - 1] & 0x00FF0000) >> 16;
 	conf->grid[pc]->pid = process->id_champ;
+	conf->grid[pc]->bold = 50;
 	pc = (pc + 1) % MEM_SIZE;
 	conf->grid[pc]->val = (process->reg[reg1 - 1] & 0x0000FF00) >> 8;
 	conf->grid[pc]->pid = process->id_champ;
+	conf->grid[pc]->bold = 50;
 	pc = (pc + 1) % MEM_SIZE;
 	conf->grid[pc]->val = process->reg[reg1 - 1] & 0x000000FF;
 	conf->grid[pc]->pid = process->id_champ;
+	conf->grid[pc]->bold = 50;
 }
 
 void		c_read_int(int pc, int reg1, t_process *process, t_conf *conf)
