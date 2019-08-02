@@ -21,13 +21,13 @@ mkdir $validDirectory/zaz_cor_files
 mkdir $validDirectory/files
 mkdir $invalidDirectory
 
-for file in $(find . -type f -name "*.s")
+for file in $(find .. -type f -name "*.s")
 do
 #	sleep 0.5
 	if [ -f "compiling_msg" ] ; then
 		rm compiling_msg
 	fi
-	./vm_champs/asm $file > compiling_msg
+	../vm_champs/asm $file > compiling_msg
 	if [ `head -n 1 compiling_msg | awk '{print $1}'` == 'Writing' ] ; then
 		cp $(echo $file) $validDirectory/files
 		mv $(echo $file | rev | cut -c 3- | rev).cor $validDirectory/zaz_cor_files

@@ -19,7 +19,7 @@ if [[ "$1" == "" ]] || [[ "$2" == "" ]] ; then
 	exit -1
 fi
 
-if [ ! -f "corewar" ] ; then
+if [ ! -f "../corewar" ] ; then
 	echo "You should compile first..."
 	exit -1
 fi
@@ -35,7 +35,7 @@ printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours
 	if [ -f "verbosity" ] ; then
 		rm verbosity
 	fi
-	./vm_champs/corewar -v 2 $1 $2 > verbosity
+	../vm_champs/corewar -v 2 $1 $2 > verbosity
 	cycles=`tail -n 2 verbosity | head -n 1 | grep -Eo "\d+"`
 	cycles=$(($cycles-1))
 	for ((i=1; i<$cycles; i+=1000))
@@ -47,8 +47,8 @@ printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours
 		if [ -f "b" ] ; then
 			rm b
 		fi
-		./corewar -d $i $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > a
-		./vm_champs/corewar -d $i $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > b
+		../corewar -d $i $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > a
+		../vm_champs/corewar -d $i $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > b
 		DIFF=`diff a b`
 		ko=0;
 		if [[ "$DIFF" ]] ; then
@@ -70,13 +70,13 @@ printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours
 			if [ -f "b" ] ; then
 				rm b
 			fi
-			./corewar -d $j $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > a
-			./vm_champs/corewar -d $j $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > b
+			../corewar -d $j $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > a
+			../vm_champs/corewar -d $j $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > b
 			DIFF=`diff a b`
 			ko=0;
 			if [[ "$DIFF" ]] ; then
-				./vm_champs/corewar -d $j -v 4 $1 $2 > cycle_N.txt
-				./vm_champs/corewar -d $(($j-1)) -v 4 $1 $2 > cycle_N-1.txt
+				../vm_champs/corewar -d $j -v 4 $1 $2 > cycle_N.txt
+				../vm_champs/corewar -d $(($j-1)) -v 4 $1 $2 > cycle_N-1.txt
 				diff cycle_N.txt cycle_N-1.txt | grep -v 0x | grep P > cycle$j.txt
 				rm cycle_N.txt
 				rm cycle_N-1.txt
@@ -88,8 +88,8 @@ printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours
 		done
 	elif [[ "$i" > "$cycles" ]] ; then
 		printf "Comparing the 2 VMs for cycle $cycles (last cycle):"
-		./corewar -d $cycles $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > a
-		./vm_champs/corewar -d $cycles $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > b
+		../corewar -d $cycles $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > a
+		../vm_champs/corewar -d $cycles $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > b
 		DIFF=`diff a b`
 		ko=0;
 		if [[ "$DIFF" ]] ; then

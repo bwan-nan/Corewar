@@ -9,7 +9,7 @@ RED=$(tput setaf 1)
 validDirectory="../vm_champs/Valid_files"
 invalidDirectory="../vm_champs/Invalid_files"
 
-if [ ! -f "asm" ] ; then
+if [ ! -f "../asm" ] ; then
 	echo "You should compile first..."
 	exit -1
 fi
@@ -31,7 +31,7 @@ do
 	if [ -f "compiling_msg" ] ; then
 		rm compiling_msg
 	fi
-	./asm $file > compiling_msg	
+	../asm $file > compiling_msg
 	if [ `head -n 1 compiling_msg | awk '{print $1}'` == 'Writing' ] ; then
 		mv $(echo $file | rev | cut -c 3- | rev).cor $validDirectory/our_cor_files/
 	else
@@ -52,10 +52,10 @@ do
 	if [ -f "$validDirectory/our_cor_files/$basename" ] ; then
 		xxd $validDirectory/our_cor_files/$basename > output
 	else
-		touch output	
+		touch output
 	fi
 	DIFF=$(diff expected output)
-	if [ "$DIFF" ]; then 
+	if [ "$DIFF" ]; then
 		printf "${BRIGHT}${WHITE}%-30s%-5c${RED}KO\n${NORMAL}" $basename ':'
 	else
 		printf "${BRIGHT}${WHITE}%-30s%-5c${BRIGHT}${GREEN}OK\n${NORMAL}" $basename ':'
