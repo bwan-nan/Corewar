@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 02:25:49 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 14:04:17 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/01 23:28:16 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void			ft_print_visu(int step, t_process *process, t_conf *conf)
 			ft_print_xml(conf);
 	else if (step == 4)
 	{
-		ft_print_arena(conf);
+			ft_print_arena(conf);
 		if (conf->opt[3] && !conf->opt[9])
 			ft_print_xml(conf);
 	}

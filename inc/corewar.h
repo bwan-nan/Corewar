@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 19:09:42 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/02 00:20:51 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct			s_cell
 	unsigned char		val;
 	unsigned int		pid;
 	unsigned int		pc;
+	unsigned int		bold;
 }						t_cell;
 
 typedef struct			s_ocp
