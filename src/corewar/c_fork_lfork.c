@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/02 20:36:47 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/03 16:35:14 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void		ft_init_fork(t_process *new, t_process *process, int pc,
 
 	new->id_champ = process->id_champ;
 	new->id_proc = ++conf->total_process;
-	new->nb_live = 0;
+	new->nb_live = process->nb_live;
 	i = 0;
 	while (i < REG_NUMBER)
 	{
