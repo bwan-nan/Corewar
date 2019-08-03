@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/03 01:24:15 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/03 07:47:20 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ static int		ft_check_ocp(int pc, t_ocp ocp_splitted, t_process *process,
 	i = 0;
 	while (i < 3)
 	{
-		if (((char *)(&ocp_splitted))[i] == 0)
-			return (pc);
-		else if (((char *)(&ocp_splitted))[i] == 1)
+		//if (((char *)(&ocp_splitted))[i] == 0)
+		//	return (pc);
+		if (((char *)(&ocp_splitted))[i] == 1)
 		{
 			process->args_size++;
 			pc = ft_decode_arg(0, pc, &process->fct_args[i], conf);
@@ -63,7 +63,7 @@ static int		ft_check_ocp(int pc, t_ocp ocp_splitted, t_process *process,
 			pc = ft_decode_arg(0, pc, &process->fct_args[i], conf);
 			process->fct_args[i] = (short)process->fct_args[i];
 		}
-		else
+		else if (((char *)(&ocp_splitted))[i] != 0)
 			return (-17);
 		i++;
 	}

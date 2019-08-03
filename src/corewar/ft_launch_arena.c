@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/03 01:36:35 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/03 07:47:56 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static int		ft_get_op_code(t_process *process, t_conf *conf)
 	unsigned int	pc;
 
 	pc = process->pc;
-	process->op_code = conf->grid[pc]->val - 1;
 	if (process->op_code < D_OP_MAX)
 	{
 		if (conf->op_tab[process->op_code].ocp)
@@ -78,6 +77,7 @@ static int		ft_check_process(int ret, t_process *process, t_conf *conf)
 			return (ret);
 		ft_print_visu(3, process, conf);
 		ft_reinit_process(process);
+		process->op_code = conf->grid[process->pc]->val - 1;
 		if (ft_get_op_code(process, conf) < 0)
 			return (-16);
 		if (process->op_code == UCHAR_MAX)
@@ -91,11 +91,10 @@ static int		ft_check_process(int ret, t_process *process, t_conf *conf)
 int				ft_launch_arena(int ret, t_process *process, t_conf *conf)
 {
 	ft_print_visu(0, process, conf);
+	conf->cycle++;
 	while (conf->nb_process && (!conf->opt[0] || conf->cycle <= conf->dump)
 			&& conf->cycle_to_die <= CYCLE_TO_DIE)
 	{
-		conf->cycle++;
-		conf->period++;
 		ft_print_visu(1, process, conf);
 		process = conf->first_process;
 		while (process)
@@ -107,6 +106,8 @@ int				ft_launch_arena(int ret, t_process *process, t_conf *conf)
 		if (conf->period == conf->cycle_to_die)
 			ft_check_cycle_to_die(conf);
 		ft_print_visu(4, process, conf);
+		conf->period++;
+		conf->cycle++;
 	}
 	ft_print_visu(5, process, conf);
 	return (0);

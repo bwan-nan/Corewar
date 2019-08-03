@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/07/30 16:54:21 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/03 05:17:29 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int		c_and(t_process *process, t_conf *conf)
 	pc = process->pc;
 	if (c_check_arg_type(index1, index2, reg3, process) == 1)
 		return (1);
+	if (process->ocp_splitted.arg3 != REG_CODE)
+		return (1);
 	if (process->ocp_splitted.arg1 == REG_CODE)
 		index1 = process->reg[index1 - 1];
 	else if (process->ocp_splitted.arg1 == IND_CODE)
@@ -101,6 +103,8 @@ int		c_or(t_process *process, t_conf *conf)
 	pc = process->pc;
 	if (c_check_arg_type(index1, index2, reg3, process) == 1)
 		return (1);
+	if (process->ocp_splitted.arg3 != REG_CODE)
+		return (1);
 	if (process->ocp_splitted.arg1 == REG_CODE)
 		index1 = process->reg[index1 - 1];
 	else if (process->ocp_splitted.arg1 == IND_CODE)
@@ -128,6 +132,8 @@ int		c_xor(t_process *process, t_conf *conf)
 	reg3 = process->fct_args[2];
 	pc = process->pc;
 	if (c_check_arg_type(index1, index2, reg3, process) == 1)
+		return (1);
+	if (process->ocp_splitted.arg3 != REG_CODE)
 		return (1);
 	if (process->ocp_splitted.arg1 == REG_CODE)
 		index1 = process->reg[index1 - 1];

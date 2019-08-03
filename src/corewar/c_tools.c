@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/02 16:32:53 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/03 03:03:45 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 int			c_check_arg_type(int index1, int index2, int index3,
 		t_process *process)
 {
+	if (!process->ocp_splitted.arg1 || !process->ocp_splitted.arg2
+			|| !process->ocp_splitted.arg3)
+		return (1);
 	if (process->ocp_splitted.arg1 == REG_CODE
 			&& (index1 <= 0 || index1 > REG_NUMBER))
 		return (1);

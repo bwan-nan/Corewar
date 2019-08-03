@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/01 12:01:09 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/03 05:22:05 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int				c_ldi(t_process *process, t_conf *conf)
 	sum = 0;
 	if (c_check_arg_type(index1, index2, reg3, process) == 1)
 		return (1);
+	if (process->ocp_splitted.arg3 != REG_CODE)
+		return (1);
 	if (process->ocp_splitted.arg1 == REG_CODE)
 		index1 = process->reg[index1 - 1];
 	else if (process->ocp_splitted.arg1 == IND_CODE)
@@ -102,6 +104,8 @@ int				c_sti(t_process *process, t_conf *conf)
 	index3 = process->fct_args[2];
 	pc = process->pc;
 	if (c_check_arg_type(reg1, index2, index3, process) == 1)
+		return (1);
+	if (process->ocp_splitted.arg1 != REG_CODE)
 		return (1);
 	if (process->ocp_splitted.arg2 == REG_CODE)
 		index2 = process->reg[index2 - 1];
