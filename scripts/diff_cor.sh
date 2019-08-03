@@ -79,8 +79,10 @@ printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours
 				diff cycle_N.txt cycle_N-1.txt | grep -v 0x | grep P > cycle$j.txt
 				rm cycle_N.txt
 				rm cycle_N-1.txt
-				printf "${BRIGHT}${WHITE}${RED}KO: cycle %d\n${NORMAL}" $j
-				printf "${BRIGHT}${WHITE}${RED}For more details, see cycle$j.txt\n${NORMAL}"
+				printf "${BRIGHT}${RED}\nKO: cycle %d\n${NORMAL}" $j
+				printf "${BRIGHT}This is what 'diff a b' returns: (a being your VM dump, and b Zaz's VM dump)\n${NORMAL}"
+				diff a b
+				printf "${BRIGHT}\nFor more details, see cycle$j.txt\n${NORMAL}"
 				ko=1;
 				break
 			fi
@@ -92,9 +94,9 @@ printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours
 		DIFF=`diff a b`
 		ko=0;
 		if [[ "$DIFF" ]] ; then
-			printf "${BRIGHT}${WHITE}${RED}%5s\n${NORMAL}" "KO"
+			printf "${BRIGHT}${RED}%5s\n${NORMAL}" "KO"
 			break
 		else
-			printf "${BRIGHT}${WHITE}${GREEN}%5s\n${NORMAL}" "OK"
+			printf "${BRIGHT}${GREEN}%5s\n${NORMAL}" "OK"
 		fi
 	fi
