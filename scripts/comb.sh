@@ -56,7 +56,7 @@ else
 			fi
 			./vm_champs/corewar -v 2 $player1 $player2 > verbosity
 			last_cycle=`tail -n 2 verbosity | head -n 1 | grep -Eo "\d+"`
-			last_cycle=$((last_cycle-1))
+			last_cycle=$(($last_cycle-1))
 			./corewar -d $last_cycle $player1 $player2 | grep -A300 0x0000 | sed 's/ $//g' > a
 			./vm_champs/corewar -d $last_cycle $player1 $player2 | grep -A300 0x0000 | sed 's/ $//g' > b
 			DIFF=`diff a b`

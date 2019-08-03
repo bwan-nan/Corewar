@@ -6,7 +6,7 @@
 /*   By: pimichau <pimichau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 11:39:04 by pimichau          #+#    #+#             */
-/*   Updated: 2019/08/01 16:25:04 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/03 04:15:21 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define MISSING_NAME			"Missing or incomplete program name."
 # define MISSING_COMMENT		"Missing or incomplete program comment."
 # define NO_INST				"Missing instructions."
-# define MAN_PATH				"src/man/man.txt"
+# define MAN_PATH				"src/man/man_asm.txt"
 
 typedef struct		s_op
 {

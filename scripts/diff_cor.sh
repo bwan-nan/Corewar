@@ -37,7 +37,7 @@ printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours
 	./vm_champs/corewar -v 2 $1 $2 > verbosity
 	cycles=`tail -n 2 verbosity | head -n 1 | grep -Eo "\d+"`
 	cycles=$(($cycles-1))
-	for ((i=1; i<$cycles; i+=1000))
+	for ((i=1; i<$cycles; i+=100))
 	do
 		printf "Comparing the 2 VMs for cycle %-15d:" $i
 		if [ -f "a" ] ; then
@@ -61,7 +61,7 @@ printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours
 
 
 	if [[ "$ko" == 1 ]] ; then
-		for ((j=$i - 1000; j<=$i; j++))
+		for ((j=$i - 100; j<=$i; j++))
 		do
 			if [ -f "a" ] ; then
 				rm a
