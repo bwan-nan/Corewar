@@ -6,16 +6,16 @@ GREEN=$(tput setaf 2)
 UNDERLINE=$(tput smul)
 RED=$(tput setaf 1)
 
-validDirectory="../vm_champs/Valid_files"
-invalidDirectory="../vm_champs/Invalid_files"
+validDirectory="Valid_files"
+invalidDirectory="Invalid_files"
 
-if [ ! -f "../asm" ] ; then
+if [ ! -f "asm" ] ; then
 	echo "You should compile first..."
 	exit -1
 fi
 
 if [ ! -d "$validDirectory" ] || [ ! -d "$invalidDirectory" ] ; then
-	./split_files.sh
+	./scripts/split_files.sh
 fi
 
 if [ -d "$validDirectory/our_cor_files" ] ; then
@@ -31,7 +31,7 @@ do
 	if [ -f "compiling_msg" ] ; then
 		rm compiling_msg
 	fi
-	../asm $file > compiling_msg
+	./asm $file > compiling_msg
 	if [ `head -n 1 compiling_msg | awk '{print $1}'` == 'Writing' ] ; then
 		mv $(echo $file | rev | cut -c 3- | rev).cor $validDirectory/our_cor_files/
 	else

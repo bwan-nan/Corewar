@@ -6,7 +6,7 @@
 /*   By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 13:44:04 by bwan-nan          #+#    #+#             */
-/*   Updated: 2019/07/31 13:23:17 by pimichau         ###   ########.fr       */
+/*   Updated: 2019/08/03 04:17:07 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ static int		print_man(void)
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (i == 0 || i == 12 || i == 24)
-			ft_printf("{ul}{bold}{green}%s{nc}\n", line);
+			ft_printf("{UNDER}{BOLD}{GRE}%s{OFF}\n", line);
 		else if (i == 26)
-			ft_printf("{bold}{cyan}%s{nc}\n", line);
+			ft_printf("{BOLD}{CYA}%s{OFF}\n", line);
 		else
-			ft_printf("{bold}%s{nc}\n", line);
+			ft_printf("{BOLD}%s{OFF}\n", line);
 		ft_strdel(&line);
 		i++;
 	}
