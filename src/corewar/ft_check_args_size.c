@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/02 21:16:55 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/03 01:24:15 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int		ft_check_ocp(int pc, t_ocp ocp_splitted, t_process *process,
 	int			i;
 
 	i = 0;
-	while (i < 4)
+	while (i < 3)
 	{
 		if (((char *)(&ocp_splitted))[i] == 0)
 			return (pc);

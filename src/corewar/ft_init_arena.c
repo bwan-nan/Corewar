@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/02 20:25:52 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/03 01:24:55 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,15 @@ static void		ft_init_process(int i, t_process *process, t_champ *champ,
 	process->carry = 0;
 	process->op_code = conf->grid[process->pc]->val - 1;
 	process->cycle_to_wait = 1;
-	if (process->op_code < D_OP_MAX)
-		process->cycle_to_wait = conf->op_tab[process->op_code].cycles;
 	process->ocp = 0;
+	if (process->op_code < D_OP_MAX)
+	{
+		process->cycle_to_wait = conf->op_tab[process->op_code].cycles;
+		if (conf->op_tab[process->op_code].ocp)
+			process->ocp = conf->grid[(process->pc + 1) % MEM_SIZE]->val;
+	}
+	else
+		process->op_code = UCHAR_MAX;
 	i = 0;
 	while (i < 4)
 		process->fct_args[i++] = 0;

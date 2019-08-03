@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/02 16:32:35 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/02 22:35:20 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define COREWAR_H
 # define D_OPT_MAX			11
 # define D_OP_MAX			16
-# define D_CLEAR_TRICK		1
+# define D_CLEAR_TRICK		0
 # define D_GRID_SIZE		64
 # define D_GRID_LIVE		10
 # define D_GRID_ST			25

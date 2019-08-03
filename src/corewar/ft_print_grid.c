@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/02 16:45:57 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/02 22:36:32 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void		ft_refresh_grid(t_conf *conf)
 	i = 0;
 	if (conf->opt[10])
 	{
-		while (i < /*10000000*/0)
+		while (i < 100000000)
 			i++;
 		if (D_CLEAR_TRICK)
 			write(1, "\e[3J\e[H\e[2 ", 11);

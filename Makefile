@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:04:21 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/08/02 21:29:34 by fdagbert         ###   ########.fr        #
+#    Updated: 2019/08/02 21:42:21 by fdagbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ PURPLE=\033[0;35m
 CYAN=\033[0;36m
 WHITE=\033[0;37m
 
-CC = gcc
+CC = gcc -g
 COMPILE = $(CC) -c
 DEBUG = $(CC) -g
 
@@ -50,6 +50,7 @@ SPATH = src/ASM/
 IPATH = inc/
 LPATH = libft/
 LIPATH = libft/inc/
+CPATH = src/corewar/
 
 INC_ASM += asm.h
 INC_COR += corewar.h
@@ -109,6 +110,8 @@ DSYM = $(ASM).dSYM
 OBJ_ASM = $(patsubst %.c, $(OPATH_ASM)%.o, $(ASM_SRC))
 OBJ_COR = $(patsubst %.c, $(OPATH_COR)%.o, $(COR_SRC))
 
+CDB_SRC = $(patsubst %.c, $(CPATH)%.c, $(COR_SRC))
+
 vpath	%.c src/ASM/
 vpath	%.c src/ASM/lexing/
 vpath	%.c src/ASM/tools/
@@ -120,9 +123,8 @@ vpath	%.h libft/inc/
 
 all : $(LIB) $(ASM) $(COR)
 
-debug : $(LIBDB) $(ASM_SRC)
-	$(MAKE) -C $(LPATH) debug
-	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(ASM) $^
+debug : $(LIBDB) $(COR_SRC)
+	$(DEBUG) $(DFLAGS) $(CFLAGS) -o $(COR) $(CDB_SRC) $<
 
 $(ASM): $(LIB) $(OPATH_ASM) $(OBJ_ASM) $(INC_ASM)
 	$(CC) $(CFLAGS) -o $@ $(OBJ_ASM) $<

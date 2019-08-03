@@ -6,15 +6,14 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/02 21:24:50 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/03 01:36:35 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static void		ft_reinit_process(t_process *process, t_conf *conf)
+static void		ft_reinit_process(t_process *process)
 {
-	process->op_code = conf->grid[process->pc]->val - 1;
 	process->ocp = 0;
 	process->fct_args[0] = 0;
 	process->fct_args[1] = 0;
@@ -32,10 +31,11 @@ static int		ft_get_op_code(t_process *process, t_conf *conf)
 	unsigned int	pc;
 
 	pc = process->pc;
+	process->op_code = conf->grid[pc]->val - 1;
 	if (process->op_code < D_OP_MAX)
 	{
 		if (conf->op_tab[process->op_code].ocp)
-			process->ocp = conf->grid[pc + 1]->val;
+			process->ocp = conf->grid[(pc + 1) % MEM_SIZE]->val;
 		return (0);
 	}
 	/*else if (process->op_code == UCHAR_MAX)
@@ -56,12 +56,12 @@ static int		ft_apply_inst(int ret, t_process *process, t_conf *conf)
 	{
 		if (ft_check_args_size(process, conf) < 0)
 			return (-17);
-		ft_print_visu(2, process, conf);
 		if ((ret = conf->op_inst[process->op_code](process, conf)) < 0)
 			return (-1);
 		else if (ret)
 			process->pc = (process->pc + process->args_size) % MEM_SIZE;
 	}
+	ft_print_visu(2, process, conf);
 	conf->grid[process->pc]->pc = process->id_champ;
 	return (0);
 }
@@ -71,13 +71,13 @@ static int		ft_check_process(int ret, t_process *process, t_conf *conf)
 	process->cycle_to_wait--;
 	if (!process->cycle_to_wait)
 	{
-		ft_reinit_process(process, conf);
+		ft_reinit_process(process);
 		//if (ft_get_op_code(process, conf) < 0)
 		//	return (-16);
 		if ((ret = ft_apply_inst(0, process, conf)) < 0)
 			return (ret);
 		ft_print_visu(3, process, conf);
-		ft_reinit_process(process, conf);
+		ft_reinit_process(process);
 		if (ft_get_op_code(process, conf) < 0)
 			return (-16);
 		if (process->op_code == UCHAR_MAX)

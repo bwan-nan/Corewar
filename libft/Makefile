@@ -213,7 +213,7 @@ all: $(OPATH) $(NAME)
 debug : $(OPATH) $(DBNAME)
 
 $(DBNAME): $(OBJD)
-	ar -rusc $@ $^
+	ar -rsc $@ $^
 	printf "$(GREEN)$@ is ready.\n$(NC)"
 
 $(NAME): $(OBJS)

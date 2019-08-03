@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 02:25:49 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/02 21:28:25 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/02 22:00:21 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void		ft_print_all_process(t_process *process, t_conf *conf)
 		{
 			if (i == 8)
 				ft_printf("|\n");
-			ft_printf("| Reg[%d]:{MAG}%8X{OFF} ", i, process->reg[i]);
+			ft_printf("| Reg[%2d]:{MAG}%8X{OFF} ", i, process->reg[i]);
 		}
 		ft_printf("|\n");
 		process = process->next;
@@ -93,17 +93,22 @@ void			ft_print_visu(int step, t_process *process, t_conf *conf)
 	else if (step == 2)
 	{
 		if (conf->opt[1])
+		{
 			ft_printf("Process %u from player %u executed.\n",
 					process->id_proc, process->id_champ);
-		ft_print_process(process, conf);
+			ft_print_process(process, conf);
+		}
 	}
-	else if (step == 3 && conf->opt[3] && conf->opt[9])
+	else if (step == 3)
+	{
+		if (conf->opt[3] && conf->opt[9])
 			ft_print_xml(conf);
+	}
 	else if (step == 4)
 	{
-			ft_print_arena(conf);
 		if (conf->opt[3] && !conf->opt[9])
 			ft_print_xml(conf);
+		ft_print_arena(conf);
 	}
 	else if (step == 5)
 	{
