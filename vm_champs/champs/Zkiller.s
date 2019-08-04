@@ -4,7 +4,7 @@
 and r1, %0, r2
 
 loop:
-		st r1, 6
-		live %42
-		fork %511
-		zjmp %:loop
+        st r1, 6
+        live %42
+        fork %511
+        zjmp %:loop
