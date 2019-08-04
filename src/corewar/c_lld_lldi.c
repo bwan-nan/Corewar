@@ -76,16 +76,12 @@ int			c_lldi(t_process *process, t_conf *conf)
 		return (1);
 	if (process->ocp_splitted.arg1 == REG_CODE)
 		index1 = process->reg[index1 - 1];
-	else if (process->ocp_splitted.arg1 == IND_CODE)
-		index1 = ft_no_mod_ind(0, pc, index1, conf);
 	if (process->ocp_splitted.arg2 == REG_CODE)
 		index2 = process->reg[index2 - 1];
 	else if (process->ocp_splitted.arg2 == IND_CODE)
 		return (1);
-	ft_printf("REG = %d, proces->pc = %d, index1 = %d\n", reg3, process->pc, index1);
 	sum = c_sum(index1, index2, process, 0);
-	if (reg3 == 7)
-		ft_printf("CYCLE = %d, sum = %d", conf->cycle, sum);
+	ft_putchar('\n');
 	ft_putchar('\n');
 	c_read_int(sum, reg3, process, conf);
 	process->carry = (!process->reg[reg3 - 1]) ? 1 : 0;
