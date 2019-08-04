@@ -29,7 +29,7 @@ if [ ! -d "$validDirectory" ] || [ ! -d "$invalidDirectory" ] ; then
 	./scripts/split_files.sh
 fi
 
-printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours....\n${NORMAL}"
+printf "${BRIGHT}Looking for differences between Zaz's VM and ours....\n${NORMAL}"
 
 	if [ -f "verbosity" ] ; then
 		rm verbosity
@@ -37,9 +37,12 @@ printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours
 	./vm_champs/corewar -v 2 $1 $2 > verbosity
 	cycles=`tail -n 2 verbosity | head -n 1 | grep -Eo "\d+"`
 	cycles=$(($cycles-1))
-	for ((i=1; i<$cycles; i+=100))
+	step=$(($cycles/100))
+	progress=0
+	for ((i=1; i<$cycles; i+=$step))
 	do
-		printf "Comparing the 2 VMs for cycle %-15d:" $i
+		printf "${BRIGHT}[%3d%%]${NORMAL} Comparing the 2 VMs for cycle %-15d:" $progress $i
+		progress=$(($progress+1))
 		if [ -f "a" ] ; then
 			rm a
 		fi
@@ -61,7 +64,8 @@ printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours
 
 
 	if [[ "$ko" == 1 ]] ; then
-		for ((j=$i - 100; j<=$i; j++))
+		printf "${BRIGHT}Searching for the exact cycle where the 2 programs start to differ...\n${NORMAL}"
+		for ((j=$i - $step; j<=$i; j++))
 		do
 			if [ -f "a" ] ; then
 				rm a
@@ -88,7 +92,7 @@ printf "${BRIGHT}${POWDER_BLUE}Looking for differences between Zaz's VM and ours
 			fi
 		done
 	elif [[ "$i" > "$cycles" ]] ; then
-		printf "Comparing the 2 VMs for cycle $cycles (last cycle):"
+		printf "${BRIGHT}Comparing the 2 VMs for cycle $cycles (last cycle)    :${NORMAL}"
 		./corewar -d $cycles $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > a
 		./vm_champs/corewar -d $cycles $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > b
 		DIFF=`diff a b`
