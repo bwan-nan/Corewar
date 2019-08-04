@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/04 09:57:54 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/04 17:48:54 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int		ft_apply_inst(int ret, t_process *process, t_conf *conf)
 	return (0);
 }
 
-static int		ft_check_process(int ret, t_process *process, t_conf *conf)
+/*static int		ft_check_process(int ret, t_process *process, t_conf *conf)
 {
 	process->cycle_to_wait--;
 	if (!process->cycle_to_wait)
@@ -77,7 +77,7 @@ static int		ft_check_process(int ret, t_process *process, t_conf *conf)
 		if ((ret = ft_apply_inst(0, process, conf)) < 0)
 			return (ret);
 		ft_print_visu(3, process, conf);
-		ft_reinit_process(process);
+		//ft_reinit_process(process);
 		process->op_code = conf->grid[process->pc]->val - 1;
 		if (ft_get_op_code(process, conf) < 0)
 			return (-16);
@@ -87,8 +87,45 @@ static int		ft_check_process(int ret, t_process *process, t_conf *conf)
 			process->cycle_to_wait = conf->op_tab[process->op_code].cycles;
 	}
 	return (0);
-}
+}*/
 
+static int		ft_check_process(int ret, t_process *process, t_conf *conf)
+{
+
+	unsigned char op;
+
+	op = (unsigned int)D_OP_MAX;
+	process->cycle_to_wait--;
+	if (!process->cycle_to_wait)
+	{
+		ft_reinit_process(process);
+		if (process->op_code == UCHAR_MAX && (conf->grid[process->pc]->val - 1 < op))
+		{
+			process->op_code = conf->grid[process->pc]->val - 1;
+			if (process->op_code != UCHAR_MAX)
+			{
+				process->cycle_to_wait = conf->op_tab[process->op_code].cycles - 1;
+				process->ocp = conf->grid[(process->pc + 1) % MEM_SIZE]->val;
+				ft_print_visu(3, process, conf);
+			}
+		}
+		else
+		{
+			if ((ret = ft_apply_inst(0, process, conf)) < 0)
+				return (ret);
+			ft_print_visu(3, process, conf);
+			ft_reinit_process(process);
+			process->op_code = conf->grid[process->pc]->val - 1;
+			if (ft_get_op_code(process, conf) < 0)
+				return (-16);
+			if (process->op_code == UCHAR_MAX)
+				process->cycle_to_wait = 1;
+			else
+				process->cycle_to_wait = conf->op_tab[process->op_code].cycles;
+		}
+	}
+	return (0);
+}
 
 int				ft_launch_arena(int ret, t_process *process, t_conf *conf)
 {
