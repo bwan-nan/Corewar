@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 02:25:49 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/04 03:35:47 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/04 08:11:41 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ static void		ft_print_arena(t_conf *conf)
 	{
 		ft_print_all_process(conf->first_process, conf);
 		ft_printf("{YEL}Conf, total_process:%u nb_process:%u \
-				cycle_to_die:%u nb_live:%u nb_check:%u last_live:%d period: %u{OFF}\n",
-				conf->total_process, conf->nb_process, conf->cycle_to_die,
-				conf->nb_live, conf->nb_check, conf->last_live, conf->period);
+				cycle_to_die:%u period:%u nb_live:%u nb_check:%u last_live:%d{OFF}\n",
+				conf->total_process, conf->nb_process, conf->cycle_to_die, conf->period,
+				conf->nb_live, conf->nb_check, conf->last_live);
 	}
 	if (conf->opt[8])
 		ft_print_grid(conf);

@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/04 06:52:53 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/04 08:11:17 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ static int		ft_get_op_code(t_process *process, t_conf *conf)
 
 static int		ft_apply_inst(int ret, t_process *process, t_conf *conf)
 {
-	conf->grid[process->pc]->pc = 0;
+	conf->grid[process->pc]->nb_pc--;
+	if (!conf->grid[process->pc]->nb_pc)
+		conf->grid[process->pc]->pc = 0;
 	if (process->op_code >= D_OP_MAX)
 		process->pc = (process->pc + 1) % MEM_SIZE;
 	else
@@ -60,8 +62,9 @@ static int		ft_apply_inst(int ret, t_process *process, t_conf *conf)
 		else if (ret)
 			process->pc = (process->pc + process->args_size) % MEM_SIZE;
 	}
-	ft_print_visu(2, process, conf);
 	conf->grid[process->pc]->pc = process->id_champ;
+	conf->grid[process->pc]->nb_pc++;
+	ft_print_visu(2, process, conf);
 	return (0);
 }
 

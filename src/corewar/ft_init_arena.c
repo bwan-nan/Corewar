@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/03 01:24:55 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/04 07:18:58 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void		ft_init_process(int i, t_process *process, t_champ *champ,
 	process->ocp_splitted.arg3 = 0;
 	process->ocp_splitted.arg4 = 0;
 	conf->grid[process->pc]->pc = process->id_champ;
+	conf->grid[process->pc]->nb_pc++;
 }
 
 static int		ft_create_process(t_process *process, t_champ *champ,
@@ -106,6 +107,7 @@ int				ft_init_arena(int i, t_champ *champ, t_conf *conf)
 		conf->grid[i]->val = 0;
 		conf->grid[i]->pid = 0;
 		conf->grid[i]->pc = 0;
+		conf->grid[i]->nb_pc = 0;
 		conf->grid[i]->bold = 0;
 		conf->grid[i]->live = 0;
 		i++;

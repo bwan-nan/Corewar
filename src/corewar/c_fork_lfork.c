@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/03 16:35:14 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/04 07:45:36 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void		ft_update_conf(t_process *new, t_process *process, t_conf *conf)
 	conf->nb_process++;
 	conf->players[process->id_champ]->nb_process++;
 	conf->grid[new->pc]->pc = new->id_champ;
+	conf->grid[new->pc]->nb_pc++;
 }
 
 static void		ft_init_ocp(t_process *new)
