@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/04 08:10:35 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/04 08:19:32 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,6 @@ static void		ft_purge_process(t_process *process, t_conf *conf)
 
 void			ft_check_cycle_to_die(t_conf *conf)
 {
-	int			i;
-
-	i = 0;
 	conf->period = 0;
 	ft_purge_process(conf->first_process, conf);
 	conf->nb_check++;
