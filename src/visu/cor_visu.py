@@ -109,11 +109,10 @@ pygame.init()
 
 CINEMATIC = True
 CINEMATIC_PATH = './src/ascii_video.xml'
-HIDE_CODE = True
 # Open a new window
 size = (WIDTH, HEIGHT)
 screen = pygame.display.set_mode(size, pygame.RESIZABLE)
-pygame.display.set_caption("COREWAR VISUALIZER TM - [ESCAPE]:quit - [SPACE]:play/pause - [LEFT]:previous step - [RIGHT]:next step - [+]:speed up - [-]:speed down - [H]:hide/show")
+pygame.display.set_caption("ULTIMATE VISUALIZER TM - [ESCAPE]:quit")
 icon = pygame.image.load("./src/corewar_ico.jpg")
 pygame.display.set_icon(icon)
 
@@ -203,10 +202,9 @@ def draw_memory(memory_tree, cells, size, side, cell_height):
         x = (int(i / 2) % side) * cells_space / side + MAIN_PADDING_LEFT
         y = int(int(i / 2) / side) * cells_space / side + MAIN_PADDING_TOP
 
+        val = font.render(val.upper(), True, P_COLOR_L[pid])
         pygame.draw.rect(screen, P_COLOR_M[pid], (x, y, cell_height + 2, cell_height + 2))
-        if HIDE_CODE == False:
-            val = font.render(val.upper(), True, P_COLOR_L[pid])
-            screen.blit(val, (x + 1, y + 1))
+        screen.blit(val, (x + 1, y + 1))
         i += 2
 
 
@@ -215,7 +213,7 @@ def draw_centered_text(surface, text, x_min, x_max, y_min, y_max, font, color):
     rect = text.get_rect()
     text_x = x_max - ((x_max - x_min) / 2) - (rect[2] / 2)
     text_y = y_max - ((y_max - y_min) / 2) - (rect[3] / 2)
-    #print("rect:", rect, " x_min:", x_min, " x_max:", x_max, " text_x:", text_x)
+    print("rect:", rect, " x_min:", x_min, " x_max:", x_max, " text_x:", text_x)
     screen.blit(text, (text_x, text_y))
 
 
@@ -226,7 +224,7 @@ def draw_properties(player, process, y_start):
     font = pygame.font.Font('./src/arial-black.ttf', 10)
     x_start = 1133
     # draw player
-    screen.blit(font.render("( " + str(player_id) + " ) " + player_name[0:15] + " ( " + player_lives + " )", True, P_COLOR_M[player_id]), (x_start, y_start + 7))
+    screen.blit(font.render("( " + str(player_id) + " ) " + player_name + " ( " + player_lives + " )", True, P_COLOR_M[player_id]), (x_start, y_start + 4))
     screen.blit(PLAYERS_SPRITES[player_id], (x_start, y_start + 27))
 
     # draw his process
@@ -235,16 +233,14 @@ def draw_properties(player, process, y_start):
         draw_centered_text(screen, process.get("process_id"), x_start + 216, x_start + 243, y_start,  y_start +  27, font, P_COLOR_M[player_id])
         draw_centered_text(screen, "LIVE", x_start + 297, x_start + 324, y_start,  y_start +  27, font, P_COLOR_M[player_id])
         draw_centered_text(screen, process.get("nb_live").upper(), x_start + 324, x_start + 351, y_start,  y_start +  27, font, P_COLOR_M[player_id])
-        if HIDE_CODE == False:
-            draw_centered_text(screen, "CAR", x_start + 405, x_start + 432, y_start,  y_start +  27, font, P_COLOR_M[player_id])
-            draw_centered_text(screen, process.get("carry"), x_start + 432, x_start + 459, y_start,  y_start +  27, font, P_COLOR_M[player_id])
-            
-            #print("current op:", process.find("current_action")[1].get("value"))
-            draw_centered_text(screen, OP_TAB[int(process.find("current_action")[1].get("value"))], x_start + 432 + 54, x_start + 459 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
-            draw_centered_text(screen, process.find("current_action")[2].get("value").upper(), x_start + 459 + 54, x_start + 486 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
-            draw_centered_text(screen, process.find("current_action")[3].get("value").upper(), x_start + 486 + 54, x_start + 513 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
-            draw_centered_text(screen, process.find("current_action")[4].get("value").upper(), x_start + 513 + 54, x_start + 540 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
-            draw_centered_text(screen, process.find("current_action")[5].get("value").upper(), x_start + 540 + 54, x_start + 567 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
+        draw_centered_text(screen, "CAR", x_start + 405, x_start + 432, y_start,  y_start +  27, font, P_COLOR_M[player_id])
+        draw_centered_text(screen, process.get("carry"), x_start + 432, x_start + 459, y_start,  y_start +  27, font, P_COLOR_M[player_id])
+
+        draw_centered_text(screen, OP_TAB[int(process.find("current_action")[1].get("value"))], x_start + 432 + 54, x_start + 459 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
+        draw_centered_text(screen, process.find("current_action")[2].get("value").upper(), x_start + 459 + 54, x_start + 486 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
+        draw_centered_text(screen, process.find("current_action")[3].get("value").upper(), x_start + 486 + 54, x_start + 513 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
+        draw_centered_text(screen, process.find("current_action")[4].get("value").upper(), x_start + 513 + 54, x_start + 540 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
+        draw_centered_text(screen, process.find("current_action")[5].get("value").upper(), x_start + 540 + 54, x_start + 567 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
 #
         ## show registers
         registers = process.find(".//registers")
@@ -271,23 +267,22 @@ def draw_properties(player, process, y_start):
         draw_centered_text(screen, "R16", x_start + 513, x_start + 540, y_start + 108, y_start + 135, font, P_COLOR_M[player_id])
 
         # draw registers values
-        if HIDE_CODE == False:
-        	screen.blit(font.render(registers.get("r1").upper(), True,  P_COLOR_M[player_id]), (x_start + 216 + 10, y_start + 27  + 6))
-        	screen.blit(font.render(registers.get("r2").upper(), True,  P_COLOR_M[player_id]), (x_start + 216 + 10, y_start + 54  + 6))
-        	screen.blit(font.render(registers.get("r3").upper(), True,  P_COLOR_M[player_id]), (x_start + 216 + 10, y_start + 81  + 6))
-        	screen.blit(font.render(registers.get("r4").upper(), True,  P_COLOR_M[player_id]), (x_start + 216 + 10, y_start + 108 + 6))
-        	screen.blit(font.render(registers.get("r5").upper(), True,  P_COLOR_M[player_id]), (x_start + 324 + 10, y_start + 27  + 6))
-        	screen.blit(font.render(registers.get("r6").upper(), True,  P_COLOR_M[player_id]), (x_start + 324 + 10, y_start + 54  + 6))
-        	screen.blit(font.render(registers.get("r7").upper(), True,  P_COLOR_M[player_id]), (x_start + 324 + 10, y_start + 81  + 6))
-        	screen.blit(font.render(registers.get("r8").upper(), True,  P_COLOR_M[player_id]), (x_start + 324 + 10, y_start + 108 + 6))
-        	screen.blit(font.render(registers.get("r9").upper(), True,  P_COLOR_M[player_id]), (x_start + 432 + 10, y_start + 27  + 6))
-        	screen.blit(font.render(registers.get("r10").upper(), True, P_COLOR_M[player_id]), (x_start + 432 + 10, y_start + 54  + 6))
-        	screen.blit(font.render(registers.get("r11").upper(), True, P_COLOR_M[player_id]), (x_start + 432 + 10, y_start + 81  + 6))
-        	screen.blit(font.render(registers.get("r12").upper(), True, P_COLOR_M[player_id]), (x_start + 432 + 10, y_start + 108 + 6))
-        	screen.blit(font.render(registers.get("r13").upper(), True, P_COLOR_M[player_id]), (x_start + 540 + 10, y_start + 27  + 6))
-        	screen.blit(font.render(registers.get("r14").upper(), True, P_COLOR_M[player_id]), (x_start + 540 + 10, y_start + 54  + 6))
-        	screen.blit(font.render(registers.get("r15").upper(), True, P_COLOR_M[player_id]), (x_start + 540 + 10, y_start + 81  + 6))
-        	screen.blit(font.render(registers.get("r16").upper(), True, P_COLOR_M[player_id]), (x_start + 540 + 10, y_start + 108 + 6))
+        screen.blit(font.render(registers.get("r1").upper(), True,  P_COLOR_M[player_id]), (x_start + 216 + 10, y_start + 27  + 6))
+        screen.blit(font.render(registers.get("r2").upper(), True,  P_COLOR_M[player_id]), (x_start + 216 + 10, y_start + 54  + 6))
+        screen.blit(font.render(registers.get("r3").upper(), True,  P_COLOR_M[player_id]), (x_start + 216 + 10, y_start + 81  + 6))
+        screen.blit(font.render(registers.get("r4").upper(), True,  P_COLOR_M[player_id]), (x_start + 216 + 10, y_start + 108 + 6))
+        screen.blit(font.render(registers.get("r5").upper(), True,  P_COLOR_M[player_id]), (x_start + 324 + 10, y_start + 27  + 6))
+        screen.blit(font.render(registers.get("r6").upper(), True,  P_COLOR_M[player_id]), (x_start + 324 + 10, y_start + 54  + 6))
+        screen.blit(font.render(registers.get("r7").upper(), True,  P_COLOR_M[player_id]), (x_start + 324 + 10, y_start + 81  + 6))
+        screen.blit(font.render(registers.get("r8").upper(), True,  P_COLOR_M[player_id]), (x_start + 324 + 10, y_start + 108 + 6))
+        screen.blit(font.render(registers.get("r9").upper(), True,  P_COLOR_M[player_id]), (x_start + 432 + 10, y_start + 27  + 6))
+        screen.blit(font.render(registers.get("r10").upper(), True, P_COLOR_M[player_id]), (x_start + 432 + 10, y_start + 54  + 6))
+        screen.blit(font.render(registers.get("r11").upper(), True, P_COLOR_M[player_id]), (x_start + 432 + 10, y_start + 81  + 6))
+        screen.blit(font.render(registers.get("r12").upper(), True, P_COLOR_M[player_id]), (x_start + 432 + 10, y_start + 108 + 6))
+        screen.blit(font.render(registers.get("r13").upper(), True, P_COLOR_M[player_id]), (x_start + 540 + 10, y_start + 27  + 6))
+        screen.blit(font.render(registers.get("r14").upper(), True, P_COLOR_M[player_id]), (x_start + 540 + 10, y_start + 54  + 6))
+        screen.blit(font.render(registers.get("r15").upper(), True, P_COLOR_M[player_id]), (x_start + 540 + 10, y_start + 81  + 6))
+        screen.blit(font.render(registers.get("r16").upper(), True, P_COLOR_M[player_id]), (x_start + 540 + 10, y_start + 108 + 6))
 
 
 def get_next_process(player_id, processes_tree):
@@ -303,19 +298,13 @@ def get_next_process(player_id, processes_tree):
 
 
 def draw_players(players_tree, processes_tree):
-    player_number = len(players_tree)
     y_start = 256
 
-    limit = 4
     for player in players_tree:
         player_id = int(player.get("id"))
         process = get_next_process(player_id, processes_tree)
         draw_properties(player, process, y_start)
         y_start += 162
-
-        limit -= 1
-        if limit == 0:
-        	break
 
 
 def draw_die_bar(arena_tree):
@@ -366,7 +355,6 @@ def draw_processes_bar(processes_tree):
 
 def draw_processes(processes_tree, cells, side, cell_height):
     font = pygame.font.SysFont("Arial", 18)
-    font2 = pygame.font.Font('./src/arial-black.ttf', int(cell_height / 1.5))
     #font = pygame.font.Font('./src/NEON CLUB MUSIC.otf', 18)
     cells_space = HEIGHT - MAIN_PADDING_TOP - MAIN_PADDING_BOTTOM
 
@@ -383,12 +371,12 @@ def draw_processes(processes_tree, cells, side, cell_height):
         y = int(int(current_pos * 2 / 2) / side) * cells_space / side + MAIN_PADDING_TOP
 
         #font2 = pygame.font.SysFont("Arial", cell_height)
+        font2 = pygame.font.Font('./src/arial-black.ttf', int(cell_height / 1.5))
+        val = font2.render(val, True, P_COLOR_M[pid])
         #pygame.draw.rect(screen, BACKGROUD, (x, y, cell_height, cell_height))
         pygame.draw.rect(screen, P_COLOR_L[pid], (x, y, cell_height + 1, cell_height + 1), 0)
         #pygame.draw.rect(screen, WHITE, (x, y, cell_height, cell_height), 2)
-        if HIDE_CODE == False:
-            val = font2.render(val, True, P_COLOR_M[pid])
-            screen.blit(val, (x + 1, y + 1))
+        screen.blit(val, (x + 1, y + 1))
 
 
 ####################################################################
@@ -402,8 +390,7 @@ line = ''
 
 KEY_LEFT = False
 KEY_RIGHT = False
-KEEP_MOVING = False
-START_WRITING = False
+KEEP_MOVING = True
 
 ascii_intro = open(CINEMATIC_PATH, "r")
 
@@ -449,17 +436,14 @@ while carryOn:
                 if event.key == pygame.K_SPACE:
                     KEEP_MOVING = True if KEEP_MOVING == False else False
                     pygame.mixer.Sound.play(click_sound)
-                if event.key == pygame.K_h:
-                	HIDE_CODE = True if HIDE_CODE == False else False
-                	pygame.mixer.Sound.play(click_sound)
                 if event.key == pygame.K_LEFT:
-                    #print("left pressed - screen_index: ", screen_index)
+                    print("left pressed - screen_index: ", screen_index)
                     KEY_LEFT = True
                     KEEP_MOVING = False
                     pygame.mixer.Sound.play(click_sound)
                     #screen_index = screen_index - 1 if screen_index > 0 else screen_index
                 if event.key == pygame.K_RIGHT:
-                    #print("right pressed - screen_index: ", screen_index)
+                    print("right pressed - screen_index: ", screen_index)
                     KEY_RIGHT = True
                     KEEP_MOVING = False
                     pygame.mixer.Sound.play(click_sound)
@@ -474,17 +458,17 @@ while carryOn:
                     print("screen_diff: ", screen_diff)
                     pygame.mixer.Sound.play(click_sound)
                 if event.key == pygame.K_KP_MINUS:
-                    screen_diff = int(screen_diff / 2) if screen_diff > 1 else 1
+                    screen_diff /= 2 if screen_diff > 1 else 1
                     print("screen_diff: ", screen_diff)
                     pygame.mixer.Sound.play(click_sound)
-
+    
         if KEY_LEFT == True:
             screen_index = screen_index - screen_diff if screen_index > 0 else screen_index
             #print("left pressed - screen_index: ", screen_index)
         if KEY_RIGHT == True or KEEP_MOVING == True:
             screen_index = screen_index + screen_diff if screen_index < len(screen_tab) - screen_diff else screen_index
             #print("right pressed - screen_index: ", screen_index)
-
+    
         if END_REACHED == 0:
             corewar_src = ''
             while True:
@@ -498,7 +482,6 @@ while carryOn:
                 line = str(line)
                 if (line == '<corewar>'):
                     SAVE_XML = 1
-                    START_WRITING = True
                 if SAVE_XML == 1:
                     corewar_src += line
                 # check if end of file
@@ -507,44 +490,42 @@ while carryOn:
                     break
                 if line == '<end_reached/>':
                     END_REACHED = 1
-
-        if START_WRITING == True:
-            if END_REACHED == 0:
-                #print("COREWAR_SRC:", corewar_src)
-                corewar_src_tree = etree.fromstring(corewar_src)
-                screen_tab.append(corewar_src_tree)
-                #print("tree added - screen_tab_len: ", len(screen_tab))
-
-            # First, clear the screen to white.
-            screen.fill(BACKGROUD)
-            screen.blit(bg_2, (0, 0))
-
-            memory_tree = screen_tab[screen_index].find(".//memory")
-            cells, size, side, cell_height = get_cells(memory_tree)
-
-            # Draw memory grid
-            draw_memory(memory_tree, cells, size, side, cell_height)
-
-            # Draw background grid
-            #draw_background(cells, size, side, cell_height)
-
-            # Draw processes
-            processes_tree = screen_tab[screen_index].find(".//processes")
-            draw_processes(processes_tree, cells, side, cell_height)
-
-            # Draw processes bar
-            processes_tree = screen_tab[screen_index].find(".//processes")
-            draw_processes_bar(processes_tree)
-
-            # Draw die bar
-            arena_tree = screen_tab[screen_index].find(".//arena")
-            draw_die_bar(arena_tree)
-
-            # Draw players
-            players_tree = screen_tab[screen_index].find(".//players")
-            draw_players(players_tree, processes_tree)
-
-            screen.blit(bg_3, (0, 0))
+    
+        if END_REACHED == 0:
+            corewar_src_tree = etree.fromstring(corewar_src)
+            screen_tab.append(corewar_src_tree)
+            #print("tree added - screen_tab_len: ", len(screen_tab))
+    
+        # First, clear the screen to white.
+        screen.fill(BACKGROUD)
+        screen.blit(bg_2, (0, 0))
+    
+        memory_tree = screen_tab[screen_index].find(".//memory")
+        cells, size, side, cell_height = get_cells(memory_tree)
+    
+        # Draw memory grid
+        draw_memory(memory_tree, cells, size, side, cell_height)
+    
+        # Draw background grid
+        #draw_background(cells, size, side, cell_height)
+    
+        # Draw processes
+        processes_tree = screen_tab[screen_index].find(".//processes")
+        draw_processes(processes_tree, cells, side, cell_height)
+    
+        # Draw processes bar
+        processes_tree = screen_tab[screen_index].find(".//processes")
+        draw_processes_bar(processes_tree)
+    
+        # Draw die bar
+        arena_tree = screen_tab[screen_index].find(".//arena")
+        draw_die_bar(arena_tree)
+    
+        # Draw players
+        players_tree = screen_tab[screen_index].find(".//players")
+        draw_players(players_tree, processes_tree)
+    
+        screen.blit(bg_3, (0, 0))
 
     # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()

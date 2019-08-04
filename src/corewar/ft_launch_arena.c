@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/04 08:11:17 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/04 09:57:54 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,11 @@ static void		ft_reinit_process(t_process *process)
 
 static int		ft_get_op_code(t_process *process, t_conf *conf)
 {
-	unsigned int	pc;
-
-	pc = process->pc;
+	process->op_code = conf->grid[process->pc]->val - 1;
 	if (process->op_code < D_OP_MAX)
 	{
 		if (conf->op_tab[process->op_code].ocp)
-			process->ocp = conf->grid[(pc + 1) % MEM_SIZE]->val;
+			process->ocp = conf->grid[(process->pc + 1) % MEM_SIZE]->val;
 		return (0);
 	}
 	/*else if (process->op_code == UCHAR_MAX)

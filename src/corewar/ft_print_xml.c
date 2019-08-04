@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/03 14:43:41 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/04 15:56:04 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,20 +64,20 @@ static void		ft_print_fct_args(t_process *process, t_conf *conf)
 	while (i < 4)
 	{
 		if (((char *)(&process->ocp_splitted))[i] == 1)
-			ft_printf("<byte size=\"1\" type=\"register\" value=\"%x\"/> ",
+			ft_printf("<byte size=\"1\" type=\"register\" value=\"%x\"/>",
 					process->fct_args[i]);
 		else if (((char *)(&process->ocp_splitted))[i] == 2
 				&& process->op_code < D_OP_MAX)
-			ft_printf("<byte size=\"%d\" type=\"direct\" value=\"%x\"/> ",
+			ft_printf("<byte size=\"%d\" type=\"direct\" value=\"%x\"/>",
 					conf->op_tab[process->op_code].dir_size,
 					process->fct_args[i]);
 		else if (((char *)(&process->ocp_splitted))[i] == 2)
-			ft_printf("<byte size=\"0\" type=\"direct\" value=\"0\"/> ");
+			ft_printf("<byte size=\"0\" type=\"direct\" value=\"0\"/>");
 		else if (((char *)(&process->ocp_splitted))[i] == 3)
-			ft_printf("<byte size=\"2\" type=\"indirect\" value=\"%x\"/> ",
+			ft_printf("<byte size=\"2\" type=\"indirect\" value=\"%x\"/>",
 					process->fct_args[i]);
 		else
-			ft_printf("<byte size=\"0\" type=\"register\" value=\"0\"/> ");
+			ft_printf("<byte size=\"0\" type=\"register\" value=\"0\"/>");
 		i++;
 	}
 }
