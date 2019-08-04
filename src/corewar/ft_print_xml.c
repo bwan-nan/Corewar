@@ -17,10 +17,10 @@ static void		ft_xml_players(t_conf *conf)
 	unsigned int	i;
 
 	i = 1;
-	ft_printf("<corewar><players>");
+	ft_printf("<corewar>\n<players>");
 	while (i <= conf->nb_players)
 	{
-		ft_printf("<player id=\"%u\" name=\"%s\" nb_live:%u/>", i,
+		ft_printf("<player id=\"%u\" name=\"%s\" nb_live=\"%u\"/>", i,
 				conf->players[i]->name, conf->players[i]->nb_live);
 		i++;
 	}
@@ -40,7 +40,7 @@ static void		ft_xml_arena(t_conf *conf)
 		ft_printf("%.2x,%d,", conf->grid[i]->val, conf->grid[i]->pid);
 		i++;
 	}
-	ft_printf("</memory></arena><processes to_print:\"%u\">", conf->nb_process);
+	ft_printf("</memory></arena><processes to_print=\"%u\">", conf->nb_process);
 }
 
 static void		ft_xml_registers(t_process *process)
@@ -98,7 +98,7 @@ static void		ft_xml_processes(t_conf *conf)
 					conf->op_tab[process->op_code].ocp, process->ocp);
 		else
 			ft_printf("<byte size=\"0\" type=\"ocp\" value=\"0\"/> ");
-		ft_printf("<byte size=\"1\" type=\"op\" value=\"%llx\"/> ",
+		ft_printf("<byte size=\"1\" type=\"op\" value=\"%d\"/> ",
 				process->op_code);
 		ft_print_fct_args(process, conf);
 		ft_printf("</current_action><registers ");
