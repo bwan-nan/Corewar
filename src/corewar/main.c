@@ -6,7 +6,7 @@
 /*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 18:29:13 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/04 07:31:28 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void		ft_print_winner(t_conf *conf)
 		if (!(conf->last_live))
 			ft_printf("Il n'y a pas de survivant...\n");
 		else
-			ft_printf("Le joueur %d(%s) a gagné !\n",
+			ft_printf("Le joueur %d, \"%s\", a gagné !\n",
 					conf->last_live, conf->players[conf->last_live]->name);
 	}
 }
