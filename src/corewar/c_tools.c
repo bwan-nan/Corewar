@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/03 03:03:45 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 00:18:48 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,13 @@ int			c_modulo_indirect(int val, int pc, int index, t_conf *conf)
 	}
 }
 
-int			c_sum(int index1, int index2, t_process *process)
+int			c_sum(int index1, int index2, t_process *process, int mod)
 {
 	int		sum;
 
-	sum = (index1 + index2) % IDX_MOD;
+	sum = (index1 + index2);
+	if (mod)
+		sum = sum % IDX_MOD;
 	sum += process->pc;
 	sum = sum % MEM_SIZE;
 	while (sum < 0)
@@ -91,9 +93,11 @@ void		c_read_int(int pc, int reg1, t_process *process, t_conf *conf)
 	process->reg[reg1 - 1] = process->reg[reg1 - 1] << 8;
 	pc = (pc + 1) % MEM_SIZE;
 	ft_memcpy(&process->reg[reg1 - 1], &conf->grid[pc]->val, 1);
+
 	process->reg[reg1 - 1] = process->reg[reg1 - 1] << 8;
 	pc = (pc + 1) % MEM_SIZE;
 	ft_memcpy(&process->reg[reg1 - 1], &conf->grid[pc]->val, 1);
+
 	process->reg[reg1 - 1] = process->reg[reg1 - 1] << 8;
 	pc = (pc + 1) % MEM_SIZE;
 	ft_memcpy(&process->reg[reg1 - 1], &conf->grid[pc]->val, 1);

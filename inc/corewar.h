@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/04 07:17:14 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 00:18:29 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int						c_check_arg_type(int index1, int index2, int reg3,
 							t_process *process);
 int						c_modulo_indirect(int val, int pc, int index,
 							t_conf *conf);
-int						c_sum(int index1, int index2, t_process *process);
+int						c_sum(int index1, int index2, t_process *process, int mod);
 void					c_store_int(int pc, int reg1, t_process *process,
 							t_conf *conf);
 void					c_read_int(int pc, int reg1, t_process *process,

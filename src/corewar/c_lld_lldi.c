@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/03 05:18:58 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 00:17:35 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	ft_no_mod_ind(int val, int pc, int index, t_conf *conf)
 	return (val);
 }
 
+
 int			c_lld(t_process *process, t_conf *conf)
 {
 	int		index;
@@ -49,8 +50,8 @@ int			c_lld(t_process *process, t_conf *conf)
 		process->reg[reg1 - 1] = index;
 	else
 		return (1);
-	if (!index && process->ocp_splitted.arg1 == IND_CODE)
-		process->reg[reg1 - 1] = process->reg[reg1 - 1] >> 16;
+	if (!index || process->ocp_splitted.arg1 == IND_CODE)
+		process->reg[reg1 - 1] = (short)(process->reg[reg1 - 1] >> 16);
 	process->carry = 0;
 	if (!process->reg[reg1 - 1])
 		process->carry = 1;
@@ -81,7 +82,11 @@ int			c_lldi(t_process *process, t_conf *conf)
 		index2 = process->reg[index2 - 1];
 	else if (process->ocp_splitted.arg2 == IND_CODE)
 		return (1);
-	sum = c_sum(index1, index2, process);
+	ft_printf("REG = %d, proces->pc = %d, index1 = %d\n", reg3, process->pc, index1);
+	sum = c_sum(index1, index2, process, 0);
+	if (reg3 == 7)
+		ft_printf("CYCLE = %d, sum = %d", conf->cycle, sum);
+	ft_putchar('\n');
 	c_read_int(sum, reg3, process, conf);
 	process->carry = (!process->reg[reg3 - 1]) ? 1 : 0;
 	return (1);

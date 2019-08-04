@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/03 05:22:05 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 00:18:12 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int				c_ldi(t_process *process, t_conf *conf)
 		index2 = process->reg[index2 - 1];
 	else if (process->ocp_splitted.arg2 == IND_CODE)
 		return (1);
-	sum = c_sum(index1, index2, process);
+	sum = c_sum(index1, index2, process, 1);
 	c_read_int(sum, reg3, process, conf);
 	return (1);
 }
@@ -115,7 +115,7 @@ int				c_sti(t_process *process, t_conf *conf)
 		index3 = process->reg[index3 - 1];
 	else if (process->ocp_splitted.arg3 == IND_CODE)
 		return (1);
-	sum = c_sum(index2, index3, process);
+	sum = c_sum(index2, index3, process, 1);
 	c_store_int(sum, reg1, process, conf);
 	return (1);
 }
