@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/04 17:48:54 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/04 18:04:06 by bwan-nan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,12 @@ static int		ft_apply_inst(int ret, t_process *process, t_conf *conf)
 static int		ft_check_process(int ret, t_process *process, t_conf *conf)
 {
 
-	unsigned char op;
-
-	op = (unsigned int)D_OP_MAX;
 	process->cycle_to_wait--;
 	if (!process->cycle_to_wait)
 	{
 		ft_reinit_process(process);
-		if (process->op_code == UCHAR_MAX && (conf->grid[process->pc]->val - 1 < op))
+		if (process->op_code == UCHAR_MAX
+		&& (unsigned char)(conf->grid[process->pc]->val - 1) < (unsigned char)D_OP_MAX)
 		{
 			process->op_code = conf->grid[process->pc]->val - 1;
 			if (process->op_code != UCHAR_MAX)
