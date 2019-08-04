@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/03 05:25:15 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/04 07:30:27 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ static void		ft_kill_process(t_process *last, t_process *next,
 		conf->first_process = next;
 	else
 		last->next = next;
-	conf->grid[process->pc]->pc = 0;
+	conf->grid[process->pc]->nb_pc--;
+	if (!conf->grid[process->pc]->nb_pc)
+		conf->grid[process->pc]->pc = 0;
 	conf->players[process->id_champ]->nb_process--;
 	conf->nb_process--;
 	if (conf->opt[1])
@@ -59,12 +61,17 @@ void			ft_check_cycle_to_die(t_conf *conf)
 {
 	conf->period = 0;
 	ft_purge_process(conf->first_process, conf);
-	if (conf->nb_live >= NBR_LIVE || conf->nb_check == MAX_CHECKS)
+	if (conf->nb_live >= NBR_LIVE)
 	{
 		conf->cycle_to_die -= CYCLE_DELTA;
-		conf->nb_live = 0;
 		conf->nb_check = 0;
 	}
 	else
 		conf->nb_check++;
+	if (conf->nb_check == MAX_CHECKS)
+	{
+		conf->cycle_to_die -= CYCLE_DELTA;
+		conf->nb_check = 0;
+	}
+	conf->nb_live = 0;
 }

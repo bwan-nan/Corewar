@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:43:01 by zaz               #+#    #+#             */
-/*   Updated: 2019/08/03 18:08:54 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/04 02:38:56 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static const t_op		g_op_tab[D_OP_MAX + 1] =
 {
 	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0, 4},
 	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 1, 4},
-	{"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store", 1, 0, 0},
-	{"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition", 1, 1, 0},
-	{"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "substraction", 1, 1, 0},
+	{"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store", 1, 0, 4},
+	{"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition", 1, 1, 4},
+	{"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "substraction", 1, 1, 4},
 	{"and", 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 6,
 		"and  r1, r2, r3   r1&r2 -> r3", 1, 1, 4},
 	{"or", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 7, 6,
