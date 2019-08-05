@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 02:25:49 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/05 10:31:21 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 10:37:27 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ static void		ft_print_arena(t_conf *conf)
 				conf->total_process, conf->nb_process, conf->cycle_to_die,
 				conf->period, conf->nb_live, conf->nb_check, conf->last_live);
 	}
-	if (conf->opt[8])
-		ft_print_grid(conf);
 }
 
 static void		ft_init_visu(int step, t_process *process, t_conf *conf)
@@ -112,6 +110,8 @@ void			ft_print_visu(int step, t_process *process, t_conf *conf)
 			ft_print_xml(conf);
 		if (!conf->opt[8])
 			ft_print_arena(conf);
+		if (conf->opt[8])
+			ft_print_grid(conf);
 	}
 	else if (step == 5)
 	{
