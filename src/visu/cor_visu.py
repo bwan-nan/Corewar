@@ -123,8 +123,8 @@ bg_3 = pygame.image.load("./src/corewar_background_r2_mask.png")
 
 spr_1 = pygame.image.load("./src/sprites/tron_disk_m.png")
 spr_2 = pygame.image.load("./src/sprites/tron_disk_b.png")
-spr_3 = pygame.image.load("./src/sprites/tron_disk_r.png")
-spr_4 = pygame.image.load("./src/sprites/tron_disk_y.png")
+spr_3 = pygame.image.load("./src/sprites/tron_disk_y.png")
+spr_4 = pygame.image.load("./src/sprites/tron_disk_r.png")
 PLAYERS_SPRITES = [0,spr_1,spr_2,spr_3,spr_4]
 
 #Sounds and musics
@@ -250,8 +250,8 @@ def draw_properties(player, process, y_start):
             
             #print("current op:", process.find("current_action")[1].get("value"))
             op_code = int(process.find("current_action")[1].get("value"))
-            op_code = op_code if op_code < 16 else 17
-            draw_centered_text(screen, OP_TAB[op_code - 1], x_start + 432 + 54, x_start + 459 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
+            op_code = op_code if op_code < 15 else 17
+            draw_centered_text(screen, OP_TAB[op_code], x_start + 432 + 54, x_start + 459 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
             draw_centered_text(screen, process.find("current_action")[2].get("value").upper(), x_start + 459 + 54, x_start + 486 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
             draw_centered_text(screen, process.find("current_action")[3].get("value").upper(), x_start + 486 + 54, x_start + 513 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
             draw_centered_text(screen, process.find("current_action")[4].get("value").upper(), x_start + 513 + 54, x_start + 540 + 54, y_start,  y_start +  27, font, P_COLOR_M[player_id])
@@ -352,8 +352,8 @@ def draw_process_bar(cycle_to_wait, player_id, op_code, nb_live, x, lenght, font
     if bar_height > 36:
         bar_height = 36
     pygame.draw.rect(screen, P_COLOR_M[player_id], (x, 1034 - bar_height, lenght, bar_height), 0)
-    op_code = op_code if op_code < 16 else 17
-    draw_centered_text(screen, "(" + nb_live + ") " + OP_TAB[op_code - 1] + " (" + str(cycle_to_wait) + ")", x, x + lenght, 1034, 1080, font, P_COLOR_M[player_id])
+    op_code = op_code if op_code < 15 else 17
+    draw_centered_text(screen, "(" + nb_live + ") " + OP_TAB[op_code] + " (" + str(cycle_to_wait) + ")", x, x + lenght, 1034, 1080, font, P_COLOR_M[player_id])
     #font = pygame.font.Font('./src/NEON CLUB MUSIC.otf', 12)
     #screen.blit(font.render(OP_TAB[op_code], True, P_COLOR_L[player_id]), (x,HEIGHT))
 
