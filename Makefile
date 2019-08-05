@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:04:21 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/08/05 07:40:57 by fdagbert         ###   ########.fr        #
+#    Updated: 2019/08/05 11:01:53 by fdagbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ PURPLE=\033[0;35m
 CYAN=\033[0;36m
 WHITE=\033[0;37m
 
-CC = gcc -g
+CC = gcc
 COMPILE = $(CC) -c
 DEBUG = $(CC) -g
 
@@ -94,6 +94,7 @@ COR_SRC += ft_check_cycle_to_die.c
 COR_SRC += ft_print_visu.c
 COR_SRC += ft_print_grid.c
 COR_SRC += ft_print_color.c
+COR_SRC += ft_print_stealth.c
 COR_SRC += ft_print_xml.c
 COR_SRC += ft_clean.c
 COR_SRC += c_tools.c
