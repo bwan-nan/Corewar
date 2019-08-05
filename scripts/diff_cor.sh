@@ -29,12 +29,16 @@ if [ ! -d "$validDirectory" ] || [ ! -d "$invalidDirectory" ] ; then
 	./scripts/split_files.sh
 fi
 
-printf "${BRIGHT}Looking for differences between Zaz's VM and ours....\n${NORMAL}"
+
+printf "${BRIGHT}Looking for differences between Zaz's VM and ours for $(echo $1 | rev | cut -c 5- | rev) VS $(echo $2 | rev | cut -c 5- | rev)\n${NORMAL}"
+player1="$validDirectory/zaz_cor_files/$1"
+player2="$validDirectory/zaz_cor_files/$2"
+
 
 	if [ -f "verbosity" ] ; then
 		rm verbosity
 	fi
-	./vm_champs/corewar -v 2 $1 $2 > verbosity
+	./vm_champs/corewar -v 2 $player1 $player2 > verbosity
 	cycles=`tail -n 2 verbosity | head -n 1 | grep -Eo "\d+"`
 	cycles=$(($cycles-1))
 	step=$(($cycles/100))
@@ -49,8 +53,8 @@ printf "${BRIGHT}Looking for differences between Zaz's VM and ours....\n${NORMAL
 		if [ -f "b" ] ; then
 			rm b
 		fi
-		./corewar -d $i $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > a
-		./vm_champs/corewar -d $i $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > b
+		./corewar -d $i $player1 $player2 | grep -A300 0x0000 | sed 's/ $//g' > a
+		./vm_champs/corewar -d $i $player1 $player2 | grep -A300 0x0000 | sed 's/ $//g' > b
 		DIFF=`diff a b`
 		ko=0;
 		if [[ "$DIFF" ]] ; then
@@ -73,13 +77,13 @@ printf "${BRIGHT}Looking for differences between Zaz's VM and ours....\n${NORMAL
 			if [ -f "b" ] ; then
 				rm b
 			fi
-			./corewar -d $j $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > a
-			./vm_champs/corewar -d $j $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > b
+			./corewar -d $j $player1 $player2 | grep -A300 0x0000 | sed 's/ $//g' > a
+			./vm_champs/corewar -d $j $player1 $player2 | grep -A300 0x0000 | sed 's/ $//g' > b
 			DIFF=`diff a b`
 			ko=0;
 			if [[ "$DIFF" ]] ; then
-				./vm_champs/corewar -d $j -v 4 $1 $2 > cycle_N.txt
-				./vm_champs/corewar -d $(($j-1)) -v 4 $1 $2 > cycle_N-1.txt
+				./vm_champs/corewar -d $j -v 4 $player1 $player2 > cycle_N.txt
+				./vm_champs/corewar -d $(($j-1)) -v 4 $player1 $player2 > cycle_N-1.txt
 				diff cycle_N.txt cycle_N-1.txt | grep -v 0x | grep P > cycle$j.txt
 				rm cycle_N.txt
 				rm cycle_N-1.txt
@@ -93,8 +97,8 @@ printf "${BRIGHT}Looking for differences between Zaz's VM and ours....\n${NORMAL
 		done
 	elif [[ "$i" > "$cycles" ]] ; then
 		printf "${BRIGHT}Comparing the 2 VMs for cycle $cycles (last cycle)    :${NORMAL}"
-		./corewar -d $cycles $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > a
-		./vm_champs/corewar -d $cycles $1 $2 | grep -A300 0x0000 | sed 's/ $//g' > b
+		./corewar -d $cycles $player1 $player2 | grep -A300 0x0000 | sed 's/ $//g' > a
+		./vm_champs/corewar -d $cycles $player1 $player2 | grep -A300 0x0000 | sed 's/ $//g' > b
 		DIFF=`diff a b`
 		ko=0;
 		if [[ "$DIFF" ]] ; then
