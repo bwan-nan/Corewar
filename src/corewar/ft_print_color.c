@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/05 10:51:33 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 11:18:18 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,16 @@ void			ft_print_color(int i, t_conf *conf)
 		ft_print_stealth(i, conf);
 	else
 	{
-	if (conf->grid[i]->pc)
-		ft_print_invert(i, conf);
-	else if (conf->grid[i]->live)
-	{
-		ft_printf("|{BOLD}{WHI}%.2X{OFF}", conf->grid[i]->val);
-		conf->grid[i]->live--;
-	}
-	else if (conf->grid[i]->bold)
-		ft_print_bold(i, conf);
-	else
-		ft_print_pid(i, conf);
+		if (conf->grid[i]->pc)
+			ft_print_invert(i, conf);
+		else if (conf->grid[i]->live)
+		{
+			ft_printf("|{BOLD}{WHI}%.2X{OFF}", conf->grid[i]->val);
+			conf->grid[i]->live--;
+		}
+		else if (conf->grid[i]->bold)
+			ft_print_bold(i, conf);
+		else
+			ft_print_pid(i, conf);
 	}
 }

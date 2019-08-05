@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 20:04:18 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/05 06:41:44 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 11:19:29 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void		ft_init_error_cor(int error)
 	ft_strcpy(error_tab[16], "Wrong op_code byte in champion instruction");
 	ft_strcpy(error_tab[17], "Wrong ocp byte in champion instruction");
 	ft_strcpy(error_tab[18], "Max players number reached");
-	ft_strcpy(error_tab[19], "#Ant number out of range (int)");
+	ft_strcpy(error_tab[19], "RESERVED");
 	ft_print_error(error_tab[error]);
 }
 
