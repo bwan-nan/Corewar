@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/05 10:13:15 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 10:52:34 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ void					ft_print_visu(int step, t_process *process,
 		t_conf *conf);
 void					ft_print_grid(t_conf *conf);
 void					ft_print_color(int i, t_conf *conf);
+void					ft_print_stealth(int i, t_conf *conf);
 void					ft_print_xml(t_conf *conf);
 void					ft_clean(t_conf *conf);
 int						ft_str_is_numeric(char *str);

@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/05 09:59:59 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 10:45:58 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static void		ft_print_dump(t_conf *conf)
 	ft_printf("0x0000 :");
 	while (i < MEM_SIZE)
 	{
-		ft_printf(" %.2x", conf->grid[i]->val);
+		if (!conf->opt[4])
+			ft_printf(" %.2x", conf->grid[i]->val);
+		else
+			ft_printf(" 00");
 		i++;
 		if (!(i % D_GRID_SIZE) && i != MEM_SIZE)
 			ft_printf("\n%#.4x :", i);
