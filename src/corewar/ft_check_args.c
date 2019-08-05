@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_args.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 17:52:15 by fdagbert         ###   ########.fr       */
+/*   Created: 2019/08/05 06:21:25 by fdagbert          #+#    #+#             */
+/*   Updated: 2019/08/05 06:21:27 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ static int		ft_check_next_arg(char *argv, int opt, t_conf *conf)
 			return (-23);
 		else if (opt == 6)
 			conf->force_id = 0;
-		return (1);
+		if (!argv)
+			return (1);
+		else
+			return (0);
 	}
 	if (opt == 0)
 		conf->dump = (unsigned int)ft_atoi(argv);

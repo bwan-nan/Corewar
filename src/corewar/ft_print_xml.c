@@ -6,25 +6,11 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/04 15:56:04 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 07:05:27 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-static void		ft_xml_players(t_conf *conf)
-{
-	unsigned int	i;
-
-	i = 1;
-	ft_printf("<corewar>\n<players>");
-	while (i <= conf->nb_players)
-	{
-		ft_printf("<player id=\"%u\" name=\"%s\" nb_live=\"%u\"/>", i,
-				conf->players[i]->name, conf->players[i]->nb_live);
-		i++;
-	}
-}
 
 static void		ft_xml_arena(t_conf *conf)
 {
@@ -110,7 +96,16 @@ static void		ft_xml_processes(t_conf *conf)
 
 void			ft_print_xml(t_conf *conf)
 {
-	ft_xml_players(conf);
+	unsigned int	i;
+
+	i = 1;
+	ft_printf("<corewar>\n<players>");
+	while (i <= conf->nb_players)
+	{
+		ft_printf("<player id=\"%u\" name=\"%s\" nb_live=\"%u\"/>", i,
+				conf->players[i]->name, conf->players[i]->nb_live);
+		i++;
+	}
 	ft_xml_arena(conf);
 	ft_xml_processes(conf);
 }

@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/05 00:18:12 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/05 07:18:12 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int				c_ldi(t_process *process, t_conf *conf)
 	index2 = process->fct_args[1];
 	reg3 = process->fct_args[2];
 	pc = process->pc;
-	sum = 0;
 	if (c_check_arg_type(index1, index2, reg3, process) == 1)
 		return (1);
 	if (process->ocp_splitted.arg3 != REG_CODE)

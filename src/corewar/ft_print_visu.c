@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 02:25:49 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/04 08:11:41 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/05 07:13:36 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,27 +67,24 @@ static void		ft_print_arena(t_conf *conf)
 	if (conf->opt[1])
 	{
 		ft_print_all_process(conf->first_process, conf);
-		ft_printf("{YEL}Conf, total_process:%u nb_process:%u \
-				cycle_to_die:%u period:%u nb_live:%u nb_check:%u last_live:%d{OFF}\n",
-				conf->total_process, conf->nb_process, conf->cycle_to_die, conf->period,
-				conf->nb_live, conf->nb_check, conf->last_live);
+		ft_printf("{YEL}Conf, total_process:%u nb_process:%u cycle_to_die:%u \
+				period:%u nb_live:%u nb_check:%u last_live:%d{OFF}\n",
+				conf->total_process, conf->nb_process, conf->cycle_to_die,
+				conf->period, conf->nb_live, conf->nb_check, conf->last_live);
 	}
 	if (conf->opt[8])
 		ft_print_grid(conf);
 }
 
-static void		ft_init_visu(t_conf *conf)
-{
-	if (conf->opt[8] && conf->opt[10])
-		ft_printf("{CLEAR}");
-	if (conf->opt[8] && !conf->opt[0])
-		ft_print_arena(conf);
-}
-
-void			ft_print_visu(int step, t_process *process, t_conf *conf)
+static void		ft_init_visu(int step, t_process *process, t_conf *conf)
 {
 	if (!step)
-		ft_init_visu(conf);
+	{
+		if (conf->opt[8] && conf->opt[10])
+			ft_printf("{CLEAR}");
+		if (conf->opt[8] && !conf->opt[0])
+			ft_print_arena(conf);
+	}
 	else if (step == 1 && !conf->opt[3] && conf->opt[1])
 		ft_printf("{YEL}\nCycle:%u{OFF}\n", conf->cycle);
 	else if (step == 2)
@@ -99,7 +96,12 @@ void			ft_print_visu(int step, t_process *process, t_conf *conf)
 			ft_print_process(process, conf);
 		}
 	}
-	else if (step == 3)
+}
+
+void			ft_print_visu(int step, t_process *process, t_conf *conf)
+{
+	ft_init_visu(step, process, conf);
+	if (step == 3)
 	{
 		if (conf->opt[3] && conf->opt[9])
 			ft_print_xml(conf);

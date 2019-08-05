@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/05 00:18:29 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/05 07:41:39 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 # define COREWAR_H
 # define D_OPT_MAX			11
 # define D_OP_MAX			16
-# define D_CLEAR_TRICK		0
+# define D_CLEAR_TRICK		1
 # define D_GRID_SIZE		64
 # define D_GRID_LIVE		10
 # define D_GRID_ST			25
-# define D_MAN_PATH			"./src/man/man_cor"
+# define D_MAN_PATH			"./src/man/man_cor.txt"
 # define D_HEAD_SIZE		16 + PROG_NAME_LENGTH + COMMENT_LENGTH
 # define D_BIN_MAX_SIZE		CHAMP_MAX_SIZE + D_HEAD_SIZE
 
 # include "libft.h"
+# include "op_cor.h"
 # include <wchar.h>
 # include <limits.h>
 # include <fcntl.h>
-# include "op_cor.h"
 
 typedef struct			s_champ
 {
@@ -103,18 +103,18 @@ typedef struct			s_conf
 	t_process			*first_process;
 	const t_op			*op_tab;
 	int					(*op_inst[D_OP_MAX])(t_process *process,
-							struct s_conf *conf);
+			struct s_conf *conf);
 }						t_conf;
 
 int						c_check_arg_type(int index1, int index2, int reg3,
-							t_process *process);
+		t_process *process);
 int						c_modulo_indirect(int val, int pc, int index,
-							t_conf *conf);
+		t_conf *conf);
 int						c_sum(int index1, int index2, t_process *process, int mod);
 void					c_store_int(int pc, int reg1, t_process *process,
-							t_conf *conf);
+		t_conf *conf);
 void					c_read_int(int pc, int reg1, t_process *process,
-							t_conf *conf);
+		t_conf *conf);
 
 int						c_live(t_process *process, t_conf *conf);
 int						c_ld(t_process *process, t_conf *conf);
@@ -137,17 +137,22 @@ void					ft_init_conf(int i, t_conf *conf);
 void					ft_init_op(t_conf *conf);
 int						ft_end(int error, t_conf *conf);
 int						ft_check_args(int argc, char **argv, const char *keys,
-							t_conf *conf);
+		t_conf *conf);
 int						ft_check_players(char *argv, t_conf *conf);
 int						ft_champion_parser(t_champ *champ, t_conf *conf);
-int						ft_init_arena(int i, t_champ *champ, t_conf *conf);
+int						ft_init_arena(t_champ *champ, t_conf *conf);
+void					ft_init_process(int reinit, t_process *process,
+		t_champ *champ, t_conf *conf);
 int						ft_launch_arena(int ret, t_process *process,
-							t_conf *conf);
+		t_conf *conf);
+int						ft_apply_inst(int ret, t_process *process,
+		t_conf *conf);
 int						ft_check_args_size(t_process *process, t_conf *conf);
 void					ft_check_cycle_to_die(t_conf *conf);
 void					ft_print_visu(int step, t_process *process,
-							t_conf *conf);
+		t_conf *conf);
 void					ft_print_grid(t_conf *conf);
+void					ft_print_color(int i, t_conf *conf);
 void					ft_print_xml(t_conf *conf);
 void					ft_clean(t_conf *conf);
 int						ft_str_is_numeric(char *str);

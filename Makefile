@@ -6,7 +6,7 @@
 #    By: bwan-nan <bwan-nan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/21 16:04:21 by bwan-nan          #+#    #+#              #
-#    Updated: 2019/08/02 21:42:21 by fdagbert         ###   ########.fr        #
+#    Updated: 2019/08/05 07:40:57 by fdagbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,11 +86,14 @@ COR_SRC += ft_check_args.c
 COR_SRC += ft_check_players.c
 COR_SRC += ft_champion_parser.c
 COR_SRC += ft_init_arena.c
+COR_SRC += ft_init_process.c
 COR_SRC += ft_launch_arena.c
+COR_SRC += ft_apply_inst.c
 COR_SRC += ft_check_args_size.c
 COR_SRC += ft_check_cycle_to_die.c
 COR_SRC += ft_print_visu.c
 COR_SRC += ft_print_grid.c
+COR_SRC += ft_print_color.c
 COR_SRC += ft_print_xml.c
 COR_SRC += ft_clean.c
 COR_SRC += c_tools.c

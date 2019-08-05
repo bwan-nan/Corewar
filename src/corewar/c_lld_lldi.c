@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/05 00:17:35 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/05 07:23:33 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,11 @@ int			c_lldi(t_process *process, t_conf *conf)
 	int		index1;
 	int		index2;
 	int		reg3;
-	int		pc;
 	int		sum;
 
 	index1 = process->fct_args[0];
 	index2 = process->fct_args[1];
 	reg3 = process->fct_args[2];
-	pc = process->pc;
 	if (c_check_arg_type(index1, index2, reg3, process) == 1)
 		return (1);
 	if (process->ocp_splitted.arg3 != REG_CODE)
@@ -81,8 +79,6 @@ int			c_lldi(t_process *process, t_conf *conf)
 	else if (process->ocp_splitted.arg2 == IND_CODE)
 		return (1);
 	sum = c_sum(index1, index2, process, 0);
-	ft_putchar('\n');
-	ft_putchar('\n');
 	c_read_int(sum, reg3, process, conf);
 	process->carry = (!process->reg[reg3 - 1]) ? 1 : 0;
 	return (1);

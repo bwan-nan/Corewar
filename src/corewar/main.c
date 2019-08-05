@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdagbert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/16 16:35:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/04 07:31:28 by bwan-nan         ###   ########.fr       */
+/*   Created: 2019/08/05 06:19:50 by fdagbert          #+#    #+#             */
+/*   Updated: 2019/08/05 07:21:52 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static int		ft_print_man(t_conf *conf)
+static int		ft_print_man(void)
 {
 	int		fd;
 
@@ -20,10 +20,7 @@ static int		ft_print_man(t_conf *conf)
 	if ((fd = open(D_MAN_PATH, O_RDONLY)) < 0)
 		return (-22);
 	ft_printf("##VISUOFF\n");
-	if (conf->opt[5])
-		ft_printf("{GRE}%~{OFF}\n", fd);
-	else
-		ft_printf("%~\n", fd);
+	ft_printf("{GRE}%~{OFF}\n", fd);
 	if (close(fd) < 0)
 		return (-22);
 	return (0);
@@ -78,7 +75,7 @@ int				main(int argc, char **argv)
 	int					err;
 	t_conf				conf;
 	static const char	keys[D_OPT_MAX + 1] = {'d', 'v', 'a', 'x', 's', 'c',
-		'n', 'h', 'b', 'e', 'm', 0};
+		'n', 'h', 'b', 'e', 'w', 0};
 
 	err = 0;
 	ft_init_conf(0, &conf);
@@ -86,14 +83,14 @@ int				main(int argc, char **argv)
 	if ((err = ft_check_args(argc, argv, keys, &conf)) < 0)
 		return (ft_end(err, &conf));
 	if (conf.opt[7] || err == 1)
-		return (ft_end(ft_print_man(&conf), &conf));
+		return (ft_end(ft_print_man(), &conf));
 	if ((err = ft_init_fd(conf.first_player, &conf)) < 0)
 		return (ft_end(err, &conf));
 	if ((err = ft_check_define()) < 0)
 		return (ft_end(err, &conf));
 	if ((err = ft_champion_parser(conf.first_player, &conf)) < 0)
 		return (ft_end(err, &conf));
-	if ((err = ft_init_arena(0, conf.first_player, &conf)) < 0)
+	if ((err = ft_init_arena(conf.first_player, &conf)) < 0)
 		return (ft_end(err, &conf));
 	if ((err = ft_launch_arena(0, conf.first_process, &conf)) < 0)
 		return (ft_end(err, &conf));

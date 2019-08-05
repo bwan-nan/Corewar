@@ -6,7 +6,7 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/03 05:17:29 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 07:15:23 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,7 @@ int		c_and(t_process *process, t_conf *conf)
 	else if (process->ocp_splitted.arg2 == IND_CODE)
 		index2 = c_modulo_indirect(1, pc, index2, conf);
 	process->reg[reg3 - 1] = index1 & index2;
-	process->carry = 0;
-	if (!process->reg[reg3 - 1])
-		process->carry = 1;
+	process->carry = (!process->reg[reg3 - 1]) ? 1 : 0;
 	return (1);
 }
 
@@ -114,9 +112,7 @@ int		c_or(t_process *process, t_conf *conf)
 	else if (process->ocp_splitted.arg2 == IND_CODE)
 		index2 = c_modulo_indirect(1, pc, index2, conf);
 	process->reg[reg3 - 1] = index1 | index2;
-	process->carry = 0;
-	if (!process->reg[reg3 - 1])
-		process->carry = 1;
+	process->carry = (!process->reg[reg3 - 1]) ? 1 : 0;
 	return (1);
 }
 
@@ -144,8 +140,6 @@ int		c_xor(t_process *process, t_conf *conf)
 	else if (process->ocp_splitted.arg2 == IND_CODE)
 		index2 = c_modulo_indirect(1, pc, index2, conf);
 	process->reg[reg3 - 1] = index1 ^ index2;
-	process->carry = 0;
-	if (!process->reg[reg3 - 1])
-		process->carry = 1;
+	process->carry = (!process->reg[reg3 - 1]) ? 1 : 0;
 	return (1);
 }

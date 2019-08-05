@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/04 07:18:58 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 06:56:15 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,43 +29,6 @@ static void		ft_init_grid(t_champ *champ, t_conf *conf)
 	}
 }
 
-static void		ft_init_process(int i, t_process *process, t_champ *champ,
-		t_conf *conf)
-{
-	conf->nb_process++;
-	conf->total_process++;
-	champ->nb_process++;
-	process->id_proc = conf->total_process;
-	process->id_champ = champ->id;
-	process->nb_live = 0;
-	process->reg[0] = -(champ->id);
-	while (i < REG_NUMBER)
-		process->reg[i++] = 0;
-	process->pc = champ->init_pc;
-	process->carry = 0;
-	process->op_code = conf->grid[process->pc]->val - 1;
-	process->cycle_to_wait = 1;
-	process->ocp = 0;
-	if (process->op_code < D_OP_MAX)
-	{
-		process->cycle_to_wait = conf->op_tab[process->op_code].cycles;
-		if (conf->op_tab[process->op_code].ocp)
-			process->ocp = conf->grid[(process->pc + 1) % MEM_SIZE]->val;
-	}
-	else
-		process->op_code = UCHAR_MAX;
-	i = 0;
-	while (i < 4)
-		process->fct_args[i++] = 0;
-	process->args_size = 0;
-	process->ocp_splitted.arg1 = 0;
-	process->ocp_splitted.arg2 = 0;
-	process->ocp_splitted.arg3 = 0;
-	process->ocp_splitted.arg4 = 0;
-	conf->grid[process->pc]->pc = process->id_champ;
-	conf->grid[process->pc]->nb_pc++;
-}
-
 static int		ft_create_process(t_process *process, t_champ *champ,
 		t_conf *conf)
 {
@@ -73,7 +36,7 @@ static int		ft_create_process(t_process *process, t_champ *champ,
 		return (-1);
 	process->next = conf->first_process;
 	conf->first_process = process;
-	ft_init_process(1, process, champ, conf);
+	ft_init_process(0, process, champ, conf);
 	return (0);
 }
 
@@ -98,8 +61,11 @@ static int		ft_order_champ(int i, t_conf *conf)
 	return (0);
 }
 
-int				ft_init_arena(int i, t_champ *champ, t_conf *conf)
+int				ft_init_arena(t_champ *champ, t_conf *conf)
 {
+	int		i;
+
+	i = 0;
 	while (i < MEM_SIZE)
 	{
 		if (!(conf->grid[i] = (t_cell *)malloc(sizeof(*conf->grid[i]))))

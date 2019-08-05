@@ -1,0 +1,193 @@
+*** USAGE ***
+
+ ./corewar [champ_A.cor] [champ_B.cor] [champ_C.cor] [champ_D.cor]
+
+
+*** Debug Visualizer ***
+
+ ./corewar [champ_A.cor] [...] -bc
+
+
+*** Special Corewar Visualizer ***
+
+
+ 1) Install a python package :
+	
+ brew install python3
+
+ 2) Install the pygame library :
+
+ brew install pip3
+
+ pip3 install pygame
+
+ 3) Change your current directory to : src/visu
+
+ cd /src/visu
+
+ 4) Sit, turn on the sound then enjoy !
+
+ For python 2.X 
+ ../../corewar ../../champ_A.cor ../../champ_B.cor ../../champ_C.cor ../../champ_D.cor -x | python2 cor_visu.py -py2
+
+ For python 3.X
+ ../../corewar ../../champ_A.cor ../../champ_B.cor ../../champ_C.cor ../../champ_D.cor -x | python3 cor_visu.py -py3
+
+
+
+*** Check the diff with the original ZAZ's VM ***
+
+
+ 1) Encode all existing champions in this directory and sub-directories with our assembler:
+
+ ./scripts/split_files.sh
+
+ Warning:
+    The encoded champions (.cor) can be found in /Valid_files/
+    Champions that could not be encoded can be found in /Invalid_files/
+
+ 2) Check the difference between a specific champion and all others, by comparing various dumps of the grid :
+
+ ./scripts/comb.sh champ.cor
+
+ 3) Find the cycle and line difference between champion A and champion B :
+
+ ./scripts/diff_cor.sh champ_A.cor champ_B.cor
+
+
+
+*** HELP - OPTIONS ***
+
+
+[ ]| Optional
+   |	Means that all arguments are facultatives for usage.
+   | Warning
+   |	Each option must be activated only one time. They can be combined together, ex: -vbd 1536
+   |	If you combine various options that take an additional argument, 
+   |	it is IMPORTANT that the arguments of the options FOLLOW this order:
+   | Example
+   |	./corewar [-dvaxscnhbew] [arg_d] [arg_c] [arg_w] [arg_n] champ_A.cor champ_B.cor 
+   |
+   |	./corewar [-n] [arg_n] champ_A.cor [-bdc] [arg_d] champ_B.cor [-w] [arg_w]
+   |
+   |	./corewar [-wc] [arg_c] [arg_w] champ_A.cor [-nd] [arg_d] [arg_n] champ_B.cor [-vb]
+   |
+   |	./corewar [...] champ_A.cor [...] champ_B.cor [...] champ_C.cor [...] champ_D.cor [...]
+
+-d | Dump [cycle]
+   |	After cycle executions, dump the memory (the grid).
+   | Warning
+   |	This option can be combined with the others to optimize the debug process.
+
+-n | Number [id]
+   |	Force the id of the player.
+   |	Usefull to change quickly the order of the beginning of champions.
+   | Warning
+   |	This option MUST be used IN FRONT of each champions.
+   |	Indeed, it is the only option that can be activated more than one time.
+
+-v | Verbose
+   |	Print the executed instructions and the data of processes at each cycle.
+   | Warning
+   |	This option can be combined with -d [cycle] to stop to a specific cycle.
+
+-b | Bug
+   |	Enable the Debug Visualizer.
+   |	Usefull to see fastly the grid with colors and processes positions, following the ZAZ's ncurse appareance.
+   |	It is part of corewar program and do not need additional installation.
+   | Warning
+   |	This option is recommanded to use with -m for better visual effects.
+   |	This option can be combined with -v, -d, -m, -c.
+
+-c | Clear
+   |	Clear the output of the terminal at each cycle.
+   |	Usefull to have the ncurse effect with the Debug Visualiser.
+   | Warning
+   |	This option take effect only with the Debug Visualizer.
+   |	This option MUST be combined with -b to take effect.
+   |	This option can be combined with -w to slowdown the speed.
+
+-w | Wait [wait]
+   |	Set a value that will be used to slowdown the Debug Visualizer.
+   | Warning
+   |	The value is not interpreted as seconds.
+   |	The time effect will change according to the computer spec.
+   |	This option is efficient only if combined with option -m.
+
+-x | XML *Corewar Visualizer*
+   |	Print all data of the arena with a <XML> format at each cycle.
+   |	This option MUST be enabled to use the Corewar Visualizer.
+   | Warning
+   |	Using this option will disable the following: -v -a -b.
+   |	This option can be combined with -d [cycle].
+   |	This option can be combined with -e.
+   |	This option can be combined with -s.
+
+-e | Extend debug
+   |	Generate an <XML> output for each process at each cycle instead of to do it at the end of each cycle.
+   |	Process will move independently and immediately on the grid.
+   | Warning
+   |	This option take effect only with the Corewar Visualizer.
+   |	This option is usefull only when combined with option -x.
+   |	Using this option can slow down significantly the speed of the Corewar Visualiser.
+
+-s | Stealth
+   |	Hide the value of the grid to keep secret the code of the champions.
+   |	Usefull for championship or public show.
+   | Warning
+   |	This option take effect only with the Debug and Corewar Visualizer.
+
+-a | Aff command
+   |	Allow the champions to express themselves in the terminal (instruction "aff").
+   | Warning
+   |	The ASCII character will NOT display without this option.
+
+-h | Help
+   |	Print Corewar usage + Visualizers launching + diff scripts + options description + tips.
+   | Warning
+   |	Using this option will disable the Ultimate Visualisator AND stop immediately the Corewar program.
+
+
+
+*** TIPS ***
+
+
+- The best way to enjoy the Debug Visualiser :
+
+ Combine the following option : -b -m -w [100000000]
+
+- The best way to debug our Virtual Machine :
+
+ Combine the following option : -b -v -d [cycle to stop]
+
+- In case of glimmering with the Debug Visualiser (Others than Mac OS) :
+
+ Edit /inc/corewar.h and set the value of D_CLEAR_TRICK to 0.
+ Also, you can try other waiting value with -w option.
+ In last chance, you can change the ft_printf buffer_size in /libft/ft_printf/include/
+
+- Keyboard command for Corewar Visualizer :
+
+	[ESC]	Quit
+	[SPACE]	Play / Pause
+	[<-]	Previous cycle / step
+	[->]	Next cycle / step
+	[+]	Speed up
+	[-]	Speed down
+	[H]	Hide / Show data
+
+- To bypass the video introduction :
+ 
+ Press [SPACE] key.
+
+- To force quit the Corewar Visualizer in case of glitch :
+
+ Press "[CMD] + [C]" in the terminal.
+
+- To quiet the Daft Punk in Corewar Visualizer :
+ 
+ ../../corewar ../../champ_A.cor [...] -x | python3 cor_visu.py -py3 -q
+
+- For others issues or additionnal request, please contact the support team.
+
+ See "auteur" file.

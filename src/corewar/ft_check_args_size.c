@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/04 08:09:52 by bwan-nan         ###   ########.fr       */
+/*   Updated: 2019/08/05 06:59:48 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ static int		ft_check_ocp(int pc, t_ocp ocp_splitted, t_process *process,
 	i = 0;
 	while (i < conf->op_tab[process->op_code].nb_args)
 	{
-		//if (((char *)(&ocp_splitted))[i] == 0)
-		//	return (pc);
 		if (((char *)(&ocp_splitted))[i] == 1)
 		{
 			process->args_size++;

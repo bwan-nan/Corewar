@@ -6,21 +6,18 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 20:04:18 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/01 17:49:56 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 06:41:44 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static void		ft_print_error(char *error, t_conf *conf)
+static void		ft_print_error(char *error)
 {
-	if (conf->opt[5])
-		ft_printf("%@{RED}ERROR\n%@%s{OFF}\n", 1, 2, error);
-	else
-		ft_printf("%@ERROR\n%@%s\n", 1, 2, error);
+	ft_printf("%@{RED}ERROR\n%@%s{OFF}\n", 1, 2, error);
 }
 
-static void		ft_init_error_cor(int error, t_conf *conf)
+static void		ft_init_error_cor(int error)
 {
 	char		error_tab[20][50];
 
@@ -44,10 +41,10 @@ static void		ft_init_error_cor(int error, t_conf *conf)
 	ft_strcpy(error_tab[17], "Wrong ocp byte in champion instruction");
 	ft_strcpy(error_tab[18], "Max players number reached");
 	ft_strcpy(error_tab[19], "#Ant number out of range (int)");
-	ft_print_error(error_tab[error], conf);
+	ft_print_error(error_tab[error]);
 }
 
-static void		ft_init_error_opt(int error, t_conf *conf)
+static void		ft_init_error_opt(int error)
 {
 	char		error_opt[6][50];
 
@@ -57,7 +54,7 @@ static void		ft_init_error_opt(int error, t_conf *conf)
 	ft_strcpy(error_opt[3], "Option must be followed by a positive number");
 	ft_strcpy(error_opt[4], "Id number out of range / already used (-n)");
 	ft_bzero(error_opt[5], 50);
-	ft_print_error(error_opt[error], conf);
+	ft_print_error(error_opt[error]);
 }
 
 int				ft_end(int error, t_conf *conf)
@@ -65,9 +62,9 @@ int				ft_end(int error, t_conf *conf)
 	if (error < 0)
 	{
 		if (error > -20)
-			ft_init_error_cor(-(error), conf);
+			ft_init_error_cor(-(error));
 		else
-			ft_init_error_opt(-(error + 20), conf);
+			ft_init_error_opt(-(error + 20));
 	}
 	ft_clean(conf);
 	return (error);

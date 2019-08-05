@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/02 22:36:32 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 07:40:26 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void		ft_refresh_grid(t_conf *conf)
 	int		i;
 
 	i = 0;
-	if (conf->opt[10])
+	if (conf->opt[5])
 	{
 		while (i < 100000000)
 			i++;
@@ -42,55 +42,6 @@ static void		ft_refresh_grid(t_conf *conf)
 		else
 			ft_printf("{CLEAR}");
 	}
-}
-
-static void		ft_print_color(int i, t_conf *conf)
-{
-	if (conf->grid[i]->pid == 1)
-		ft_printf("|{GRE}%.2X{OFF}", conf->grid[i]->val);
-	else if (conf->grid[i]->pid == 2)
-		ft_printf("|{CYA}%.2X{OFF}", conf->grid[i]->val);
-	else if (conf->grid[i]->pid == 3)
-		ft_printf("|{MAG}%.2X{OFF}", conf->grid[i]->val);
-	else if (conf->grid[i]->pid == 4)
-		ft_printf("|{RED}%.2X{OFF}", conf->grid[i]->val);
-	else
-		ft_printf("|%.2X", conf->grid[i]->val);
-}
-
-static void		ft_print_live(int i, t_conf *conf)
-{
-		ft_printf("|{BOLD}{WHI}%.2X{OFF}", conf->grid[i]->val);
-		conf->grid[i]->live--;
-}
-
-static void		ft_print_bold(int i, t_conf *conf)
-{
-	if (conf->grid[i]->pid == 1)
-		ft_printf("|{BOLD}{GRE}%.2X{OFF}", conf->grid[i]->val);
-	else if (conf->grid[i]->pid == 2)
-		ft_printf("|{BOLD}{CYA}%.2X{OFF}", conf->grid[i]->val);
-	else if (conf->grid[i]->pid == 3)
-		ft_printf("|{BOLD}{MAG}%.2X{OFF}", conf->grid[i]->val);
-	else if (conf->grid[i]->pid == 4)
-		ft_printf("|{BOLD}{RED}%.2X{OFF}", conf->grid[i]->val);
-	else
-		ft_printf("|{BOLD}%.2X{OFF}", conf->grid[i]->val);
-	conf->grid[i]->bold--;
-}
-
-static void		ft_print_invert(int i, t_conf *conf)
-{
-	if (conf->grid[i]->pc == 1)
-		ft_printf("|{INVER}{GRE}%.2X{OFF}", conf->grid[i]->val);
-	else if (conf->grid[i]->pc == 2)
-		ft_printf("|{INVER}{CYA}%.2X{OFF}", conf->grid[i]->val);
-	else if (conf->grid[i]->pc == 3)
-		ft_printf("|{INVER}{MAG}%.2X{OFF}", conf->grid[i]->val);
-	else if (conf->grid[i]->pc == 4)
-		ft_printf("|{INVER}{RED}%.2X{OFF}", conf->grid[i]->val);
-	else
-		ft_printf("|{INVER}%.2X{OFF}", conf->grid[i]->val);
 }
 
 void			ft_print_grid(t_conf *conf)
@@ -108,14 +59,7 @@ void			ft_print_grid(t_conf *conf)
 			ft_printf("{YEL}Cycle:%u{OFF}\n", conf->cycle);
 		while (i < MEM_SIZE)
 		{
-			if (conf->grid[i]->pc)
-				ft_print_invert(i, conf);
-			else if (conf->grid[i]->live)
-				ft_print_live(i, conf);
-			else if (conf->grid[i]->bold)
-				ft_print_bold(i, conf);
-			else
-				ft_print_color(i, conf);
+			ft_print_color(i, conf);
 			i++;
 			if (!(i % D_GRID_SIZE))
 				ft_printf("|\n");
