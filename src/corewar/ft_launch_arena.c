@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/05 07:33:01 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 09:26:45 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ static int		ft_check_process(int ret, t_process *process, t_conf *conf)
 	}
 	return (0);
 }
+
 int				ft_launch_arena(int ret, t_process *process, t_conf *conf)
 {
 	ft_print_visu(0, process, conf);

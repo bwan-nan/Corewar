@@ -66,7 +66,7 @@
    |	If you combine various options that take an additional argument, 
    |	it is IMPORTANT that the arguments of the options FOLLOW this order:
    | Example
-   |	./corewar [-dvaxscnhbew] [arg_d] [arg_c] [arg_w] [arg_n] champ_A.cor champ_B.cor 
+   |	./corewar [-dvaxscnhbew] [arg_d] [arg_w] [arg_n] champ_A.cor champ_B.cor 
    |
    |	./corewar [-n] [arg_n] champ_A.cor [-bdc] [arg_d] champ_B.cor [-w] [arg_w]
    |

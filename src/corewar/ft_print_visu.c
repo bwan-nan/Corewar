@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 02:25:49 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/05 07:13:36 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 10:31:21 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,16 @@ static void		ft_init_visu(int step, t_process *process, t_conf *conf)
 {
 	if (!step)
 	{
-		if (conf->opt[8] && conf->opt[10])
+		if (conf->opt[8] && conf->opt[5])
 			ft_printf("{CLEAR}");
 		if (conf->opt[8] && !conf->opt[0])
 			ft_print_arena(conf);
 	}
-	else if (step == 1 && !conf->opt[3] && conf->opt[1])
+	else if (step == 1 && !conf->opt[3] && !conf->opt[8] && conf->opt[1])
 		ft_printf("{YEL}\nCycle:%u{OFF}\n", conf->cycle);
 	else if (step == 2)
 	{
-		if (conf->opt[1])
+		if (conf->opt[1] && !conf->opt[3] && !conf->opt[8])
 		{
 			ft_printf("Process %u from player %u executed.\n",
 					process->id_proc, process->id_champ);
@@ -110,7 +110,8 @@ void			ft_print_visu(int step, t_process *process, t_conf *conf)
 	{
 		if (conf->opt[3] && !conf->opt[9])
 			ft_print_xml(conf);
-		ft_print_arena(conf);
+		if (!conf->opt[8])
+			ft_print_arena(conf);
 	}
 	else if (step == 5)
 	{
