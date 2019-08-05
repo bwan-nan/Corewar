@@ -330,20 +330,20 @@ def draw_players(players_tree, processes_tree):
 
 def draw_die_bar(arena_tree):
     font = pygame.font.Font('./src/arial-black.ttf', 18)
-    period = int(arena_tree.get("period"))
+    period = arena_tree.get("period")
     cycle_to_die = int(arena_tree.get("cycle_die"))
-    nb_live = int(arena_tree.get("nb_live"))
+    nb_live = arena_tree.get("nb_live")
     nb_check = int(arena_tree.get("nb_check"))
     cycle = arena_tree.get("cycle")
-    length = int(1880 * period / cycle_to_die)
+    length = int(1880 * int(period) / cycle_to_die)
 
-    if nb_live < 21:
+    if int(nb_live) < 21:
         color = P_COLOR_M[4]
     else:
         color = P_COLOR_M[2]
 
     pygame.draw.rect(screen, color, (20, 925, length, 70), 0)
-    screen.blit(font.render(cycle, True, WHITE), (55, 947))
+    screen.blit(font.render(nb_live + "/21 - " + period + " - " + cycle, True, WHITE), (55, 947))
 
 
 
@@ -523,7 +523,7 @@ while carryOn:
                         pygame.mixer.music.pause()
 
         if KEY_LEFT == True:
-            screen_index = screen_index - screen_diff if screen_index > 0 else screen_index
+            screen_index = screen_index - screen_diff if screen_index - screen_diff >= 0 else 0
             #print("left pressed - screen_index: ", screen_index)
         if KEY_RIGHT == True or KEEP_MOVING == True:
             screen_index = screen_index + screen_diff if screen_index < len(screen_tab) - screen_diff else screen_index
