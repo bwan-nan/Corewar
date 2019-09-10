@@ -6,13 +6,13 @@
 /*   By: jboursal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 14:37:54 by jboursal          #+#    #+#             */
-/*   Updated: 2019/08/05 07:23:33 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 09:25:36 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static int	ft_no_mod_ind(int val, int pc, int index, t_conf *conf)
+static int		ft_no_mod_ind(int val, int pc, int index, t_conf *conf)
 {
 	pc += index;
 	pc = pc % MEM_SIZE;
@@ -31,8 +31,7 @@ static int	ft_no_mod_ind(int val, int pc, int index, t_conf *conf)
 	return (val);
 }
 
-
-int			c_lld(t_process *process, t_conf *conf)
+int				c_lld(t_process *process, t_conf *conf)
 {
 	int		index;
 	int		reg1;
@@ -58,7 +57,7 @@ int			c_lld(t_process *process, t_conf *conf)
 	return (1);
 }
 
-int			c_lldi(t_process *process, t_conf *conf)
+int				c_lldi(t_process *process, t_conf *conf)
 {
 	int		index1;
 	int		index2;

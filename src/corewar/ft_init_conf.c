@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/05 06:20:53 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/05 06:20:54 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 10:13:35 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void		op_funcs_init(t_conf *conf)
 
 void			ft_init_conf(int i, t_conf *conf)
 {
+	conf->last_opt = 0;
 	conf->dump = 0;
 	conf->force_id = 0;
 	conf->check_id = 0;
@@ -46,6 +47,7 @@ void			ft_init_conf(int i, t_conf *conf)
 	conf->cycle = 0;
 	conf->cycle_to_die = CYCLE_TO_DIE;
 	conf->period = 1;
+	conf->clear = 0;
 	conf->first_player = NULL;
 	i = 0;
 	while (i <= MAX_PLAYERS)

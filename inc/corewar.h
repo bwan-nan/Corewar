@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 20:48:51 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/05 07:41:39 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 10:52:34 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct			s_process
 typedef struct			s_conf
 {
 	int					opt[D_OPT_MAX + 1];
+	int					last_opt;
 	unsigned int		dump;
 	unsigned int		force_id;
 	unsigned int		check_id;
@@ -97,6 +98,7 @@ typedef struct			s_conf
 	unsigned int		cycle;
 	unsigned int		cycle_to_die;
 	unsigned int		period;
+	unsigned int		clear;
 	t_champ				*first_player;
 	t_champ				*players[MAX_PLAYERS + 1];
 	t_cell				*grid[MEM_SIZE];
@@ -110,7 +112,8 @@ int						c_check_arg_type(int index1, int index2, int reg3,
 		t_process *process);
 int						c_modulo_indirect(int val, int pc, int index,
 		t_conf *conf);
-int						c_sum(int index1, int index2, t_process *process, int mod);
+int						c_sum(int index1, int index2, t_process *process,
+		int mod);
 void					c_store_int(int pc, int reg1, t_process *process,
 		t_conf *conf);
 void					c_read_int(int pc, int reg1, t_process *process,
@@ -153,6 +156,7 @@ void					ft_print_visu(int step, t_process *process,
 		t_conf *conf);
 void					ft_print_grid(t_conf *conf);
 void					ft_print_color(int i, t_conf *conf);
+void					ft_print_stealth(int i, t_conf *conf);
 void					ft_print_xml(t_conf *conf);
 void					ft_clean(t_conf *conf);
 int						ft_str_is_numeric(char *str);
