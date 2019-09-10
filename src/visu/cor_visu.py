@@ -374,7 +374,7 @@ def draw_processes_bar(processes_tree):
     i = 1
     x = 20
     for process in sorted_processes:
-        print(process[1].get("player_id"), " i: ", i)
+        #print(process[1].get("player_id"), " i: ", i)
         cycle_to_wait = int(process[0])
         player_id = int(process[1].get("player_id"))
         nb_live = process[1].get("nb_live")
@@ -402,7 +402,12 @@ def draw_processes(processes_tree, cells, side, cell_height):
         current_pos = int(current_action.get("pos"))
 
         val = cells[current_pos * 2].upper()
-        pid = int(cells[current_pos * 2 + 1])
+        if val == "":
+            val = "00"
+            pid = 0
+        else:
+            pid = int(cells[current_pos * 2 + 1])
+
         x = (int(current_pos * 2 / 2) % side) * cells_space / side + MAIN_PADDING_LEFT
         y = int(int(current_pos * 2 / 2) / side) * cells_space / side + MAIN_PADDING_TOP
 
@@ -507,12 +512,12 @@ while carryOn:
                     KEY_RIGHT = False
                 if event.key == pygame.K_KP_PLUS:
                     screen_diff *= 2
-                    print("screen_diff: ", screen_diff)
+                    #print("screen_diff: ", screen_diff)
                     if SOUNDS == True:
                         pygame.mixer.Sound.play(click_sound)
                 if event.key == pygame.K_KP_MINUS:
                     screen_diff = int(screen_diff / 2) if screen_diff > 1 else 1
-                    print("screen_diff: ", screen_diff)
+                    #print("screen_diff: ", screen_diff)
                     if SOUNDS == True:
                         pygame.mixer.Sound.play(click_sound)
                 if event.key == pygame.K_s:

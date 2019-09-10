@@ -175,6 +175,7 @@
 	[+]	Speed up
 	[-]	Speed down
 	[H]	Hide / Show data
+	[S]	Mute / Unmute
 
 - To bypass the video introduction :
  
@@ -183,10 +184,6 @@
 - To force quit the Corewar Visualizer in case of glitch :
 
  Press "[CMD] + [C]" in the terminal.
-
-- To quiet the Daft Punk in Corewar Visualizer :
- 
- ../../corewar ../../champ_A.cor [...] -x | python3 cor_visu.py -py3 -q
 
 - For others issues or additionnal request, please contact the support team.
 

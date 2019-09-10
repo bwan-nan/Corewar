@@ -6,7 +6,7 @@
 /*   By: fdagbert <fdagbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 23:34:44 by fdagbert          #+#    #+#             */
-/*   Updated: 2019/08/05 09:17:21 by fdagbert         ###   ########.fr       */
+/*   Updated: 2019/08/05 12:05:10 by fdagbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ static void		ft_xml_arena(t_conf *conf)
 			conf->nb_live, conf->period, MEM_SIZE);
 	while (i < MEM_SIZE)
 	{
-		ft_printf("%.x,%d,", conf->grid[i]->val, conf->grid[i]->pid);
+		if (conf->grid[i]->pid)
+			ft_printf("%x,%d,", conf->grid[i]->val, conf->grid[i]->pid);
+		else
+			ft_printf(",,");
 		i++;
 	}
 	ft_printf("</memory></arena><processes to_print=\"%u\">", conf->nb_process);
